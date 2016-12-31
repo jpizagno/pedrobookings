@@ -32,7 +32,7 @@ $requestData= $_REQUEST;
      
     /* Database connection information */
     $gaSql['user']       = "root";
-    $gaSql['password']   = "root";
+    $gaSql['password']   = "";
     $gaSql['db']         = "bookings_test";
     $gaSql['server']     = "localhost";
 
