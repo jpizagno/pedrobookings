@@ -1,5 +1,35 @@
 <?php include('inc/header.php'); ?>
       
+    <script>
+        function bookThisCruise() {
+            var kreuzfahrt = $("#kreuzfahrt").val();  
+            var flug = $("#flug").val();  
+            var hotel = $("#hotel").val();        
+            var versicherung = $("#versicherung").val();
+            var total = $("#total").val(); 
+            var dayDeparture = $("#dayDeparture").val();
+            var monthDeparture = $("#monthDeparture").val(); 
+            var yearDeparture = $("#yearDeparture").val(); 
+            var surname = $("#surname").val();     
+            var firstname = $("#firstname").val();
+            var bookingnumber = $("#bookingnumber").val();
+            var storno = $("#storno").val(); 
+            var bookingdate = $("#bookingdate").val(); 
+            
+           var myData={"kreuzfahrt":kreuzfahrt,"flug":flug,"hotel":hotel,"versicherung":versicherung,"total":total,"day_departure":dayDeparture,"month_departure":monthDeparture,"year_departure":yearDeparture,"surname":surname,"first_name":firstname,"booking_number":bookingnumber,"storno":storno,"booking_date":bookingdate};
+             $.ajax({
+                url : "insert_data.php",
+                type: "POST",
+                data : myData,
+                success: function(data,status,xhr)
+                 {
+                    alert("inserted data");
+                 }
+             }); 
+            
+        }
+    </script>
+
       <div class+"container page-content">
           <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -35,7 +65,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputYearDeparture">Year Departure</label>
-                    <input type="text" class="form-control" id="yearhDeparture" placeholder="yearDeparture">
+                    <input type="text" class="form-control" id="yearDeparture" placeholder="yearDeparture">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputSurname">Surname</label>
@@ -62,7 +92,7 @@
           </div>
           <div class="row">
               <div class="col-md-8 col-md-offset-1">
-                  <button class="btn btn-default" type="submit">Book this cruise</button>
+                  <button class="btn btn-default" type="submit" onclick="bookThisCruise()">Book this cruise</button>
                   <button class="btn btn-default" type="submit">Delete Selected Booking</button>
                   <button class="btn btn-default" type="submit">Storno Selected Booking</button>
                   <button class="btn btn-default" type="submit">Clear Fields</button>
