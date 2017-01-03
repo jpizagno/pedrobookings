@@ -31,8 +31,29 @@
             } );
             
         });
-    </script>
+</script>
       
+    <div class="row" >
+      <div class="col-md-4 ol-md-offset-1">
+            <div class="form-group">
+                <label for="month">Month</label>
+                <input type="text" class="form-control" id="month" placeholder="12">
+            </div>
+      </div>
+      <div class="col-md-4">
+            <div class="form-group">
+                <label for="month">Year</label>
+                <input type="text" class="form-control" id="year" placeholder="2016">
+            </div>  
+      </div>
+    </div>
+    <div class="row" > 
+      <div class="col-md-4">
+           <button class="btn btn-default" type="submit" onclick="makePdf()">Print PDF</button>
+      </div>
+    </div>
+
+     <div class="row" >  
       <!-- data table -->
       <table id="example" cellpadding="0" cellspacing="0" border="0" class="display" width="100%">
             <thead>
@@ -113,6 +134,7 @@
             </tr>
             </thead>
         </table>
+    </div>
 
   </body>
 </html>

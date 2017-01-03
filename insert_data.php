@@ -2,7 +2,7 @@
      
     /* Database connection information */
     $gaSql['user']       = "root";
-    $gaSql['password']   = "";
+    $gaSql['password']   = "root";
     $gaSql['db']         = "bookings_test";
     $gaSql['server']     = "localhost";
 
