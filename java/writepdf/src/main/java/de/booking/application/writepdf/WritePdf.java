@@ -6,9 +6,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
-import javassist.bytecode.Descriptor.Iterator;
 
 import javax.swing.JTable;
 
@@ -34,6 +31,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+/**
+ * 
+ * @author jim
+ *
+ * maven build with "mvn clean compile assembly:single"
+ *
+ */
 
 public class WritePdf {
 
@@ -48,7 +52,7 @@ public class WritePdf {
 
 		List<Booking>  bookings = getBookingsByMonthYear(new Integer(month_str),new Integer(year_str));
 
-		String path = "/Users/jim/Desktop/";
+		String path = "/tmp/"; //"/Users/jim/Desktop/";
 
 		float title_padding = 10.0f;
 
@@ -187,7 +191,7 @@ public class WritePdf {
 		configuration.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver");
 		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/bookings");
 		configuration.setProperty("hibernate.connection.password", "root");
-		configuration.setProperty("hibernate.connection.username", "");       
+		configuration.setProperty("hibernate.connection.username", "root");       
 
 		// get a session
 		configuration.addAnnotatedClass(de.booking.application.writepdf.model.Booking.class);

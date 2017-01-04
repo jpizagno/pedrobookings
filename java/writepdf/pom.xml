@@ -64,9 +64,8 @@
         <dependency>
             <groupId>commons-pool</groupId>
             <artifactId>commons-pool</artifactId>
-        <version>1.6</version>
-        
-</dependency>
+        	<version>1.6</version>
+		</dependency>
         
     </dependencies>
     
@@ -74,4 +73,24 @@
         <spring.version>3.2.3.RELEASE</spring.version>
     </properties>
 
+
+	<!--  build with "mvn clean compile assembly:single" -->
+	<build>
+	  <plugins>
+	    <plugin>
+	      <artifactId>maven-assembly-plugin</artifactId>
+	      <configuration>
+	        <archive>
+	          <manifest>
+	            <mainClass>de.booking.application.writepdf.WritePdf</mainClass>
+	          </manifest>
+	        </archive>
+	        <descriptorRefs>
+	          <descriptorRef>jar-with-dependencies</descriptorRef>
+	        </descriptorRefs>
+	      </configuration>
+	    </plugin>
+	  </plugins>
+	</build>
+	
 </project>

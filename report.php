@@ -31,7 +31,30 @@
             } );
             
         });
-</script>
+    </script>
+
+    <script>
+        function makePdf() {
+            
+            var month = $("#month").val(); 
+            var year = $("#year").val(); 
+            var filename = $("#filename").val(); 
+            
+            var myData={"month":month,"year":year,"filename":filename};
+            
+            $.ajax({
+                url : "make_report.php",
+                type: "POST",
+                data : myData,
+                success: function(data,status,xhr)
+                 {
+                     var message = "made report for month=".concat(month," year=",year," filename=",filename);
+                    alert(message);
+                     alert(data);
+                 }
+             }); 
+        }
+    </script>
       
     <div class="row" >
       <div class="col-md-4 ol-md-offset-1">
@@ -44,6 +67,12 @@
             <div class="form-group">
                 <label for="month">Year</label>
                 <input type="text" class="form-control" id="year" placeholder="2016">
+            </div>  
+      </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="filename">filename</label>
+                <input type="text" class="form-control" id="filename" placeholder="report.pdf">
             </div>  
       </div>
     </div>
