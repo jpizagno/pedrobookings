@@ -214,7 +214,8 @@ public class WritePdf {
 
 		String sSQL  = " SELECT * FROM Booking as bb " +
 				" WHERE bb.month_departure="+String.valueOf(month)+"" +
-				" AND bb.year_departure="+String.valueOf(year)+" ";
+				" AND bb.year_departure="+String.valueOf(year)+" " +
+	            " AND storno=0";
 		SQLQuery query = session.createSQLQuery(sSQL);
 		query.addEntity(Booking.class);
 		List myListTmp = query.list();

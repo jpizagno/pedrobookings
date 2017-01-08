@@ -47,6 +47,7 @@
                 
             } );
         
+        <!-- unstorno a booking. i.e. set storno=0 -->
         $('#unStornoBooking').click( function () {
             var bookingnumber = dataTable.row('.selected').data()[10];
                 var kreuzfahrt = dataTable.row('.selected').data()[0];  
@@ -65,6 +66,7 @@
                 dataTable.row('.selected').remove().draw( false );
         });
         
+        <!-- storno a booking set storno=1 -->
         $('#stornoBooking').click( function () {
             var bookingnumber = dataTable.row('.selected').data()[10];
                 var kreuzfahrt = dataTable.row('.selected').data()[0];  
@@ -81,6 +83,24 @@
                 }); 
                 
                 dataTable.row('.selected').remove().draw( false );
+        });
+        
+        <!-- clear all fields -->
+        $('#clearFields').click( function () {å
+            $("#kreuzfahrt").val(''); å
+            $("#flug").val('');  
+            $("#hotel").val('');        
+            $("#versicherung").val('');
+            $("#total").val(''); 
+            $("#dayDeparture").val('');
+            $("#monthDeparture").val(''); 
+            $("#yearDeparture").val(''); 
+            $("#surname").val('');     
+            $("#firstname").val('');
+            $("#bookingnumber").val('');
+            $("#storno").val(''); 
+            $("#bookingdate").val('');
+            
         });
         
         
