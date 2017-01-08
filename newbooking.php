@@ -47,6 +47,42 @@
                 
             } );
         
+        $('#unStornoBooking').click( function () {
+            var bookingnumber = dataTable.row('.selected').data()[10];
+                var kreuzfahrt = dataTable.row('.selected').data()[0];  
+                
+                myData = {"kreuzfahrt":kreuzfahrt,"booking_number":bookingnumber,"storno":0};
+                $.ajax({
+                    url : "storno.php",
+                    type: "POST",
+                    data : myData,
+                    success: function(data,status,xhr)
+                     {
+                        alert("UN storno booking");
+                     }
+                }); 
+                
+                dataTable.row('.selected').remove().draw( false );
+        });
+        
+        $('#stornoBooking').click( function () {
+            var bookingnumber = dataTable.row('.selected').data()[10];
+                var kreuzfahrt = dataTable.row('.selected').data()[0];  
+                
+                myData = {"kreuzfahrt":kreuzfahrt,"booking_number":bookingnumber,"storno":1};
+                $.ajax({
+                    url : "storno.php",
+                    type: "POST",
+                    data : myData,
+                    success: function(data,status,xhr)
+                     {
+                        alert("storno booking");
+                     }
+                }); 
+                
+                dataTable.row('.selected').remove().draw( false );
+        });
+        
         
                 <!-- removes the default search textinput -->
                 $("#example_filter").css("display","none");
@@ -159,9 +195,9 @@
               <div class="col-md-8 col-md-offset-1">
                   <button class="btn btn-default" type="submit" onclick="bookThisCruise()">Book this cruise</button>
                   <button class="btn btn-default" type="submit" id="deleteSelectedBooking">Delete Selected Booking</button>
-                  <button class="btn btn-default" type="submit">Storno Selected Booking</button>
-                  <button class="btn btn-default" type="submit">Clear Fields</button>
-                  <button class="btn btn-default" type="submit">UN-Storno Selected Booking</button>
+                  <button class="btn btn-default" type="submit" id="stornoBooking">Storno Selected Booking</button>
+                  <button class="btn btn-default" type="submit" id="clearFields">Clear Fields</button>
+                  <button class="btn btn-default" type="submit" id="unStornoBooking">UN-Storno Selected Booking</button>
               </div>
           </div>
           
