@@ -1,5 +1,28 @@
 <?php include('inc/header.php'); ?>
       
+     <script>
+         function login() {
+            var user = $("#inputUser").val(); 
+            var password = $("#inputPassword").val(); 
+            
+           var myData={"username":user,"password":password};
+             $.ajax({
+                url : "login.php",
+                type: "POST",
+                data : myData,
+                success: function(data,status,xhr)
+                 {
+                     alert(data);
+                    alert("Success!  logged in ");
+                 },
+                 error: function () {
+                   
+                    alert("login not correct");
+                  }
+             }); 
+         }
+     </script>
+
       <div class="container page-content">
           <div class="row">
             <div class="inner cover">
@@ -12,7 +35,6 @@
                 </p>
             </div>
           </div>
-          
       </div>
       
       <!-- Login Modal Button -->
@@ -27,15 +49,10 @@
                  <form class="form-signin">
                     <h2 class="form-signin-heading">Please sign in</h2>
                     <label for="inputEmail" class="sr-only">Email address</label>
-                    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                    <input type="user" id="inputUser" class="form-control" placeholder="user name" required autofocus>
                     <label for="inputPassword" class="sr-only">Password</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                      </label>
-                    </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="login()" id="submit">Sign in</button>
                   </form>
               </div>
               <div class="modal-footer">

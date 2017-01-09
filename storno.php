@@ -1,8 +1,9 @@
 <?php
-     
+session_start();     
+
     /* Database connection information */
-    $gaSql['user']       = "root";
-    $gaSql['password']   = "root";
+    $gaSql['user']       = $_SESSION["username"];
+    $gaSql['password']   = $_SESSION["password"];
     $gaSql['db']         = "bookings_test";
     $gaSql['server']     = "localhost";
 
