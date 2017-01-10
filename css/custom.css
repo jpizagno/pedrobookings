@@ -1,3 +1,15 @@
 body {
     background-color: #6666ff;
+    padding-top: 70px; 
+}
+
+.container-fluid {
+    padding: 15px;
+}
+
+.navbar-fixed-top {
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom:0;
+    padding: 0px;
 }

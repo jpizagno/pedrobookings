@@ -1,27 +1,7 @@
 <?php include('inc/header.php'); ?>
-      
-     <script>
-         function login() {
-            var user = $("#inputUser").val(); 
-            var password = $("#inputPassword").val(); 
-            
-           var myData={"username":user,"password":password};
-             $.ajax({
-                url : "login.php",
-                type: "POST",
-                data : myData,
-                success: function(data,status,xhr)
-                 {
-                     alert(data);
-                    alert("Success!  logged in ");
-                 },
-                 error: function () {
-                   
-                    alert("login not correct");
-                  }
-             }); 
-         }
-     </script>
+
+    <!-- custom script for this app -->
+    <script type="text/javascript" language="javascript" src="js/custom.js"></script>
 
       <div class="container page-content">
           <div class="row">
