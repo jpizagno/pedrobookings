@@ -13,6 +13,7 @@
 
     <div class="container-fluid">
         <div class="row" >
+            <h1 class="col-md-10 col-md-offset-1">Monthly Report </h1>
               <div class="col-md-3 col-md-offset-1">
                     <div class="form-group">
                         <label for="month">Month</label>
@@ -41,9 +42,22 @@
             </div>
             <div class="col-md-2">
                <div class="form-group">
-                <input type="text" class="form-control" id="total_report" placeholder="please select month and year">
+                <input type="text" class="form-control" id="total_report" placeholder="Enter month and year above">
               </div>
             </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="row" >
+            <hr/>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row" >
+            <h4 class="col-md-10 col-md-offset-1">Use Table below to get details on bookings for each month. </h4>
         </div>
     </div>
 
