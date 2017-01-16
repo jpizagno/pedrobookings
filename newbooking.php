@@ -17,7 +17,7 @@
             var flug = $("#flug").val();  
             var hotel = $("#hotel").val();        
             var versicherung = $("#versicherung").val();
-            var total = $("#total").val(); 
+            var total = kreuzfahrt*0.035 + flug*0.015 + hotel*0.015 + versicherung*0.015 ;
             var dayDeparture = $("#dayDeparture").val();
             var monthDeparture = $("#monthDeparture").val(); 
             var yearDeparture = $("#yearDeparture").val(); 
@@ -64,7 +64,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputTotal">Total</label>
-                    <input type="text" class="form-control" id="total" placeholder="total">
+                    <input type="text" class="form-control" id="total" placeholder="Total Done Automatically: krzfhrt.*0.035 + flug*0.015 + hotel*0.015 + vers.*0.015" readonly="readonly">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputDayDeparture">Day Departure</label>
@@ -96,7 +96,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputBookingDate">Booking Date</label>
-                    <input type="text" class="form-control" id="bookingdate" placeholder="bookingdate">
+                    <input type="text" class="form-control" id="bookingdate" placeholder="bookingdate: (YYYY-MM-DD)">
                   </div>
                 </form>
             </div>
