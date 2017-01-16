@@ -13,34 +13,38 @@
 
     <div class="container-fluid">
         <div class="row" >
-            <div class="col-md-8 col-md-offset-1">
-                  <div class="col-md-4 ol-md-offset-1">
-                        <div class="form-group">
-                            <label for="month">Month</label>
-                            <input type="text" class="form-control" id="month" placeholder="12">
-                        </div>
-                  </div>
-                  <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="month">Year</label>
-                            <input type="text" class="form-control" id="year" placeholder="2016">
-                        </div>  
-                  </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="filename">filename</label>
-                            <input type="text" class="form-control" id="filename" placeholder="report.pdf">
-                        </div>  
-                  </div>
-                </div>
-          </div>
-            <div class="row" > 
-                <div class="col-md-8 col-md-offset-1">
-                      <div class="col-md-4">
-                           <button class="btn btn-default" type="submit" onclick="makePdf()">Print PDF</button>
-                      </div>
-                </div>
+              <div class="col-md-3 col-md-offset-1">
+                    <div class="form-group">
+                        <label for="month">Month</label>
+                        <input type="text" class="form-control" id="month" placeholder="12">
+                    </div>
+              </div>
+              <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="month">Year</label>
+                        <input type="text" class="form-control" id="year" placeholder="2016">
+                    </div>  
+              </div>
+              <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="filename">filename</label>
+                        <input type="text" class="form-control" id="filename" placeholder="report.pdf">
+                    </div>  
+              </div>
+        </div>
+        <div class="row" > 
+            <div class="col-md-2 col-md-offset-1">
+                <button class="btn btn-default" type="submit" onclick="makePdf()">Print Report (PDF)</button>
             </div>
+            <div class="col-md-2">
+               <button class="btn btn-default" type="submit" onclick="getTotal()">Show Total</button>
+            </div>
+            <div class="col-md-2">
+               <div class="form-group">
+                <input type="text" class="form-control" id="total_report" placeholder="please select month and year">
+              </div>
+            </div>
+        </div>
     </div>
 
     <div class="container-fluid">

@@ -1,4 +1,25 @@
 
+function getTotal() {
+    var month = $("#month").val(); 
+    var year = $("#year").val(); 
+
+    
+    var myData={"month":month,"year":year};
+
+    $.ajax({
+        url : "month_report.php",
+        type: "POST",
+        data : myData,
+        dataType: 'json',
+        success: function(data,status,xhr)
+         {
+             var total = data['total'];
+             $("#total_report").val('total = '.concat(total,' Euro')); 
+         }
+     }); 
+     
+} ;
+
 function login() {
     var user = $("#inputUser").val(); 
     var password = $("#inputPassword").val(); 
@@ -136,13 +157,13 @@ function newbooking_ready() {
     
 function report_ready() {
     var dataTable = $('#example').DataTable( {
-                                "processing": true,
-                                "serverSide": true,
-                                "ajax":{
-                                        url :"server-response.php", // json datasource
-                                        type: "post",  // method  , by default get
-                                }
-                        } );
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+                    url :"server-response.php", // json datasource
+                    type: "post",  // method  , by default get
+            }
+    } );
 
     <!-- removes the default search textinput -->
     $("#example_filter").css("display","none");
