@@ -3,11 +3,12 @@ session_start();
 
 $_SESSION["username"] = $_POST['username'];
 $_SESSION["password"] = $_POST['password'];
+$_SESSION["database"] = "bookings_test";
 
 /* Database connection information */
 $gaSql['user']       = $_SESSION["username"];
 $gaSql['password']   = $_SESSION["password"];
-$gaSql['db']         = "bookings_test";
+$gaSql['db']         = $_SESSION["database"];
 $gaSql['server']     = "localhost";
      
 $conn=mysqli_connect($gaSql['server'], $gaSql['user'] ,$gaSql['password'],$gaSql['db']);
