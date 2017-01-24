@@ -4,7 +4,7 @@ session_start();
     /* Database connection information */
     $gaSql['user']       = $_SESSION["username"];
     $gaSql['password']   = $_SESSION["password"];
-    $gaSql['db']         = "bookings_test";
+    $gaSql['db']         = $_SESSION["database"];
     $gaSql['server']     = "localhost";
 
    $kreuzfahrt = $_POST['kreuzfahrt'];
