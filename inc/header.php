@@ -8,8 +8,8 @@
     <title>Booking Handler</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
       
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -23,7 +23,7 @@
     <nav class="navbar navbar-default navbar-fixed-top">
           <div class="container-fluid">
              <div class="dropdown">
-                <button class="btn btn-default btn-lg dropdown-toggle" type="button" id="dropdown" data-toggle="dropdown">Navigation
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdown" data-toggle="dropdown">Navigation
                 <span class="caret"></span></button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="index.php">Welcome Login</a></li>
