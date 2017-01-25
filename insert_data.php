@@ -13,8 +13,8 @@ session_start();
       echo "Failed to connect to MySQL: " . mysqli_connect_error();
     }
 
-   mysql_set_charset('utf8');
-   //query for insert data into tables
+   //mysql_set_charset('utf8');
+   mysqli_set_charset($conn, "utf8");
 
    $kreuzfahrt = $_POST['kreuzfahrt'];
    $flug  = $_POST['flug'];

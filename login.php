@@ -3,7 +3,7 @@ session_start();
 
 $_SESSION["username"] = $_POST['username'];
 $_SESSION["password"] = $_POST['password'];
-$_SESSION["database"] = "bookings_test";
+$_SESSION["database"] = "bookme";
 
 /* Database connection information */
 $gaSql['user']       = $_SESSION["username"];
