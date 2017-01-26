@@ -8,9 +8,30 @@ h1.cover-heading {
     font-weight: normal;
 }
 
+h1 {
+    font-size: 1.1em;
+}
+
 p.lead {
-    font-size: 0.9em; /* 40px/16=2.5em */
+    font-size:0.9em; /* 40px/16=2.5em */
     font-weight: normal;
+}
+
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-size: 0.7em;
+}
+
+.form-control {
+    font-size: 10px;
+    height: 25px;
+}
+
+.form-group {
+    margin-bottom: 5px;
 }
 
 .container-fluid {

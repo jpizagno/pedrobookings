@@ -52,7 +52,7 @@ public class WritePdf {
 
 		List<Booking>  bookings = getBookingsByMonthYear(new Integer(month_str),new Integer(year_str));
 
-		String path = "/tmp/"; //"/Users/jim/Desktop/";
+		String path = ""; //"/Users/jim/Desktop/";
 
 		float title_padding = 10.0f;
 
@@ -190,8 +190,8 @@ public class WritePdf {
 		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
 		configuration.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver");
 		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/bookings");
-		configuration.setProperty("hibernate.connection.password", "root");
-		configuration.setProperty("hibernate.connection.username", "root");       
+		configuration.setProperty("hibernate.connection.password", "james76");
+		configuration.setProperty("hibernate.connection.username", "julia");       
 
 		// get a session
 		configuration.addAnnotatedClass(de.booking.application.writepdf.model.Booking.class);
