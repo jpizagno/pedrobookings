@@ -21,16 +21,16 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Please login</h4>
+                <h2 class="modal-title" id="myModalLabel">Please login</h2>
               </div>
               <div class="modal-body">
                  <form class="form-signin">
-                    <h2 class="form-signin-heading">Please sign in</h2>
+                    <h4 class="form-signin-heading">Use MySQL Database login (hint: j***a/j****6) </h4>
                     <label for="inputEmail" class="sr-only">Email address</label>
                     <input type="user" id="inputUser" class="form-control" placeholder="user name" required autofocus>
                     <label for="inputPassword" class="sr-only">Password</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="login()" id="submit">Sign in</button>
+                    <button class="btn btn-primary btn-block" type="submit" onclick="login()" id="submit">Sign in</button>
                   </form>
               </div>
               <div class="modal-footer">

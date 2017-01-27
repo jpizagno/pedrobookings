@@ -34,6 +34,15 @@ label {
     margin-bottom: 5px;
 }
 
+.btn-block {
+    width: 50%;
+}
+
+.btn {
+    padding: 4px;
+    margin: 0.2em;
+}
+
 .container-fluid {
     padding: 15px;
 }

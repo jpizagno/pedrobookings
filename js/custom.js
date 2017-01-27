@@ -68,15 +68,16 @@ function login() {
      }); 
 };
 
-function newbooking_ready() {
+function newbooking_ready() {    
     var dataTable = $('#dataTable').DataTable( {
-                                    "processing": true,
-                                    "serverSide": true,
-                                    "ajax":{
-                                            url :"server-response.php", // json datasource
-                                            type: "post",  // method  , by default get
-                                    }
-                            } );
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+                    url :"server-response.php", // json datasource
+                    type: "post",  // method  , by default get
+            }
+    } );
+    
     <!-- for selecting a row -->
     $('#dataTable tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
@@ -167,7 +168,7 @@ function newbooking_ready() {
 
 
     <!-- removes the default search textinput -->
-    $("#example_filter").css("display","none");
+    $("#dataTable_filter").css("display","none");
 
     $('.search-input-text').on( 'keyup click', function () {   // for text boxes
         var i =$(this).attr('data-column');  // getting column index
