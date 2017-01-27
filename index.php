@@ -9,9 +9,7 @@
                 <h1 class="cover-heading">Booking Handler</h1>
                 <p class="lead">You are not logged in.  Please login to enter a new booking or to get a monthly report.</p>
                 <p class="lead">
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
-                        Login
-                    </button>
+                  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#loginModal">Login</button>
                 </p>
             </div>
           </div>
