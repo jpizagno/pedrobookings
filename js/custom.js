@@ -13,6 +13,15 @@ function bookThisCruise() {
     var bookingnumber = $("#bookingnumber").val();
     var storno = $("#storno").val(); 
     var bookingdate = $("#bookingdate").val(); 
+    
+    if (bookingdate.split("/").length >  1) {
+        // user entered as DD/MM/YYYY
+        var dateFields = bookingdate.split("/"); 
+        var DD = dateFields[0];
+        var MM = dateFields[1];
+        var YYYY = dateFields[2];
+        var bookingdate =  YYYY.concat("-",MM,"-",DD); // format YYYY-MM-DD
+    }
 
    var myData={"kreuzfahrt":kreuzfahrt,"flug":flug,"hotel":hotel,"versicherung":versicherung,"total":total,"day_departure":dayDeparture,"month_departure":monthDeparture,"year_departure":yearDeparture,"surname":surname,"first_name":firstname,"booking_number":bookingnumber,"storno":storno,"booking_date":bookingdate};
      $.ajax({

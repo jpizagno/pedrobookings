@@ -66,7 +66,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputBookingDate">Booking Date</label>
-                    <input type="text" class="form-control" id="bookingdate" placeholder="bookingdate: (YYYY-MM-DD)">
+                    <input type="text" class="form-control" id="bookingdate" placeholder="bookingdate: DD/MM/YYYY ">
                   </div>
                 </form>
             </div>
