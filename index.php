@@ -9,7 +9,7 @@
                 <h1 class="cover-heading">Booking Handler</h1>
                 <p class="lead">You are not logged in.  Please login to enter a new booking or to get a monthly report.</p>
                 <p class="lead">
-                  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#loginModal">Login</button>
+                  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#loginModal" id="loginbutton">Login</button>
                 </p>
             </div>
           </div>
@@ -30,7 +30,7 @@
                     <input type="user" id="inputUser" class="form-control" placeholder="user name" required autofocus>
                     <label for="inputPassword" class="sr-only">Password</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                    <button class="btn btn-primary btn-block" type="submit" onclick="login()" id="submit">Sign in</button>
+                    <button class="btn btn-primary btn-block" type="submit" onclick="login()" id="submitUsernamePassword">Sign in</button>
                   </form>
               </div>
               <div class="modal-footer">

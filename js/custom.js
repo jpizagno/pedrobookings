@@ -59,25 +59,23 @@ function getTotal() {
 function login() {
     var user = $("#inputUser").val(); 
     var password = $("#inputPassword").val(); 
-
+    
     var myData={"username":user,"password":password};
      $.ajax({
         url : "login.php",
         type: "POST",
         data : myData,
-        success: function(data,status,xhr)
-         {
-             alert(data);
-            alert("Success!  logged in ");
+        success: function(data) {
+            alert("ok");
          },
-         error: function () {
-
+         error: function (data) {
             alert("login not correct");
-          }
+            }
      }); 
 };
 
 function newbooking_ready() {    
+    
     var dataTable = $('#dataTable').DataTable( {
             "processing": true,
             "serverSide": true,
