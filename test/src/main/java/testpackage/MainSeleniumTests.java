@@ -61,8 +61,8 @@ public class MainSeleniumTests {
 	}
 	
 	private static void login() {
-		WebDriverWait wait0 = new WebDriverWait(driver, 10);
-		wait0.until(ExpectedConditions.visibilityOfAllElementsLocatedBy( By.id("inputUser")));
+		WebDriverWait waitStart = new WebDriverWait(driver, 10);
+		waitStart.until(ExpectedConditions.visibilityOfAllElementsLocatedBy( By.id("inputUser")));
 		
 		/* Identify Element and take action with two lines of code */
         WebElement element_UserName = driver.findElement( By.id("inputUser") );
@@ -73,14 +73,18 @@ public class MainSeleniumTests {
  
         driver.findElement(By.id("submitUsernamePassword")).click(); // .submit();
  
-        /* verify logged-in correctly */
-        //String fullBodyText = driver.findElement(By.tagName("body")).getText();
-        //Assert.assertTrue(fullBodyText.contains("You are logged in."));
+        // click Ok on alert:
+        WebDriverWait waitAlert = new WebDriverWait(driver, 10);
+        Alert alert = waitAlert.until(ExpectedConditions.alertIsPresent());
+        alert.accept();
         
-        //WebDriverWait wait = new WebDriverWait(driver, 10);
-        //Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-        Alert alert = driver.switchTo().alert();
-        Assert.assertEquals(alert.getText() , "ok");
+        /* verify logged-in correctly */
+        WebDriverWait waitEnd = new WebDriverWait(driver, 10);
+        waitEnd.until(ExpectedConditions.visibilityOfAllElementsLocatedBy( By.id("loginMessage")));
+        
+        String fullBodyText = driver.findElement( By.id("loginMessage") ).getText();
+        Assert.assertEquals(fullBodyText , "You are logged in.");
+       
     }
 	
 }
