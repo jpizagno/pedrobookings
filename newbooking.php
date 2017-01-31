@@ -13,71 +13,131 @@
 
       <div class="container-fluid">
           <div class="row">
-            <div class="col-md-5 col-md-offset-2">
-                <h1>Please Enter a new booking below</h1>
+            <div class="col-md-4">
                 <form>
-                  <div class="form-group">
-                    <label for="exampleInputKreuzfahrt">Kreuzfahrt</label>
-                    <input type="text" class="form-control" id="kreuzfahrt" placeholder="Kreuzfahrt">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputFlug">Flug</label>
-                    <input type="text" class="form-control" id="flug" placeholder="flug">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputHotel">Hotel</label>
-                    <input type="text" class="form-control" id="hotel" placeholder="hotel">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputVersicherung">Versicherung</label>
-                    <input type="text" class="form-control" id="versicherung" placeholder="versicherung">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputTotal">Total</label>
-                    <input type="text" class="form-control" id="total" placeholder="Total Done Automatically: krzfhrt.*0.035 + flug*0.015 + hotel*0.015 + vers.*0.015" readonly="readonly">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputDayDeparture">Day Departure</label>
-                    <input type="text" class="form-control" id="dayDeparture" placeholder="dayDeparture">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputMonthDeparture">Month Departure</label>
-                    <input type="text" class="form-control" id="monthDeparture" placeholder="monthDeparture">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputYearDeparture">Year Departure</label>
-                    <input type="text" class="form-control" id="yearDeparture" placeholder="yearDeparture">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputSurname">Surname</label>
-                    <input type="text" class="form-control" id="surname" placeholder="surname">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputFirstName">First Name</label>
-                    <input type="text" class="form-control" id="firstname" placeholder="firstname">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputBookingNumber">Booking Number</label>
-                    <input type="text" class="form-control" id="bookingnumber" placeholder="bookingnumber">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputStorno">Storno</label>
-                    <input type="text" class="form-control" id="storno" placeholder="storno">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputBookingDate">Booking Date</label>
-                    <input type="text" class="form-control" id="bookingdate" placeholder="bookingdate: DD/MM/YYYY ">
-                  </div>
+                    <div id="contact-form" class="form-container" data-form-container>
+                        <div class="row">
+                            <div class="form-title">
+                                <span>Costs </span>
+                            </div>
+                        </div>
+                        <div class="input-container">
+                            <div class="row">
+                                <span class="req-input" >
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Kreuzfahrt"> </span>
+                                    <input type="text" data-min-length="8" id="kreuzfahrt" placeholder="Kreuzfahrt">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Flug"> </span>
+                                    <input type="text" id="flug" placeholder="Flug">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Hotel"> </span>
+                                    <input type="text" id="hotel" placeholder="Hotel">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Versicherung"> </span>
+                                    <input type="text" id="versicherung" placeholder="Versicherung">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Storno"> </span>
+                                    <input type="text" id="storno" placeholder="Storno">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
+                
+                
+            <div class="col-md-4">
+                <form>
+                    <div id="contact-form" class="form-container" data-form-container style="color: rgb(46, 125, 50); background: rgb(200, 230, 201);">
+                        <div class="row">
+                            <div class="form-title">
+                                <span>Name and Booking Number </span>
+                            </div>
+                        </div>
+                        <div class="input-container">
+                            <div class="row">
+                                <span class="req-input valid" >
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Surname"> </span>
+                                    <input type="text" data-min-length="8" id="surname" placeholder="Surname">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input valid">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Please Input First Name"> </span>
+                                    <input type="text" id="firstname" placeholder="First Name">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input valid">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Please Input Booking Number"> </span>
+                                    <input type="text" id="bookingnumber" placeholder="Booking Number">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+                
+            <div class="col-md-4">
+                <form>
+                    <div id="contact-form" class="form-container" data-form-container style="color: rgb(198, 40, 40); background: rgb(255, 205, 210);">
+                        <div class="row">
+                            <div class="form-title">
+                                <span> Dates </span>
+                            </div>
+                        </div>
+                        <div class="input-container">
+                            <div class="row">
+                                <span class="req-input invalid" >
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Booking Date DD/MM/YYYY. i.e. 28/02/2017"> </span>
+                                    <input type="text" data-min-length="8" id="bookingdate" placeholder="Booking Date">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input invalid">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Please Input Day Departure. i.e. 28"> </span>
+                                    <input type="text" id="dayDeparture" placeholder="Day Departure">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input invalid">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Please Input Month Departure. i.e. 12"> </span>
+                                    <input type="text" id="monthDeparture" placeholder="Month Departure">
+                                </span>
+                            </div>
+                             <div class="row">
+                                <span class="req-input invalid">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Please Input Year Departure. i.e. 2017"> </span>
+                                    <input type="text" id="yearDeparture" placeholder="Year Departure">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+                
+		</div>
+       
           </div>
-          <div class="row">
+          <div class="row" >
               <div class="col-md-8 col-md-offset-1">
-                  <button class="btn btn-default" type="submit" onclick="bookThisCruise()">Book this cruise</button>
-                  <button class="btn btn-default" type="submit" id="deleteSelectedBooking">Delete Selected Booking</button>
-                  <button class="btn btn-default" type="submit" id="stornoBooking">Storno Selected Booking</button>
-                  <button class="btn btn-default" type="submit" id="clearFields">Clear Fields</button>
-                  <button class="btn btn-default" type="submit" id="unStornoBooking">UN-Storno Selected Booking</button>
+                  <button type="button" class="btn btn-success btn3d" onclick="bookThisCruise()">Book Cruise</button>
+                  <button type="button" class="btn btn-delete btn3d" id="deleteSelectedBooking">Delete Selected Booking</button>
+                  <button type="button" class="btn btn-storno btn3d" id="stornoBooking">Storno Selected Booking</button>
+                  <button type="button" class="btn btn-clear btn3d" id="clearFields">Clear Fields</button>
+                  <button type="button" class="btn btn-unsto btn3d" id="unStornoBooking">UN-Storno Selected Booking</button>
               </div>
           </div>
       </div> <!-- end of container -->

@@ -13,38 +13,77 @@
 
     <div class="container-fluid">
         <div class="row" >
-            <h1 class="col-md-10 col-md-offset-1">Monthly Report </h1>
-              <div class="col-md-3 col-md-offset-1">
-                    <div class="form-group">
-                        <label for="month">Month</label>
-                        <input type="text" class="form-control" id="month" placeholder="12">
+            
+            <div class="col-md-4 col-md-offset-2">
+                <form>
+                    <div id="contact-form" class="form-container" data-form-container>
+                        <div class="row">
+                            <div class="form-title">
+                                <span>Monthly Report</span>
+                            </div>
+                        </div>
+                        <div class="input-container">
+                            <div class="row">
+                                <span class="req-input" >
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Month. i.e. 12"> </span>
+                                    <input type="text" data-min-length="8" id="month_report" placeholder="enter month. i.e. 12">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Enter Year. i.e. 2012"> </span>
+                                    <input type="email" id="year_report" placeholder="enter year. i.e. 2017">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input file name with PDF. i.e. report.pdf"> </span>
+                                    <input type="tel" id="filename_report" placeholder="enter filename. i.e. report.pdf">
+                                </span>
+                            </div>
+                            <div class="row submit-row">
+                                <button type="button" class="btn btn-block submit-form" onclick="makePdf()">Print Report (PDF)</button>
+                            </div>
+                        </div>
                     </div>
-              </div>
-              <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="month">Year</label>
-                        <input type="text" class="form-control" id="year" placeholder="2016">
-                    </div>  
-              </div>
-              <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="filename">filename</label>
-                        <input type="text" class="form-control" id="filename" placeholder="report.pdf">
-                    </div>  
-              </div>
-        </div>
-        <div class="row" > 
-            <div class="col-md-2 col-md-offset-1">
-                <button class="btn btn-default" type="submit" onclick="makePdf()">Print Report (PDF)</button>
+                </form>
             </div>
-            <div class="col-md-2">
-               <button class="btn btn-default" type="submit" onclick="getTotal()">Show Total</button>
+            
+            <div class="col-md-4">
+                <form>
+                    <div id="contact-form" class="form-container" data-form-container  data-form-container style="color: rgb(46, 125, 50); background: rgb(200, 230, 201);">
+                        <div class="row">
+                            <div class="form-title">
+                                <span>Calculate Total</span>
+                            </div>
+                        </div>
+                        <div class="input-container">
+                            <div class="row">
+                                <span class="req-input valid" >
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Month. i.e. 12"> </span>
+                                    <input type="text" data-min-length="8" id="month_total" placeholder="enter month. i.e. 12">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input valid">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Enter Year. i.e. 2012"> </span>
+                                    <input type="email" id="year_total" placeholder="enter year. i.e. 2017">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="req-input valid">
+                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input file name with PDF. i.e. report.pdf"> </span>
+                                    <input type="tel"   id="total_report" placeholder="total">
+                                </span>
+                            </div>
+                            <div class="row submit-row">
+                                <button type="button" class="btn btn-block submit-form valid" onclick="getTotal()">Show Total</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="col-md-2">
-               <div class="form-group">
-                <input type="text" class="form-control" id="total_report" placeholder="Enter month and year above">
-              </div>
-            </div>
+            
         </div>
     </div>
 

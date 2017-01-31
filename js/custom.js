@@ -36,8 +36,8 @@ function bookThisCruise() {
 };
 
 function getTotal() {
-    var month = $("#month").val(); 
-    var year = $("#year").val(); 
+    var month = $("#month_total").val(); 
+    var year = $("#year_total").val(); 
 
     
     var myData={"month":month,"year":year};
@@ -216,9 +216,9 @@ function report_ready() {
 };
     
 function makePdf() {
-    var month = $("#month").val(); 
-    var year = $("#year").val(); 
-    var filename = $("#filename").val(); 
+    var month = $("#month_report").val(); 
+    var year = $("#year_report").val(); 
+    var filename = $("#filename_report").val(); 
 
     var myData={"month":month,"year":year,"filename":filename};
 
