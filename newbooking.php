@@ -25,7 +25,7 @@
                             <div class="row">
                                 <span class="req-input" >
                                     <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Kreuzfahrt"> </span>
-                                    <input type="text" data-min-length="8" id="kreuzfahrt" placeholder="Kreuzfahrt">
+                                    <input type="text" data-min-length="8" id="kreuzfahrt" default=0 placeholder="Kreuzfahrt">
                                 </span>
                             </div>
                             <div class="row">

@@ -1,18 +1,84 @@
 
+function bit_set(num, bitpos){
+    return num | 1<<bitpos;
+};
+
+function numberRegExpCheck(field, value, flagBit, bitpos) {
+    var regNumber = new RegExp('[-+]?[0-9]*\.?[0-9]+');
+    if (regNumber.test(value) == false) {
+        alert(field.concat(" wrong:  '",value,"' .will not insert data."));
+        return bit_set(flagBit, bitpos) ;
+    } else {
+        return flagBit ;
+    }
+};
+
+function stringChecker(field, value, flagBit, bitpos) {
+    try {
+        var myInt = parseInt(value);
+        if (field=="day" && myInt >= 1 && myInt <= 31) {
+            return flagBit ;
+        } else if (field=="month" && myInt >= 1 && myInt <= 12) {
+            return flagBit ;
+        } else if (field=="year" && myInt >= 1900 && myInt <= 3000) {
+            return flagBit ;
+        } else if (field=="storno" && (myInt==1 || myInt==0) ) {
+            return flagBit ;
+        } else {
+            alert(field.concat(" wrong:  '",value,"' .will not insert data."));
+            return bit_set(flagBit, bitpos) ;
+        }
+    } catch(err) {
+        alert(field.concat(" wrong:  '",value,"' .will not insert data."));
+        return bit_set(flagBit, bitpos) ;
+    }
+};
+
+function bookingdateChecker (field, value, flagBit, bitpos) {
+    if (value.match(new RegExp("/", 'g')).length == 2 || value.match(new RegExp("-", 'g')).length == 2) {
+        return flagBit ;
+    } else {
+        alert(field.concat(" wrong:  '",value,"' .will not insert data."));
+        return bit_set(flagBit, bitpos) ;
+    }
+} ;
+
 function bookThisCruise() {
-    var kreuzfahrt = $("#kreuzfahrt").val();  
-    var flug = $("#flug").val();  
-    var hotel = $("#hotel").val();        
-    var versicherung = $("#versicherung").val();
+    
+    var flagBit = 0;
+    
+    var kreuzfahrt = $("#kreuzfahrt").val().default = 0;  
+    flagBit = numberRegExpCheck("kreuzfahrt",kreuzfahrt, flagBit, 0);
+            
+    var flug = $("#flug").val().default = 0;  
+    flagBit = numberRegExpCheck("flug",flug, flagBit, 1);
+    
+    var hotel = $("#hotel").val().default = 0;        
+    flagBit = numberRegExpCheck("hotel",hotel, flagBit, 2);
+    
+    var versicherung = $("#versicherung").val().default = 0;
+    flagBit = numberRegExpCheck("versicherung",versicherung, flagBit, 3);
+    
     var total = kreuzfahrt*0.035 + flug*0.015 + hotel*0.015 + versicherung*0.015 ;
+    
     var dayDeparture = $("#dayDeparture").val();
+    flagBit = stringChecker("day",dayDeparture, flagBit, 4);
+    
     var monthDeparture = $("#monthDeparture").val(); 
+    flagBit = stringChecker("month",monthDeparture, flagBit, 5);
+    
     var yearDeparture = $("#yearDeparture").val(); 
+    flagBit = stringChecker("year",yearDeparture, flagBit, 6);
+    
     var surname = $("#surname").val();     
     var firstname = $("#firstname").val();
     var bookingnumber = $("#bookingnumber").val();
+    
     var storno = $("#storno").val(); 
+    flagBit = stringChecker("storno",storno, flagBit, 7);
+    
     var bookingdate = $("#bookingdate").val(); 
+    flagBit = bookingdateChecker("bookingdate",bookingdate, flagBit, 8);
     
     if (bookingdate.split("/").length >  1) {
         // user entered as DD/MM/YYYY
@@ -23,16 +89,18 @@ function bookThisCruise() {
         var bookingdate =  YYYY.concat("-",MM,"-",DD); // format YYYY-MM-DD
     }
 
-   var myData={"kreuzfahrt":kreuzfahrt,"flug":flug,"hotel":hotel,"versicherung":versicherung,"total":total,"day_departure":dayDeparture,"month_departure":monthDeparture,"year_departure":yearDeparture,"surname":surname,"first_name":firstname,"booking_number":bookingnumber,"storno":storno,"booking_date":bookingdate};
-     $.ajax({
-        url : "insert_data.php",
-        type: "POST",
-        data : myData,
-        success: function(data,status,xhr)
-         {
-            alert("inserted data");
-         }
-     });  
+    if (flagBit==0) {
+       var myData={"kreuzfahrt":kreuzfahrt,"flug":flug,"hotel":hotel,"versicherung":versicherung,"total":total,"day_departure":dayDeparture,"month_departure":monthDeparture,"year_departure":yearDeparture,"surname":surname,"first_name":firstname,"booking_number":bookingnumber,"storno":storno,"booking_date":bookingdate};
+         $.ajax({
+            url : "insert_data.php",
+            type: "POST",
+            data : myData,
+            success: function(data,status,xhr)
+             {
+                alert("inserted data");
+             }
+         });  
+    }
 };
 
 function getTotal() {
