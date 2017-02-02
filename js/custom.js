@@ -1,4 +1,58 @@
 
+function fileExists(file_url){
+    var http = new XMLHttpRequest();
+    http.open('HEAD', file_url, false);
+    http.send();
+    return http.status != 404;
+};
+
+function fetchHeader(url, wch) {
+    try {
+        var req=new XMLHttpRequest();
+        req.open("HEAD", url, false);
+        req.send(null);
+        if(req.status== 200){
+            return req.getResponseHeader(wch);
+        }
+        else return false;
+    } catch(er) {
+        return er.message;
+    }
+}
+
+function index_ready() {
+    var modifiedDateText = fetchHeader('login.txt','Last-Modified');
+    var modifiedDate = new Date(modifiedDateText) ;
+    var modifiedMiliseconds = modifiedDate.getTime();
+    
+    var currentTimeMiliseconds = Date.now();
+    
+    var fileAgeSeconds = (currentTimeMiliseconds - modifiedMiliseconds) / 1000. ;
+    
+    var fileSizeBytes = fetchHeader('login.txt','Content-Length'); //
+    
+    // if file not there issue alerd(error contact jim)
+    if (fileExists('login.txt') == false) {
+        alert("ERROR login file not there.  email Jim");
+    } else {
+         // else if file older than 10 minutes write not logged in
+        if (fileAgeSeconds > 3600.) {
+            alert("login too old.");
+            $("#loginMessage").val('Login Data too old (1 hour).  You are NOT logged in. Please login again.'); 
+        } else {
+            if (fileSizeBytes > 5) {
+                //  but not OK, then write not logged in
+                alert("NOT logged in");
+                $("#loginMessage").val('You are NOT logged in.');
+            } else {
+                //  but OK, then write logged in 
+                alert("logged in");
+                $("#loginMessage").val('You are logged in for 1 hour.');
+            }   
+        }   
+    }
+} ;
+
 function bit_set(num, bitpos) {
     return num | 1<<bitpos;
 };
@@ -146,11 +200,11 @@ function login() {
         type: "POST",
         data : myData,
         success: function(data) {
-            alert("ok");
+            $("#loginMessage").val('You are now logged in.'); 
          },
          error: function (data) {
-            alert("login not correct");
-            }
+            $("#loginMessage").val('You are not logged in.'); 
+        }
      }); 
 };
 

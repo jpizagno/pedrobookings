@@ -3,11 +3,25 @@
     <!-- custom script for this app -->
     <script type="text/javascript" language="javascript" src="js/custom.js"></script>
 
+    <script>
+        $(document).ready(index_ready);
+    </script>
+
       <div class="container page-content">
           <div class="row">
             <div class="inner cover">
                 <h1 class="cover-heading">Booking Handler</h1>
-                <p class="lead" id="loginMessage">You are not logged in.  Please login to enter a new booking or to get a monthly report.</p>
+                
+                <form>
+                    <div id="contact-form" class="form-container" data-form-container  data-form-container style="background: #ededed;"> 
+                        <div class="input-container">
+                            <div class="row">
+                                <input type="text" id="loginMessage" placeholder="You are not logged in.">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                
                 <p class="lead">
                     <button type="button" class="btn btn-success btn3d" data-toggle="modal" data-target="#loginModal" id="loginbutton">Login</button>
                 </p>
