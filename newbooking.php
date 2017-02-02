@@ -49,7 +49,7 @@
                             <div class="row">
                                 <span class="req-input">
                                     <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Storno"> </span>
-                                    <input type="text" id="storno" placeholder="Storno">
+                                    <input type="text" id="storno" placeholder="Storno (0=Good, 1=Storno)">
                                 </span>
                             </div>
                         </div>
@@ -102,25 +102,25 @@
                             <div class="row">
                                 <span class="req-input invalid" >
                                     <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input Booking Date DD/MM/YYYY. i.e. 28/02/2017"> </span>
-                                    <input type="text" data-min-length="8" id="bookingdate" placeholder="Booking Date">
+                                    <input type="text" data-min-length="8" id="bookingdate" placeholder="Booking Date (31/12/2017)">
                                 </span>
                             </div>
                             <div class="row">
                                 <span class="req-input invalid">
                                     <span class="input-status" data-toggle="tooltip" data-placement="top" title="Please Input Day Departure. i.e. 28"> </span>
-                                    <input type="text" id="dayDeparture" placeholder="Day Departure">
+                                    <input type="text" id="dayDeparture" placeholder="Departure Day (25)">
                                 </span>
                             </div>
                             <div class="row">
                                 <span class="req-input invalid">
                                     <span class="input-status" data-toggle="tooltip" data-placement="top" title="Please Input Month Departure. i.e. 12"> </span>
-                                    <input type="text" id="monthDeparture" placeholder="Month Departure">
+                                    <input type="text" id="monthDeparture" placeholder="Departure Month (06)">
                                 </span>
                             </div>
                              <div class="row">
                                 <span class="req-input invalid">
                                     <span class="input-status" data-toggle="tooltip" data-placement="top" title="Please Input Year Departure. i.e. 2017"> </span>
-                                    <input type="text" id="yearDeparture" placeholder="Year Departure">
+                                    <input type="text" id="yearDeparture" placeholder="Departure Year (2017)">
                                 </span>
                             </div>
                         </div>

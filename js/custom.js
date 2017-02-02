@@ -1,26 +1,30 @@
 
-function bit_set(num, bitpos){
+function bit_set(num, bitpos) {
     return num | 1<<bitpos;
 };
 
 function numberRegExpCheck(field, value, flagBit, bitpos) {
-    var regNumber = new RegExp('[-+]?[0-9]*\.?[0-9]+');
-    if (regNumber.test(value) == false) {
-        alert(field.concat(" wrong:  '",value,"' .will not insert data."));
-        return bit_set(flagBit, bitpos) ;
-    } else {
+    if (value.length == 0 ){
         return flagBit ;
+    } else {
+        var regNumber = new RegExp('[-+]?[0-9]*\.?[0-9]+');
+        if (regNumber.test(value) == false) {
+            alert(field.concat(" wrong:  '",value,"' .will not insert data."));
+            return bit_set(flagBit, bitpos) ;
+        } else {
+            return flagBit ;
+        }
     }
 };
 
 function stringChecker(field, value, flagBit, bitpos) {
     try {
         var myInt = parseInt(value);
-        if (field=="day" && myInt >= 1 && myInt <= 31) {
+        if (field=="departure day" && myInt >= 1 && myInt <= 31) {
             return flagBit ;
-        } else if (field=="month" && myInt >= 1 && myInt <= 12) {
+        } else if (field=="departure month" && myInt >= 1 && myInt <= 12) {
             return flagBit ;
-        } else if (field=="year" && myInt >= 1900 && myInt <= 3000) {
+        } else if (field=="departure year" && myInt >= 1900 && myInt <= 3000) {
             return flagBit ;
         } else if (field=="storno" && (myInt==1 || myInt==0) ) {
             return flagBit ;
@@ -35,11 +39,16 @@ function stringChecker(field, value, flagBit, bitpos) {
 };
 
 function bookingdateChecker (field, value, flagBit, bitpos) {
-    if (value.match(new RegExp("/", 'g')).length == 2 || value.match(new RegExp("-", 'g')).length == 2) {
-        return flagBit ;
-    } else {
-        alert(field.concat(" wrong:  '",value,"' .will not insert data."));
+    if ( value.length == 0 ) {
+        alert(field.concat(" field is empty. will not insert data."));
         return bit_set(flagBit, bitpos) ;
+    } else {
+        if (value.match(new RegExp("/", 'g')).length == 2 || value.match(new RegExp("-", 'g')).length == 2) {
+            return flagBit ;
+        } else {
+            alert(field.concat(" wrong:  '",value,"' .will not insert data."));
+            return bit_set(flagBit, bitpos) ;
+        }
     }
 } ;
 
@@ -47,28 +56,28 @@ function bookThisCruise() {
     
     var flagBit = 0;
     
-    var kreuzfahrt = $("#kreuzfahrt").val().default = 0;  
+    var kreuzfahrt = $("#kreuzfahrt").val();  
     flagBit = numberRegExpCheck("kreuzfahrt",kreuzfahrt, flagBit, 0);
             
-    var flug = $("#flug").val().default = 0;  
+    var flug = $("#flug").val();  
     flagBit = numberRegExpCheck("flug",flug, flagBit, 1);
     
-    var hotel = $("#hotel").val().default = 0;        
+    var hotel = $("#hotel").val();        
     flagBit = numberRegExpCheck("hotel",hotel, flagBit, 2);
     
-    var versicherung = $("#versicherung").val().default = 0;
+    var versicherung = $("#versicherung").val();
     flagBit = numberRegExpCheck("versicherung",versicherung, flagBit, 3);
     
     var total = kreuzfahrt*0.035 + flug*0.015 + hotel*0.015 + versicherung*0.015 ;
     
     var dayDeparture = $("#dayDeparture").val();
-    flagBit = stringChecker("day",dayDeparture, flagBit, 4);
+    flagBit = stringChecker("departure day",dayDeparture, flagBit, 4);
     
     var monthDeparture = $("#monthDeparture").val(); 
-    flagBit = stringChecker("month",monthDeparture, flagBit, 5);
+    flagBit = stringChecker("departure month",monthDeparture, flagBit, 5);
     
     var yearDeparture = $("#yearDeparture").val(); 
-    flagBit = stringChecker("year",yearDeparture, flagBit, 6);
+    flagBit = stringChecker("departure year",yearDeparture, flagBit, 6);
     
     var surname = $("#surname").val();     
     var firstname = $("#firstname").val();
