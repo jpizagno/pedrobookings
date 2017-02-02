@@ -35,14 +35,11 @@
                                     <input type="email" id="year_report" placeholder="enter year. i.e. 2017">
                                 </span>
                             </div>
-                            <div class="row">
-                                <span class="req-input">
-                                    <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input file name with PDF. i.e. report.pdf"> </span>
-                                    <input type="tel" id="filename_report" placeholder="enter filename. i.e. report.pdf">
-                                </span>
+                            <div class="row submit-row">
+                                <button type="button" class="btn btn-block submit-form" onclick="makePdf()">Create Report (PDF)</button>
                             </div>
                             <div class="row submit-row">
-                                <button type="button" class="btn btn-block submit-form" onclick="makePdf()">Print Report (PDF)</button>
+                                <button type="button" class="btn btn-block submit-form" onclick="location.href = 'report.pdf';">View PDF</button>
                             </div>
                         </div>
                     </div>
@@ -67,16 +64,19 @@
                             <div class="row">
                                 <span class="req-input valid">
                                     <span class="input-status" data-toggle="tooltip" data-placement="top" title="Enter Year. i.e. 2012"> </span>
-                                    <input type="email" id="year_total" placeholder="enter year. i.e. 2017">
+                                    <input type="text" id="year_total" placeholder="enter year. i.e. 2017">
                                 </span>
                             </div>
-                            <div class="row">
+                            <!--div class="row">
                                 <span class="req-input valid">
                                     <span class="input-status" data-toggle="tooltip" data-placement="top" title="Input file name with PDF. i.e. report.pdf"> </span>
                                     <input type="tel"   id="total_report" placeholder="total">
                                 </span>
+                            </div-->
+                            <div class="row">
+                                <input type="text"   id="totalParagraph" placeholder="Total: Please month and year above">
                             </div>
-                            <div class="row submit-row">
+                            <div class="row submit-row" >
                                 <button type="button" class="btn btn-block submit-form valid" onclick="getTotal()">Show Total</button>
                             </div>
                         </div>

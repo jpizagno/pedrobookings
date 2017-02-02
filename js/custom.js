@@ -127,7 +127,10 @@ function getTotal() {
         success: function(data,status,xhr)
          {
              var total = data['total'];
-             $("#total_report").val('total = '.concat(total,' Euro')); 
+             //$("#total_report").val('total = '.concat(total,' Euro')); 
+             
+             $("#totalParagraph").val('total = '.concat(total,' Euro')); 
+             
          }
      }); 
      
@@ -295,7 +298,7 @@ function report_ready() {
 function makePdf() {
     var month = $("#month_report").val(); 
     var year = $("#year_report").val(); 
-    var filename = $("#filename_report").val(); 
+    var filename = "report.pdf"; 
 
     var myData={"month":month,"year":year,"filename":filename};
 
@@ -305,9 +308,13 @@ function makePdf() {
         data : myData,
         success: function(data,status,xhr)
          {
-             var message = "made report for month=".concat(month," year=",year," filename=",filename);
-             alert(message);
-             alert(data);
-         }
+            var message = "made report for month=".concat(month," year=",year," filename=",filename);
+            alert(message);
+         }, 
+        error: function(data,status,xhr) {
+            alert("data:  ".concat(data));
+            alert("status: ".concat(status));
+            alert("xhr: ".concat(xhr));
+        }
      }); 
 };

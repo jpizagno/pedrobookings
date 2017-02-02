@@ -45,12 +45,20 @@ public class WritePdf {
 
 	public static void main(String[] args) {
 
+		if (args.length != 6) {
+			System.out.println("wrong call:  java -jar writepdf*.jar <month> <year> <filename.pdf> <databaseName> <user> <pass> ") ;
+			System.exit(1);
+		}
+		
 		// assume Strings containg file, month, year
 		String month_str = args[0];
 		String year_str = args[1];
 		String fileOutName = args[2];
+		String databaseName = args[3];
+		String user = args[4];
+		String password = args[5];
 
-		List<Booking>  bookings = getBookingsByMonthYear(new Integer(month_str),new Integer(year_str));
+		List<Booking>  bookings = getBookingsByMonthYear(new Integer(month_str),new Integer(year_str), databaseName, user, password);
 
 		String path = ""; //"/Users/jim/Desktop/";
 
@@ -183,15 +191,15 @@ public class WritePdf {
 		return sum_total;
 	}
 
-	public static List<Booking> getBookingsByMonthYear(int month, int year) {
+	public static List<Booking> getBookingsByMonthYear(int month, int year, String databaseName, String user, String password) {
 
 		// get connection to Database
 		AnnotationConfiguration configuration = new AnnotationConfiguration();
 		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
 		configuration.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver");
-		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/bookings");
-		configuration.setProperty("hibernate.connection.password", "james76");
-		configuration.setProperty("hibernate.connection.username", "julia");       
+		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/"+ databaseName);
+		configuration.setProperty("hibernate.connection.password", password);
+		configuration.setProperty("hibernate.connection.username", user);       
 
 		// get a session
 		configuration.addAnnotatedClass(de.booking.application.writepdf.model.Booking.class);
