@@ -214,8 +214,8 @@ function newbooking_ready() {
             "processing": true,
             "serverSide": true,
             "ajax":{
-                    url :"server-response.php", // json datasource
-                    type: "post",  // method  , by default get
+                    url :"server-response.php", 
+                    type: "post",  
             }
     } );
     
@@ -230,9 +230,6 @@ function newbooking_ready() {
         }
     } );
     $('#deleteSelectedBooking').click( function () {
-        //var $name = dataTable.row('.selected').data()[10];
-        //alert($name);
-
         var bookingnumber = dataTable.row('.selected').data()[10];
         var kreuzfahrt = dataTable.row('.selected').data()[0];  
 
@@ -246,9 +243,7 @@ function newbooking_ready() {
                 alert("deleted booking");
              }
         }); 
-
         dataTable.row('.selected').remove().draw( false );
-
     } );
 
     <!-- unstorno a booking. i.e. set storno=0 -->
@@ -266,7 +261,6 @@ function newbooking_ready() {
                     alert("UN storno booking");
                  }
             }); 
-
             dataTable.row('.selected').remove().draw( false );
     });
 
@@ -285,7 +279,6 @@ function newbooking_ready() {
                     alert("storno booking");
                  }
             }); 
-
             dataTable.row('.selected').remove().draw( false );
     });
 

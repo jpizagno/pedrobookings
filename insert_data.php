@@ -33,7 +33,7 @@ session_start();
     $query = "INSERT INTO `booking` (`kreuzfahrt`, `flug` , `hotel` , `versicherung` , `total` ,`day_departure` ,`month_departure` ,`year_departure` ,`first_name` , `surname` , `booking_number` , `storno` , `booking_date` ) VALUES ('$kreuzfahrt','$flug','$hotel','$versicherung','$total','$day_departure','$month_departure','$year_departure','$first_name','$surname','$booking_number','$storno','$booking_date')";
 
       if (mysqli_query($conn, $query)) { 
-            echo 'It is working';
+          echo 'It is working';
       }
 
    // Close connection

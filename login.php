@@ -4,6 +4,7 @@
     $_SESSION["username"] = $_POST['username'];
     $_SESSION["password"] = $_POST['password'];
     $_SESSION["database"] = "bookings_test";
+    $_SESSION["loginsuccess"] = "false";
 
     /* Database connection information */
     $gaSql['user']       = $_SESSION["username"];
@@ -21,9 +22,11 @@
         $_SESSION["username"] = '';
         $_SESSION["password"] = '';
         fwrite($myfile, "fail from login.php");
+        $_SESSION["loginsuccess"] = "false";
     } else {
         $json_data = array('message' => 'ok');
         fwrite($myfile, "ok");
+        $_SESSION["loginsuccess"] = "true";
     }
 
     fclose($myfile);
