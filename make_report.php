@@ -7,7 +7,7 @@
     $filename = $_POST['filename'];
     $databaseName = "bookings"; //$_SESSION["database"];
     $user = "julia"; //$_SESSION["username"];
-    $password = "james76" //$_SESSION["password"];
+    $password = "james76"; //$_SESSION["password"];
 
     unlink($filename);
 
