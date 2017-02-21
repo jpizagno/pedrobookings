@@ -1,8 +1,11 @@
 <?php include('inc/header.php'); ?>
 
     <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
-    <script type="text/javascript" language="javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+
+    <!-- script type="text/javascript" language="javascript" src="js/jquery.js"></script -->
+    <!-- script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script-->
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+
 
     <!-- custom script for this app -->
     <script type="text/javascript" language="javascript" src="js/custom.js"></script>

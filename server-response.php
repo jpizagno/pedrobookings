@@ -1,10 +1,10 @@
 <?php
     session_start();     
 
-    if ( isset($_SESSION["loginsuccess"])==false || (isset($_SESSION["loginsuccess"])==true &  $_SESSION["loginsuccess"]=="false" ) ) {
-        $json_data = array('message' => 'username not set');
-        echo json_encode($json_data);
-    } else {
+    //if ( isset($_SESSION["loginsuccess"])==false || (isset($_SESSION["loginsuccess"])==true &  $_SESSION["loginsuccess"]=="false" ) ) {
+    //    $json_data = array('message' => 'username not set');
+    //    echo json_encode($json_data);
+    //} else {
 
         /* Database connection information */
         $gaSql['user']       = "julia"; //$_SESSION["username"];
@@ -155,5 +155,5 @@
 
                 echo json_encode($json_data);  // send data as json format
         }  // end mysql conn test
-    } // end test for SESSIONS
+   // } // end test for SESSIONS
 ?>
