@@ -3,9 +3,9 @@
     <!-- custom script for this app -->
     <script type="text/javascript" language="javascript" src="js/custom.js"></script>
 
-    <script>
+    <!-- script>
         $(document).ready(index_ready);
-    </script>
+    </script -->
 
       <div class="container page-content">
           <div class="row">
@@ -16,15 +16,15 @@
                     <div id="contact-form" class="form-container" data-form-container  data-form-container style="background: #ededed;"> 
                         <div class="input-container">
                             <div class="row">
-                                <input type="text" id="loginMessage" placeholder="You are not logged in.">
+                                <input type="text" id="loginMessage" placeholder="You are logged in.">
                             </div>
                         </div>
                     </div>
                 </form>
                 
-                <p class="lead">
+                <!--p class="lead">
                     <button type="button" class="btn btn-success btn3d" data-toggle="modal" data-target="#loginModal" id="loginbutton">Login</button>
-                </p>
+                </p-->
             </div>
           </div>
       </div>

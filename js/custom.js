@@ -169,7 +169,8 @@ function bookThisCruise() {
 function getTotal() {
     var month = $("#month_total").val(); 
     var year = $("#year_total").val(); 
-
+    
+    alert("hello");
     
     var myData={"month":month,"year":year};
 
