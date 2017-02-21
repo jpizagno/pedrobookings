@@ -5,9 +5,9 @@
     $month = $_POST['month'];
     $year = $_POST['year'];
     $filename = $_POST['filename'];
-    $databaseName = $_SESSION["database"];
-    $user = $_SESSION["username"];
-    $password = $_SESSION["password"];
+    $databaseName = "bookings"; //$_SESSION["database"];
+    $user = "julia"; //$_SESSION["username"];
+    $password = "james76" //$_SESSION["password"];
 
     unlink($filename);
 

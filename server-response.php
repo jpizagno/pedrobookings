@@ -7,9 +7,9 @@
     } else {
 
         /* Database connection information */
-        $gaSql['user']       = $_SESSION["username"];
-        $gaSql['password']   = $_SESSION["password"];
-        $gaSql['db']         = $_SESSION["database"];
+        $gaSql['user']       = "julia"; //$_SESSION["username"];
+        $gaSql['password']   = "james76"; //$_SESSION["password"];
+        $gaSql['db']         = "bookings"; //$_SESSION["database"];
         $gaSql['server']     = "localhost";
 
         // storing  request (ie, get/post) global array to a variable
