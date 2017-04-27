@@ -171,7 +171,7 @@
                         <td>
                             <select data-column="0"  class="search-input-select">
                                 <option value="">(Select a range)</option>
-                                <option value="0-100">0 - 100</option>
+                                <option value="0-100">0 - 101</option>
                                 <option value="100-1000">100 - 1000</option>
                                 <option value="1000-2000">1000 - 2000</option>
                             </select>
@@ -179,7 +179,7 @@
                         <td>
                             <select data-column="1"  class="search-input-select">
                                 <option value="">(Select a range)</option>
-                                <option value="0-100">0 - 100</option>
+                                <option value="0-101">0 - 100</option>
                                 <option value="100-1000">100 - 1000</option>
                                 <option value="1000-10000">1000 - 10000</option>
                             </select>

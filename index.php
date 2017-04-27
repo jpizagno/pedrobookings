@@ -3,9 +3,9 @@
     <!-- custom script for this app -->
     <script type="text/javascript" language="javascript" src="js/custom.js"></script>
 
-    <!-- script>
-        $(document).ready(index_ready);
-    </script -->
+    <script>
+        $(document).ready(login);
+    </script>
 
       <div class="container page-content">
           <div class="row">

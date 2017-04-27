@@ -190,20 +190,20 @@ function getTotal() {
 } ;
 
 function login() {
-    var user = $("#inputUser").val(); 
-    var password = $("#inputPassword").val(); 
+    //var user = $("#inputUser").val(); 
+    //var password = $("#inputPassword").val(); 
     
-    var myData={"username":user,"password":password};
+    //var myData={"username":user,"password":password};
      $.ajax({
         url : "login.php",
         type: "POST",
-        data : myData,
-        success: function(data) {
-            $("#loginMessage").val('You are now logged in.'); 
-         },
-         error: function (data) {
-            $("#loginMessage").val('You are not logged in.'); 
-        }
+        //data : myData,
+        //success: function(data) {
+        //    $("#loginMessage").val('You are now logged in.'); 
+        // },
+        // error: function (data) {
+        //    $("#loginMessage").val('You are not logged in.'); 
+        //}
      }); 
 };
 
@@ -231,6 +231,8 @@ function newbooking_ready() {
     $('#deleteSelectedBooking').click( function () {
         var bookingnumber = dataTable.row('.selected').data()[10];
         var kreuzfahrt = dataTable.row('.selected').data()[0];  
+        alert("bookingnumber "+bookingnumber);
+        alert("kreuzfahrt "+kreuzfahrt);
 
         myData = {"kreuzfahrt":kreuzfahrt,"booking_number":bookingnumber};
         $.ajax({
