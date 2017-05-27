@@ -1,16 +1,13 @@
 <?php
     session_start();     
 
-    //if ( isset($_SESSION["loginsuccess"])==false || (isset($_SESSION["loginsuccess"])==true &  $_SESSION["loginsuccess"]=="false" ) ) {
-    //    $json_data = array('message' => 'username not set');
-    //    echo json_encode($json_data);
-    //} else {
 
         /* Database connection information */
-        $gaSql['user']       = "julia"; //$_SESSION["username"];
-        $gaSql['password']   = "james76"; //$_SESSION["password"];
-        $gaSql['db']         = "bookings"; //$_SESSION["database"];
-        $gaSql['server']     = "localhost";
+    $config = parse_ini_file('config');
+    $gaSql['user']       = $config['db_user'];
+    $gaSql['password']   = $config['db_password'];
+    $gaSql['db']         = $config['db_database'];
+    $gaSql['server']     = $config['db_ip'];
 
         // storing  request (ie, get/post) global array to a variable
         $requestData= $_REQUEST;

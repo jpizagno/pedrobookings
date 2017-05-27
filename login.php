@@ -1,16 +1,11 @@
 <?php
     session_start();
 
-    $_SESSION["username"] = "julia"; //$_POST['username'];
-    $_SESSION["password"] = "james76"; //$_POST['password'];
-    $_SESSION["database"] = "bookings_test";
-    $_SESSION["loginsuccess"] = "false";
-
-    /* Database connection information */
-    $gaSql['user']       = $_SESSION["username"];
-    $gaSql['password']   = $_SESSION["password"];
-    $gaSql['db']         = $_SESSION["database"];
-    $gaSql['server']     = "localhost";
+    $config = parse_ini_file('config');
+    $gaSql['user']       = $config['db_user'];
+    $gaSql['password']   = $config['db_password'];
+    $gaSql['db']         = $config['db_database'];
+    $gaSql['server']     = $config['db_ip'];
 
     //unlink("login.txt");
     //$myfile = fopen("login.txt", "w") or die('fopen failed');

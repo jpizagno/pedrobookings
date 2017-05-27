@@ -2,10 +2,11 @@
 session_start();     
 
     /* Database connection information */
-    $gaSql['user']       = "julia"; // $_SESSION["username"];
-    $gaSql['password']   = "james76"; //$_SESSION["password"];
-    $gaSql['db']         = "bookings"; //$_SESSION["database"];
-    $gaSql['server']     = "localhost";
+    $config = parse_ini_file('config');
+    $gaSql['user']       = $config['db_user'];
+    $gaSql['password']   = $config['db_password'];
+    $gaSql['db']         = $config['db_database'];
+    $gaSql['server']     = $config['db_ip'];
 
     $conn=mysqli_connect($gaSql['server'],$gaSql['user'] ,$gaSql['password'],$gaSql['db']);
     // Check connection
