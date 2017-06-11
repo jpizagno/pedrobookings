@@ -220,7 +220,7 @@ public class WritePdf {
 				+ "storno , "
 				+ "booking_date";
 
-		String sSQL  = " SELECT * FROM Booking as bb " +
+		String sSQL  = " SELECT * FROM booking as bb " +
 				" WHERE bb.month_departure="+String.valueOf(month)+"" +
 				" AND bb.year_departure="+String.valueOf(year)+" " +
 	            " AND storno=0";
