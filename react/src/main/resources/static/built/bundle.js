@@ -95,7 +95,6 @@
 						path: bookingCollection.entity._links.profile.href,
 						headers: { 'Accept': 'application/schema+json' }
 					}).then(function (schema) {
-						// tag::json-schema-filter[]
 						/**
 	      * Filter unneeded JSON Schema properties, like uri references and
 	      * subtypes ($ref).
@@ -111,7 +110,6 @@
 						_this2.schema = schema.entity;
 						_this2.links = bookingCollection.entity._links;
 						return bookingCollection;
-						// end::json-schema-filter[]
 					});
 				}).then(function (bookingCollection) {
 					_this2.page = bookingCollection.entity.page;
@@ -436,7 +434,7 @@
 							React.createElement(
 								'h2',
 								null,
-								'Update an booking'
+								'Update a booking'
 							),
 							React.createElement(
 								'form',
@@ -687,7 +685,7 @@
 		_createClass(Booking, [{
 			key: 'handleDelete',
 			value: function handleDelete() {
-				this.props.onDelete(this.props.employee);
+				this.props.onDelete(this.props.booking);
 			}
 		}, {
 			key: 'render',

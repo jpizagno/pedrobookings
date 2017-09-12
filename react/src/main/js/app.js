@@ -34,7 +34,6 @@ class App extends React.Component {
 				path: bookingCollection.entity._links.profile.href,
 				headers: {'Accept': 'application/schema+json'}
 			}).then(schema => {
-				// tag::json-schema-filter[]
 				/**
 				 * Filter unneeded JSON Schema properties, like uri references and
 				 * subtypes ($ref).
@@ -52,7 +51,6 @@ class App extends React.Component {
 				this.schema = schema.entity;
 				this.links = bookingCollection.entity._links;
 				return bookingCollection;
-				// end::json-schema-filter[]
 			});
 		}).then(bookingCollection => {
 			this.page = bookingCollection.entity.page;
@@ -306,7 +304,7 @@ class UpdateDialog extends React.Component {
 					<div>
 						<a href="#" title="Close" className="close">X</a>
 
-						<h2>Update an booking</h2>
+						<h2>Update a booking</h2>
 
 						<form>
 							{inputs}
@@ -432,7 +430,7 @@ class Booking extends React.Component {
 	}
 
 	handleDelete() {
-		this.props.onDelete(this.props.employee);
+		this.props.onDelete(this.props.booking);
 	}
 
 	render() {
