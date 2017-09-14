@@ -146,6 +146,9 @@
 		}, {
 			key: 'onUpdate',
 			value: function onUpdate(booking, updatedBooking) {
+				updatedBooking["manager_id"] = "1";
+				updatedBooking["manager"] = this.props.manager;
+				console.log(updatedBooking);
 				client({
 					method: 'PUT',
 					path: booking.entity._links.self.href,
@@ -414,7 +417,7 @@
 	
 				return React.createElement(
 					'div',
-					null,
+					{ key: this.props.booking.entity._links.self.href },
 					React.createElement(
 						'a',
 						{ href: "#" + dialogId },
@@ -640,17 +643,7 @@
 								React.createElement(
 									'th',
 									null,
-									'bookingDate'
-								),
-								React.createElement(
-									'th',
-									null,
-									'updatedTime'
-								),
-								React.createElement(
-									'th',
-									null,
-									'Manager'
+									'manager'
 								),
 								React.createElement('th', null),
 								React.createElement('th', null)
@@ -757,16 +750,6 @@
 						'td',
 						null,
 						this.props.booking.entity.comment
-					),
-					React.createElement(
-						'td',
-						null,
-						this.props.booking.entity.bookingDate
-					),
-					React.createElement(
-						'td',
-						null,
-						this.props.booking.entity.updatedTime
 					),
 					React.createElement(
 						'td',

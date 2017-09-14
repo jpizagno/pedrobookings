@@ -12,7 +12,6 @@ const stompClient = require('./websocket-listener');
 const root = '/api';
 
 class App extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {bookings: [], attributes: [], page: 1, pageSize: 2, links: {}};
@@ -85,6 +84,9 @@ class App extends React.Component {
 	}
 
 	onUpdate(booking, updatedBooking) {
+		updatedBooking["manager_id"]="1";
+		updatedBooking["manager"]=this.props.manager;
+		console.log(updatedBooking);
 		client({
 			method: 'PUT',
 			path: booking.entity._links.self.href,
@@ -293,13 +295,12 @@ class UpdateDialog extends React.Component {
 						   ref={attribute} className="field" />
 				</p>
 		);
-
+		
 		var dialogId = "updateBooking-" + this.props.booking.entity._links.self.href;
 
 		return (
-			<div>
+			<div key={this.props.booking.entity._links.self.href}>
 				<a href={"#" + dialogId}>Update</a>
-
 				<div id={dialogId} className="modalDialog">
 					<div>
 						<a href="#" title="Close" className="close">X</a>
@@ -405,9 +406,7 @@ class BookingList extends React.Component {
 							<th>bookingNumber</th>	
 							<th>storno</th>
 							<th>comment</th>
-							<th>bookingDate</th>	
-							<th>updatedTime</th>
-							<th>Manager</th>
+							<th>manager</th>
 							<th></th>
 							<th></th>
 						</tr>
@@ -449,8 +448,6 @@ class Booking extends React.Component {
 				<td>{this.props.booking.entity.bookingNumber}</td>	
 				<td>{this.props.booking.entity.storno}</td>
 				<td>{this.props.booking.entity.comment}</td>
-				<td>{this.props.booking.entity.bookingDate}</td>	
-				<td>{this.props.booking.entity.updatedTime}</td>
 				<td>{this.props.booking.entity.manager.name}</td>
 				<td>
 					<UpdateDialog booking={this.props.booking}

@@ -76,12 +76,12 @@ public class Booking {
 	@Column(name = "COMMENT")
 	private String comment;	
 	
-	@Column(name = "BOOKING_DATE")
-	private Date bookingDate;	
+//	@Column(name = "BOOKING_DATE")
+//	private Date bookingDate;	
 
-	// current timestamp
-	@Column(name = "UPDATED_TIME")
-	private Date updatedTime; 
+//	// current timestamp
+//	@Column(name = "UPDATED_TIME")
+//	private Date updatedTime; 
 
 	// used for data security, i.e. multiple users
 	private @Version @JsonIgnore Long version;
@@ -108,9 +108,17 @@ public class Booking {
 		this.bookingNumber = booking_number;
 		this.storno = storno;	
 		this.comment = comment;	
-		this.bookingDate = booking_date;	
+//		this.bookingDate = booking_date;	
 		// current timestamp
-		this.updatedTime = new Date(); 
+//		this.updatedTime = new Date(); 
 		this.manager = manager;
+	}
+
+	public void setManager(Manager managerIn) {
+		this.manager = managerIn;
+	}
+
+	public Long getId() {
+		return id;
 	}
 }

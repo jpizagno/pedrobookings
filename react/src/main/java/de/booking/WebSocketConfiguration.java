@@ -24,7 +24,6 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 /**
  * @author James Pizagno
  */
-// tag::code[]
 @Component
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
@@ -42,4 +41,3 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 		registry.setApplicationDestinationPrefixes("/app");
 	}
 }
-// end::code[]

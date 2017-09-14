@@ -46,8 +46,8 @@ public class DatabaseLoader implements CommandLineRunner {
 
 		Manager greg = this.managers.save(new Manager("greg", "turnquist",
 							"ROLE_MANAGER"));
-		Manager oliver = this.managers.save(new Manager("oliver", "gierke",
-							"ROLE_MANAGER"));
+		//Manager oliver = this.managers.save(new Manager("oliver", "gierke",
+		//					"ROLE_MANAGER"));
 
 		SecurityContextHolder.getContext().setAuthentication(
 			new UsernamePasswordAuthenticationToken("greg", "doesn't matter",
@@ -55,22 +55,22 @@ public class DatabaseLoader implements CommandLineRunner {
 
 		this.bookings.save(new Booking(100.0f, 0.0f, 0.0f, 0.0f, 
 				31, 12, 1900, "surname1", "firstName1", "bookingNumber1", 
-				0, "comment", new Date(), greg));
-		this.bookings.save(new Booking(100.0f, 10.0f, 1.0f, 0.0f, 
+				0, "5comment", new Date(), greg));
+		this.bookings.save(new Booking(101.0f, 10.0f, 1.0f, 2.0f, 
 				31, 12, 1900, "surname2", "firstName2", "bookingNumber2", 
-				0, "comment", new Date(), greg));
-		this.bookings.save(new Booking(100.0f, 0.0f, 0.0f, 100.0f, 
+				0, "4comment", new Date(), greg));
+		this.bookings.save(new Booking(102.0f, 0.1f, 0.2f, 101.0f, 
 				31, 12, 1900, "surname3", "firstName3", "bookingNumber3", 
-				0, "comment", new Date(), greg));
+				0, "1comment", new Date(), greg));
 
 
-		SecurityContextHolder.getContext().setAuthentication(
-			new UsernamePasswordAuthenticationToken("oliver", "doesn't matter",
-				AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
-
-		this.bookings.save(new Booking(100.0f, 0.0f, 0.0f, 100.0f, 
-				31, 12, 1900, "Oliver_ame3", "Oliver_firstName3", "Oliver_bookingNumber3", 
-				0, "comment", new Date(), oliver));
+//		SecurityContextHolder.getContext().setAuthentication(
+//			new UsernamePasswordAuthenticationToken("oliver", "doesn't matter",
+//				AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
+//
+//		this.bookings.save(new Booking(200.0f, 2.0f, 2.0f, 200.0f, 
+//				31, 12, 1900, "2Oliver_ame3", "2Oliver_firstName3", "2Oliver_bookingNumber3", 
+//				0, "2comment", new Date(), oliver));
 
 		SecurityContextHolder.clearContext();
 	}

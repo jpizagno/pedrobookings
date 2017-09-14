@@ -17,6 +17,7 @@ package de.booking;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -48,4 +49,5 @@ public class SpringDataRestEventHandler {
 		}
 		booking.setManager(manager);
 	}
+	
 }

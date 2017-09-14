@@ -58,4 +58,24 @@ public class Manager {
 		this.roles = roles;
 	}
 
+	public void setName(String nameIn) {
+		this.name = nameIn;
+	}
+
+	public void setRoles(String[] rolesIn) {
+		this.roles = rolesIn;
+	}
+
+	public String[] getRoles() {
+		return roles;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getName() {
+		return name;
+	}
+
 }
