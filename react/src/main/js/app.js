@@ -84,9 +84,6 @@ class App extends React.Component {
 	}
 
 	onUpdate(booking, updatedBooking) {
-		updatedBooking["manager_id"]="1";
-		updatedBooking["manager"]=this.props.manager;
-		console.log(updatedBooking);
 		client({
 			method: 'PUT',
 			path: booking.entity._links.self.href,
