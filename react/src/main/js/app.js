@@ -278,7 +278,12 @@ class UpdateDialog extends React.Component {
 		e.preventDefault();
 		var updatedBooking = {};
 		this.props.attributes.forEach(attribute => {
+			console.log(attribute);
+			console.log(this.refs[attribute]);
 			updatedBooking[attribute] = ReactDOM.findDOMNode(this.refs[attribute]).value.trim();
+			console.log(attribute);
+			console.log(this.refs[attribute]);
+			console.log(updatedBooking[attribute]);
 		});
 		this.props.onUpdate(this.props.booking, updatedBooking);
 		window.location = "#";
@@ -286,7 +291,7 @@ class UpdateDialog extends React.Component {
 
 	render() {
 		var inputs = this.props.attributes.map(attribute =>
-				<p key={this.props.booking.entity[attribute]}>
+				<p key={this.props.booking.entity[attribute] + attribute}> 
 					<input type="text" placeholder={attribute}
 						   defaultValue={this.props.booking.entity[attribute]}
 						   ref={attribute} className="field" />
@@ -294,6 +299,7 @@ class UpdateDialog extends React.Component {
 		);
 		
 		var dialogId = "updateBooking-" + this.props.booking.entity._links.self.href;
+		console.log(this.props.booking.entity._links.self.href);
 
 		return (
 			<div key={this.props.booking.entity._links.self.href}>

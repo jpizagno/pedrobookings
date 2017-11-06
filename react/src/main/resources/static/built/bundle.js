@@ -390,7 +390,12 @@
 				e.preventDefault();
 				var updatedBooking = {};
 				this.props.attributes.forEach(function (attribute) {
+					console.log(attribute);
+					console.log(_this9.refs[attribute]);
 					updatedBooking[attribute] = ReactDOM.findDOMNode(_this9.refs[attribute]).value.trim();
+					console.log(attribute);
+					console.log(_this9.refs[attribute]);
+					console.log(updatedBooking[attribute]);
 				});
 				this.props.onUpdate(this.props.booking, updatedBooking);
 				window.location = "#";
@@ -403,7 +408,7 @@
 				var inputs = this.props.attributes.map(function (attribute) {
 					return React.createElement(
 						'p',
-						{ key: _this10.props.booking.entity[attribute] },
+						{ key: _this10.props.booking.entity[attribute] + attribute },
 						React.createElement('input', { type: 'text', placeholder: attribute,
 							defaultValue: _this10.props.booking.entity[attribute],
 							ref: attribute, className: 'field' })
@@ -411,6 +416,7 @@
 				});
 	
 				var dialogId = "updateBooking-" + this.props.booking.entity._links.self.href;
+				console.log(this.props.booking.entity._links.self.href);
 	
 				return React.createElement(
 					'div',
