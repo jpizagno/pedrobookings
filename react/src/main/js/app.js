@@ -14,7 +14,7 @@ const root = '/api';
 class App extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {bookings: [], attributes: [], page: 1, pageSize: 2, links: {}};
+		this.state = {bookingsAll: [], bookingsFiltered: [] ,bookingsAreFiltered: false,  attributes: [], page: 1, pageSize: 2, links: {}};
 		this.updatePageSize = this.updatePageSize.bind(this);
 		this.onCreate = this.onCreate.bind(this);
 		this.onUpdate = this.onUpdate.bind(this);
@@ -24,13 +24,32 @@ class App extends React.Component {
 		this.refreshAndGoToLastPage = this.refreshAndGoToLastPage.bind(this);
 	}
 
+//	// example: curl with login
+//	shell% curl --user greg:turnquist --cookie-jar ./cookies http://localhost:8092/#
+//	shell% more cookies 
+//	shell% curl --cookie cookies localhost:8092/bookings
+//	// api call examples
+//	componentDidMount() {
+//		client({method: 'GET', path: '/api/employees'}).done(response => {
+//			this.setState({employees: response.entity._embedded.employees});
+//		});
+//		this.MessageList();
+//	}
+//
+//	MessageList() {		    
+//		    fetch(`localhost:8092/bookingyearmonth?month=12&year=1900`)
+//	 		.then(result=>result.json())
+//	 		.then(messages=>this.setState({messages}))
+//		  }
+	
 	loadFromServer(pageSize) {
 		follow(client, root, [
-				{rel: 'bookings', params: {size: pageSize}}]
+				{rel: 'bookings', params: {size: pageSize}}]  // query here is:   "http://localhost:8092/api" but "bookings" added with size=2
 		).then(bookingCollection => {
+			//console.log(bookingCollection.entity._links.profile.href); // query here is: "http://localhost:8092/api/profile/bookings"
 			return client({
 				method: 'GET',
-				path: bookingCollection.entity._links.profile.href,
+				path: bookingCollection.entity._links.profile.href, 
 				headers: {'Accept': 'application/schema+json'}
 			}).then(schema => {
 				/**
@@ -38,6 +57,7 @@ class App extends React.Component {
 				 * subtypes ($ref).
 				 */
 				Object.keys(schema.entity.properties).forEach(function (property) {
+					console.log(property);
 					if (schema.entity.properties[property].hasOwnProperty('format') &&
 						schema.entity.properties[property].format === 'uri') {
 						delete schema.entity.properties[property];
@@ -48,10 +68,13 @@ class App extends React.Component {
 				});
 
 				this.schema = schema.entity;
+				console.log(this.schema);
 				this.links = bookingCollection.entity._links;
 				return bookingCollection;
 			});
 		}).then(bookingCollection => {
+			//console.log(bookingCollection);  // bookingsCollection has "http://localhost:8092/api/bookings?size=2"
+			//console.log(bookingCollection.entity._embedded.bookings);
 			this.page = bookingCollection.entity.page;
 			return bookingCollection.entity._embedded.bookings.map(booking =>
 					client({
@@ -62,14 +85,37 @@ class App extends React.Component {
 		}).then(bookingPromises => {
 			return when.all(bookingPromises);
 		}).done(bookings => {
+			console.log(bookings[0]);
 			this.setState({
 				page: this.page,
-				bookings: bookings,
+				bookingsAll: bookings,
 				attributes: Object.keys(this.schema.properties),
 				pageSize: pageSize,
 				links: this.links
 			});
 		});
+		
+		
+		follow(client, root, [
+		      				{rel: 'bookings', params: {size: pageSize}}
+		      				, {rel: 'search'}
+		      				, {rel: 'findByMonthDepartureAndYearDeparture', params:{month: 12, year: 1900}}]  // query here is:   "http://localhost:8092/api" but "bookings" added with size=2
+		      		).then(bookingCollection => {
+		      			return bookingCollection.entity._embedded.bookings.map(booking =>
+		      					client({
+		      						method: 'GET',
+		      						path: booking._links.self.href
+		      					})
+		      			);
+		      		}).then(bookingPromises => {
+		      			return when.all(bookingPromises);
+		      		}).done(bookings => {
+		      			console.log(bookings[0]);
+		      			this.setState({
+		      				bookingsFiltered: bookings,
+		      			});
+		      		});
+
 	}
 
 	onCreate(newBooking) {
@@ -136,7 +182,7 @@ class App extends React.Component {
 		}).done(bookings => {
 			this.setState({
 				page: this.page,
-				bookings: bookings,
+				bookingsAll: bookings,
 				attributes: Object.keys(this.schema.properties),
 				pageSize: this.state.pageSize,
 				links: this.links
@@ -185,7 +231,7 @@ class App extends React.Component {
 		}).then(bookings => {
 			this.setState({
 				page: this.page,
-				bookings: bookings,
+				bookingsAll: bookings,
 				attributes: Object.keys(this.schema.properties),
 				pageSize: this.state.pageSize,
 				links: this.links
@@ -203,11 +249,19 @@ class App extends React.Component {
 	}
 
 	render() {
+
+		var bookingsToPass = [];
+		if (this.state.bookingsAreFiltered) {
+			bookingsToPass = this.state.bookingsFiltered;
+		} else {
+			bookingsToPass = this.state.bookingsAll;
+		}
+
 		return (
 			<div>
 				<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate}/>
 				<BookingList page={this.state.page}
-								bookings={this.state.bookings}
+								bookings={bookingsToPass}
 							  links={this.state.links}
 							  pageSize={this.state.pageSize}
 							  attributes={this.state.attributes}

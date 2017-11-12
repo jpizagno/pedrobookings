@@ -73,7 +73,7 @@
 	
 			var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
-			_this.state = { bookings: [], attributes: [], page: 1, pageSize: 2, links: {} };
+			_this.state = { bookingsAll: [], bookingsFiltered: [], bookingsAreFiltered: false, attributes: [], page: 1, pageSize: 2, links: {} };
 			_this.updatePageSize = _this.updatePageSize.bind(_this);
 			_this.onCreate = _this.onCreate.bind(_this);
 			_this.onUpdate = _this.onUpdate.bind(_this);
@@ -84,12 +84,32 @@
 			return _this;
 		}
 	
+		//	// example: curl with login
+		//	shell% curl --user greg:turnquist --cookie-jar ./cookies http://localhost:8092/#
+		//	shell% more cookies 
+		//	shell% curl --cookie cookies localhost:8092/bookings
+		//	// api call examples
+		//	componentDidMount() {
+		//		client({method: 'GET', path: '/api/employees'}).done(response => {
+		//			this.setState({employees: response.entity._embedded.employees});
+		//		});
+		//		this.MessageList();
+		//	}
+		//
+		//	MessageList() {		    
+		//		    fetch(`localhost:8092/bookingyearmonth?month=12&year=1900`)
+		//	 		.then(result=>result.json())
+		//	 		.then(messages=>this.setState({messages}))
+		//		  }
+	
 		_createClass(App, [{
 			key: 'loadFromServer',
 			value: function loadFromServer(pageSize) {
 				var _this2 = this;
 	
-				follow(client, root, [{ rel: 'bookings', params: { size: pageSize } }]).then(function (bookingCollection) {
+				follow(client, root, [{ rel: 'bookings', params: { size: pageSize } }] // query here is:   "http://localhost:8092/api" but "bookings" added with size=2
+				).then(function (bookingCollection) {
+					//console.log(bookingCollection.entity._links.profile.href); // query here is: "http://localhost:8092/api/profile/bookings"
 					return client({
 						method: 'GET',
 						path: bookingCollection.entity._links.profile.href,
@@ -100,6 +120,7 @@
 	      * subtypes ($ref).
 	      */
 						Object.keys(schema.entity.properties).forEach(function (property) {
+							console.log(property);
 							if (schema.entity.properties[property].hasOwnProperty('format') && schema.entity.properties[property].format === 'uri') {
 								delete schema.entity.properties[property];
 							} else if (schema.entity.properties[property].hasOwnProperty('$ref')) {
@@ -108,10 +129,13 @@
 						});
 	
 						_this2.schema = schema.entity;
+						console.log(_this2.schema);
 						_this2.links = bookingCollection.entity._links;
 						return bookingCollection;
 					});
 				}).then(function (bookingCollection) {
+					//console.log(bookingCollection);  // bookingsCollection has "http://localhost:8092/api/bookings?size=2"
+					//console.log(bookingCollection.entity._embedded.bookings);
 					_this2.page = bookingCollection.entity.page;
 					return bookingCollection.entity._embedded.bookings.map(function (booking) {
 						return client({
@@ -122,12 +146,30 @@
 				}).then(function (bookingPromises) {
 					return when.all(bookingPromises);
 				}).done(function (bookings) {
+					console.log(bookings[0]);
 					_this2.setState({
 						page: _this2.page,
-						bookings: bookings,
+						bookingsAll: bookings,
 						attributes: Object.keys(_this2.schema.properties),
 						pageSize: pageSize,
 						links: _this2.links
+					});
+				});
+	
+				follow(client, root, [{ rel: 'bookings', params: { size: pageSize } }, { rel: 'search' }, { rel: 'findByMonthDepartureAndYearDeparture', params: { month: 12, year: 1900 } }] // query here is:   "http://localhost:8092/api" but "bookings" added with size=2
+				).then(function (bookingCollection) {
+					return bookingCollection.entity._embedded.bookings.map(function (booking) {
+						return client({
+							method: 'GET',
+							path: booking._links.self.href
+						});
+					});
+				}).then(function (bookingPromises) {
+					return when.all(bookingPromises);
+				}).done(function (bookings) {
+					console.log(bookings[0]);
+					_this2.setState({
+						bookingsFiltered: bookings
 					});
 				});
 			}
@@ -197,7 +239,7 @@
 				}).done(function (bookings) {
 					_this3.setState({
 						page: _this3.page,
-						bookings: bookings,
+						bookingsAll: bookings,
 						attributes: Object.keys(_this3.schema.properties),
 						pageSize: _this3.state.pageSize,
 						links: _this3.links
@@ -253,7 +295,7 @@
 				}).then(function (bookings) {
 					_this5.setState({
 						page: _this5.page,
-						bookings: bookings,
+						bookingsAll: bookings,
 						attributes: Object.keys(_this5.schema.properties),
 						pageSize: _this5.state.pageSize,
 						links: _this5.links
@@ -269,12 +311,20 @@
 		}, {
 			key: 'render',
 			value: function render() {
+	
+				var bookingsToPass = [];
+				if (this.state.bookingsAreFiltered) {
+					bookingsToPass = this.state.bookingsFiltered;
+				} else {
+					bookingsToPass = this.state.bookingsAll;
+				}
+	
 				return React.createElement(
 					'div',
 					null,
 					React.createElement(CreateDialog, { attributes: this.state.attributes, onCreate: this.onCreate }),
 					React.createElement(BookingList, { page: this.state.page,
-						bookings: this.state.bookings,
+						bookings: bookingsToPass,
 						links: this.state.links,
 						pageSize: this.state.pageSize,
 						attributes: this.state.attributes,

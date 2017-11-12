@@ -15,14 +15,19 @@
  */
 package de.booking;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
  * @author James Pizagno
  */
 @PreAuthorize("hasRole('ROLE_MANAGER')")
+@RepositoryRestResource(collectionResourceRel = "bookings", path = "bookings")
 public interface BookingRepository extends PagingAndSortingRepository<Booking, Long> {
 
 	@Override
@@ -36,5 +41,10 @@ public interface BookingRepository extends PagingAndSortingRepository<Booking, L
 	@Override
 	@PreAuthorize("#booking?.manager?.name == authentication?.name")
 	void delete(@Param("booking") Booking booking);
+	
+	//public List<Booking> findByMonthDepartureAndYearDeparture(int monthDeparture, int yearDeparture);
+
+	// "href" : "http://localhost:8092/api/bookings/search/findByMonthDepartureAndYearDeparture?month=12&year=1900"
+	public List<Booking> findByMonthDepartureAndYearDeparture(@Param("month") Integer monthDeparture, @Param("year") Integer yearDeparture);
 
 }

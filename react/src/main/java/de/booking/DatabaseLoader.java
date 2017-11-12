@@ -56,9 +56,9 @@ public class DatabaseLoader implements CommandLineRunner {
 		this.bookings.save(new Booking(100.0f, 1.0f, 2.0f, 3.0f, 
 				31, 12, 1900, "surname1", "firstName1", "bookingNumber1", 
 				0, "5comment", new Date(), greg));
-//		this.bookings.save(new Booking(101.0f, 10.0f, 1.0f, 2.0f, 
-//				31, 12, 1900, "surname2", "firstName2", "bookingNumber2", 
-//				0, "4comment", new Date(), greg));
+		this.bookings.save(new Booking(101.0f, 10.0f, 1.0f, 2.0f, 
+				31, 11, 1900, "surname2", "firstName2", "bookingNumber2", 
+				0, "4comment", new Date(), greg));
 //		this.bookings.save(new Booking(102.0f, 0.1f, 0.2f, 101.0f, 
 //				31, 12, 1900, "surname3", "firstName3", "bookingNumber3", 
 //				0, "1comment", new Date(), greg));
