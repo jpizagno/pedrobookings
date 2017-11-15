@@ -1,5 +1,7 @@
 'use strict';
 
+import Modal from 'react-responsive-modal';
+
 const React = require('react');
 const ReactDOM = require('react-dom')
 const when = require('when');
@@ -14,14 +16,34 @@ const root = '/api';
 class App extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {bookingsAll: [], bookingsFiltered: [] ,bookingsAreFiltered: false,  attributes: [], page: 1, pageSize: 2, links: {}};
-		this.updatePageSize = this.updatePageSize.bind(this);
+		this.state = {
+			bookingsAll: []
+			, bookingsFiltered: [] 
+			, bookingsToDisplay : []
+			, isFiltered: false
+			, attributes: []
+			, page: 1
+			, pageSize: 100000
+			, links: {}
+			, monthFilter : -1 
+			, yearFilter : -1
+			, modelOpen : false
+		};
+		//this.updatePageSize = this.updatePageSize.bind(this);
 		this.onCreate = this.onCreate.bind(this);
 		this.onUpdate = this.onUpdate.bind(this);
 		this.onDelete = this.onDelete.bind(this);
-		this.onNavigate = this.onNavigate.bind(this);
-		this.refreshCurrentPage = this.refreshCurrentPage.bind(this);
-		this.refreshAndGoToLastPage = this.refreshAndGoToLastPage.bind(this);
+		//this.onNavigate = this.onNavigate.bind(this);
+		//this.refreshCurrentPage = this.refreshCurrentPage.bind(this);
+		//this.refreshAndGoToLastPage = this.refreshAndGoToLastPage.bind(this);
+		this.followApiQueryFilterBookings = this.followApiQueryFilterBookings.bind(this);
+		this.loadFromServer = this.loadFromServer.bind(this);
+		this.setFilterStateOn = this.setFilterStateOn.bind(this);
+		this.setFilterStateOff = this.setFilterStateOff.bind(this);
+		this.onOpenModal = this.onOpenModal.bind(this);
+		this.onCloseModal = this.onCloseModal.bind(this);
+		this.updateMonthValue = this.updateMonthValue.bind(this);
+		this.updateYearValue = this.updateYearValue.bind(this);
 	}
 
 //	// example: curl with login
@@ -41,7 +63,16 @@ class App extends React.Component {
 //	 		.then(result=>result.json())
 //	 		.then(messages=>this.setState({messages}))
 //		  }
+
+
+	onOpenModal() {
+		this.setState({ modelOpen: true });
+	}
 	
+	onCloseModal() {
+		this.setState({ modelOpen: false });
+	}
+		
 	loadFromServer(pageSize) {
 		follow(client, root, [
 				{rel: 'bookings', params: {size: pageSize}}]  // query here is:   "http://localhost:8092/api" but "bookings" added with size=2
@@ -89,33 +120,37 @@ class App extends React.Component {
 			this.setState({
 				page: this.page,
 				bookingsAll: bookings,
+				bookingsFiltered: bookings,
+				bookingsToDisplay : bookings,
 				attributes: Object.keys(this.schema.properties),
 				pageSize: pageSize,
 				links: this.links
 			});
 		});
-		
-		
-		follow(client, root, [
-		      				{rel: 'bookings', params: {size: pageSize}}
-		      				, {rel: 'search'}
-		      				, {rel: 'findByMonthDepartureAndYearDeparture', params:{month: 12, year: 1900}}]  // query here is:   "http://localhost:8092/api" but "bookings" added with size=2
-		      		).then(bookingCollection => {
-		      			return bookingCollection.entity._embedded.bookings.map(booking =>
-		      					client({
-		      						method: 'GET',
-		      						path: booking._links.self.href
-		      					})
-		      			);
-		      		}).then(bookingPromises => {
-		      			return when.all(bookingPromises);
-		      		}).done(bookings => {
-		      			console.log(bookings[0]);
-		      			this.setState({
-		      				bookingsFiltered: bookings,
-		      			});
-		      		});
 
+	}
+
+	followApiQueryFilterBookings() {
+		follow(client, root, [
+			{rel: 'bookings'}
+			, {rel: 'search'}
+			, {rel: 'findByMonthDepartureAndYearDeparture', params:{month: this.state.monthFilter, year: this.state.yearFilter}}] 
+		).then(bookingCollection => {
+			return bookingCollection.entity._embedded.bookings.map(booking =>
+					client({
+						method: 'GET',
+						path: booking._links.self.href
+					})
+			);
+		}).then(bookingPromises => {
+			return when.all(bookingPromises);
+		}).done(bookings => {
+			this.setState({
+				bookingsFiltered: bookings,
+				bookingsToDisplay: bookings,
+				isFiltered : true
+			});
+		});
 	}
 
 	onCreate(newBooking) {
@@ -163,84 +198,97 @@ class App extends React.Component {
 		});
 	}
 
-	onNavigate(navUri) {
-		client({
-			method: 'GET',
-			path: navUri
-		}).then(bookingCollection => {
-			this.links = bookingCollection.entity._links;
-			this.page = bookingCollection.entity.page;
+	// onNavigate(navUri) {
+	// 	client({
+	// 		method: 'GET',
+	// 		path: navUri
+	// 	}).then(bookingCollection => {
+	// 		this.links = bookingCollection.entity._links;
+	// 		this.page = bookingCollection.entity.page;
 
-			return bookingCollection.entity._embedded.bookings.map(booking =>
-					client({
-						method: 'GET',
-						path: booking._links.self.href
-					})
-			);
-		}).then(bookingPromises => {
-			return when.all(bookingPromises);
-		}).done(bookings => {
-			this.setState({
-				page: this.page,
-				bookingsAll: bookings,
-				attributes: Object.keys(this.schema.properties),
-				pageSize: this.state.pageSize,
-				links: this.links
-			});
-		});
-	}
+	// 		return bookingCollection.entity._embedded.bookings.map(booking =>
+	// 				client({
+	// 					method: 'GET',
+	// 					path: booking._links.self.href
+	// 				})
+	// 		);
+	// 	}).then(bookingPromises => {
+	// 		return when.all(bookingPromises);
+	// 	}).done(bookings => {
+	// 		...
+	// 		this.setState({
+	// 			page: this.page,
+	// 			bookingsAll: bookings,
+	// 			attributes: Object.keys(this.schema.properties),
+	// 			pageSize: this.state.pageSize,
+	// 			links: this.links
+	// 		});
+	// 	});
+	// }
 
-	updatePageSize(pageSize) {
-		if (pageSize !== this.state.pageSize) {
-			this.loadFromServer(pageSize);
-		}
-	}
+	// updatePageSize(pageSize) {
+	// 	if (pageSize !== this.state.pageSize) {
+	// 		this.loadFromServer(pageSize);
+	// 	}
+	// 	..
+	// 	if (this.state.isFiltered) {
+	// 		followApiQueryFilterBookings();
+	// 	}
+	// }
 
-	refreshAndGoToLastPage(message) {
-		follow(client, root, [{
-			rel: 'bookings',
-			params: {size: this.state.pageSize}
-		}]).done(response => {
-			if (response.entity._links.last !== undefined) {
-				this.onNavigate(response.entity._links.last.href);
-			} else {
-				this.onNavigate(response.entity._links.self.href);
-			}
-		})
-	}
+	// refreshAndGoToLastPage(message) {
+	// 	...
+	// 	follow(client, root, [{
+	// 		rel: 'bookings',
+	// 		params: {size: this.state.pageSize}
+	// 	}]).done(response => {
+	// 		if (response.entity._links.last !== undefined) {
+	// 			this.onNavigate(response.entity._links.last.href);
+	// 		} else {
+	// 			this.onNavigate(response.entity._links.self.href);
+	// 		}
+	// 	})
+	// }
 
-	refreshCurrentPage(message) {
-		follow(client, root, [{
-			rel: 'bookings',
-			params: {
-				size: this.state.pageSize,
-				page: this.state.page.number
-			}
-		}]).then(bookingCollection => {
-			this.links = bookingCollection.entity._links;
-			this.page = bookingCollection.entity.page;
+	// refreshCurrentPage(message) {
+	// 	...
+	// 	follow(client, root, [{
+	// 		rel: 'bookings',
+	// 		params: {
+	// 			size: this.state.pageSize,
+	// 			page: this.state.page.number
+	// 		}
+	// 	}]).then(bookingCollection => {
+	// 		this.links = bookingCollection.entity._links;
+	// 		this.page = bookingCollection.entity.page;
 
-			return bookingCollection.entity._embedded.bookings.map(booking => {
-				return client({
-					method: 'GET',
-					path: booking._links.self.href
-				})
-			});
-		}).then(bookingPromises => {
-			return when.all(bookingPromises);
-		}).then(bookings => {
-			this.setState({
-				page: this.page,
-				bookingsAll: bookings,
-				attributes: Object.keys(this.schema.properties),
-				pageSize: this.state.pageSize,
-				links: this.links
-			});
-		});
-	}
+	// 		return bookingCollection.entity._embedded.bookings.map(booking => {
+	// 			return client({
+	// 				method: 'GET',
+	// 				path: booking._links.self.href
+	// 			})
+	// 		});
+	// 	}).then(bookingPromises => {
+	// 		return when.all(bookingPromises);
+	// 	}).then(bookings => {
+	// 		followApiQuery(this.state.monthFilter, this.state.yearFilter);
+	// 		... ?
+	// 		this.setState({
+	// 			page: this.page,
+	// 			bookingsAll : bookings,
+	// 			attributes: Object.keys(this.schema.properties),
+	// 			pageSize: this.state.pageSize,
+	// 			links: this.links
+	// 		});			
+	// 	});
+	// }
 
 	componentDidMount() {
 		this.loadFromServer(this.state.pageSize);
+		this.setState({monthFilter : 12 , bookingsAreFiltered: true , yearFilter : 1900 }, function () {
+			this.followApiQueryFilterBookings();
+		});
+
 		stompClient.register([
 			{route: '/topic/newBooking', callback: this.refreshAndGoToLastPage},
 			{route: '/topic/updateBooking', callback: this.refreshCurrentPage},
@@ -248,31 +296,131 @@ class App extends React.Component {
 		]);
 	}
 
+	setFilterStateOn(e ) {
+		e.preventDefault();
+			//var monthFilterIn = ReactDOM.findDOMNode("month_dom_id").value.trim();
+			//var yearFilterIn =  ReactDOM.findDOMNode("year_dom_id").value.trim();
+			this.setState({bookingsAreFiltered: true , modelOpen : false }, function () {
+				this.followApiQueryFilterBookings();
+			});
+	}
+
+	setFilterStateOff(e ) {
+		e.preventDefault();
+			this.setState({ 
+				bookingsAreFiltered: false 
+				, bookingsToDisplay : this.state.bookingsAll
+				, monthFilter : -2
+				, yearFilter : -2
+				, modelOpen : false
+			}) ;			
+	}
+
+	//<BookingsFilter setFilterState={this.setFilterState}  modelOpen={this.state.modelOpen} onCloseModal={this.onCloseModal}  onCreate={this.onCreate} /> 
+	
+	updateMonthValue(evt) {
+		this.setState({
+		  monthFilter: evt.target.value
+		  ,bookingsAreFiltered: true
+		});
+	  }
+
+	  updateYearValue(evt) {
+		this.setState({
+		  yearFilter: evt.target.value
+		  ,bookingsAreFiltered: true
+		});
+	  }
+
 	render() {
-
-		var bookingsToPass = [];
-		if (this.state.bookingsAreFiltered) {
-			bookingsToPass = this.state.bookingsFiltered;
-		} else {
-			bookingsToPass = this.state.bookingsAll;
-		}
-
 		return (
 			<div>
 				<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate}/>
+				<button onClick={this.onOpenModal}> Filter </button>
+				<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
+					<div>
+						<div>
+							<h2>Set Filter by Month and Year</h2>
+
+							<form>
+								<p key="month_dom_id">
+									<input type="text" placeholder="month" ref="month_dom_id" className="field" onChange={this.updateMonthValue}/>
+								</p>
+								<p key="year_dom_id">
+									<input type="text" placeholder="year" ref="year_dom_id" className="field" onChange={this.updateYearValue}/>
+								</p>
+								<button onClick={this.setFilterStateOn}>Filter On</button>
+								<button onClick={this.setFilterStateOff}>Filter Off</button>
+							</form>
+						</div>
+					</div>
+				</Modal>
+				
 				<BookingList page={this.state.page}
-								bookings={bookingsToPass}
+								bookings={this.state.bookingsToDisplay}
 							  links={this.state.links}
-							  pageSize={this.state.pageSize}
+							  //pageSize={this.state.pageSize}
 							  attributes={this.state.attributes}
-							  onNavigate={this.onNavigate}
+							  //onNavigate={this.onNavigate}
 							  onUpdate={this.onUpdate}
 							  onDelete={this.onDelete}
-							  updatePageSize={this.updatePageSize}/>
+							  //updatePageSize={this.updatePageSize}
+							  />
 			</div>
 		)
 	}
 }
+
+// class BookingsFilter extends React.Component {
+
+// 	constructor(props) {
+// 		super(props);
+// 		this.handleFilterOn = this.handleFilterOn.bind(this);
+// 		this.handleFilterOff = this.handleFilterOff.bind(this);
+// 	}
+
+// 	handleFilterOn(e) {
+// 		e.preventDefault();
+// 		var monthFilter = ReactDOM.findDOMNode("month_dom_id").value.trim();
+// 		var yearFilter = ReactDOM.findDOMNode("year_dom_id").value.trim();
+// 		this.props.setFilterState( true , monthFilter , yeyearFilterar);
+// 		window.location = "#";
+// 		this.props.onCloseModal();
+// 	}
+
+// 	handleFilterOff(e) {
+// 		e.preventDefault();
+// 		this.props.setFilterState( false , -1 , -1);
+// 		this.props.onCloseModal();
+// 	}
+
+
+// 	render() {
+// 		const { modelOpen } = this.props.modelOpen;
+// 		return (
+// 			<Modal open={modelOpen} onClose={this.props.onCloseModal} little>
+// 				<div>
+// 						<div>
+// 							<a href="#" title="Close" className="close">X</a>
+
+// 							<h2>Set Filter by Month and Year</h2>
+
+// 							<form>
+// 								<p key="month_dom_id">
+// 									<input type="text" placeholder="month" ref="month_dom_id" className="field" />
+// 								</p>
+// 								<p key="year_dom_id">
+// 									<input type="text" placeholder="year" ref="year_dom_id" className="field" />
+// 								</p>
+// 								<button onClick={this.handleFilterOn}>Filter On</button>
+// 								<button onClick={this.handleFilterOff}>Filter Off</button>
+// 							</form>
+// 						</div>
+// 				</div>
+// 			</Modal>
+// 		)
+// 	}
+// }
 
 class CreateDialog extends React.Component {
 
@@ -332,12 +480,7 @@ class UpdateDialog extends React.Component {
 		e.preventDefault();
 		var updatedBooking = {};
 		this.props.attributes.forEach(attribute => {
-			console.log(attribute);
-			console.log(this.refs[attribute]);
 			updatedBooking[attribute] = ReactDOM.findDOMNode(this.refs[attribute]).value.trim();
-			console.log(attribute);
-			console.log(this.refs[attribute]);
-			console.log(updatedBooking[attribute]);
 		});
 		this.props.onUpdate(this.props.booking, updatedBooking);
 		window.location = "#";
@@ -353,7 +496,6 @@ class UpdateDialog extends React.Component {
 		);
 		
 		var dialogId = "updateBooking-" + this.props.booking.entity._links.self.href;
-		console.log(this.props.booking.entity._links.self.href);
 
 		return (
 			<div key={this.props.booking.entity._links.self.href}>
@@ -380,46 +522,46 @@ class BookingList extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.handleNavFirst = this.handleNavFirst.bind(this);
-		this.handleNavPrev = this.handleNavPrev.bind(this);
-		this.handleNavNext = this.handleNavNext.bind(this);
-		this.handleNavLast = this.handleNavLast.bind(this);
-		this.handleInput = this.handleInput.bind(this);
+		//this.handleNavFirst = this.handleNavFirst.bind(this);
+		//this.handleNavPrev = this.handleNavPrev.bind(this);
+		//this.handleNavNext = this.handleNavNext.bind(this);
+		//this.handleNavLast = this.handleNavLast.bind(this);
+		//this.handleInput = this.handleInput.bind(this);
 	}
 
-	handleInput(e) {
-		e.preventDefault();
-		var pageSize = ReactDOM.findDOMNode(this.refs.pageSize).value;
-		if (/^[0-9]+$/.test(pageSize)) {
-			this.props.updatePageSize(pageSize);
-		} else {
-			ReactDOM.findDOMNode(this.refs.pageSize).value = pageSize.substring(0, pageSize.length - 1);
-		}
-	}
+	// handleInput(e) {
+	// 	e.preventDefault();
+	// 	var pageSize = ReactDOM.findDOMNode(this.refs.pageSize).value;
+	// 	if (/^[0-9]+$/.test(pageSize)) {
+	// 		this.props.updatePageSize(pageSize);
+	// 	} else {
+	// 		ReactDOM.findDOMNode(this.refs.pageSize).value = pageSize.substring(0, pageSize.length - 1);
+	// 	}
+	// }
 
-	handleNavFirst(e) {
-		e.preventDefault();
-		this.props.onNavigate(this.props.links.first.href);
-	}
+	// handleNavFirst(e) {
+	// 	e.preventDefault();
+	// 	this.props.onNavigate(this.props.links.first.href);
+	// }
 
-	handleNavPrev(e) {
-		e.preventDefault();
-		this.props.onNavigate(this.props.links.prev.href);
-	}
+	// handleNavPrev(e) {
+	// 	e.preventDefault();
+	// 	this.props.onNavigate(this.props.links.prev.href);
+	// }
 
-	handleNavNext(e) {
-		e.preventDefault();
-		this.props.onNavigate(this.props.links.next.href);
-	}
+	// handleNavNext(e) {
+	// 	e.preventDefault();
+	// 	this.props.onNavigate(this.props.links.next.href);
+	// }
 
-	handleNavLast(e) {
-		e.preventDefault();
-		this.props.onNavigate(this.props.links.last.href);
-	}
+	// handleNavLast(e) {
+	// 	e.preventDefault();
+	// 	this.props.onNavigate(this.props.links.last.href);
+	// }
 
 	render() {
-		var pageInfo = this.props.page.hasOwnProperty("number") ?
-			<h3>Bookings - Page {this.props.page.number + 1} of {this.props.page.totalPages}</h3> : null;
+		// var pageInfo = this.props.page.hasOwnProperty("number") ?
+		// 	<h3>Bookings - Page {this.props.page.number + 1} of {this.props.page.totalPages}</h3> : null;
 
 		var bookings = this.props.bookings.map(booking =>
 			<Booking key={booking.entity._links.self.href}
@@ -429,24 +571,26 @@ class BookingList extends React.Component {
 					  onDelete={this.props.onDelete}/>
 		);
 
-		var navLinks = [];
-		if ("first" in this.props.links) {
-			navLinks.push(<button key="first" onClick={this.handleNavFirst}>&lt;&lt;</button>);
-		}
-		if ("prev" in this.props.links) {
-			navLinks.push(<button key="prev" onClick={this.handleNavPrev}>&lt;</button>);
-		}
-		if ("next" in this.props.links) {
-			navLinks.push(<button key="next" onClick={this.handleNavNext}>&gt;</button>);
-		}
-		if ("last" in this.props.links) {
-			navLinks.push(<button key="last" onClick={this.handleNavLast}>&gt;&gt;</button>);
-		}
+		// var navLinks = [];
+		// if ("first" in this.props.links) {
+		// 	navLinks.push(<button key="first" onClick={this.handleNavFirst}>&lt;&lt;</button>);
+		// }
+		// if ("prev" in this.props.links) {
+		// 	navLinks.push(<button key="prev" onClick={this.handleNavPrev}>&lt;</button>);
+		// }
+		// if ("next" in this.props.links) {
+		// 	navLinks.push(<button key="next" onClick={this.handleNavNext}>&gt;</button>);
+		// }
+		// if ("last" in this.props.links) {
+		// 	navLinks.push(<button key="last" onClick={this.handleNavLast}>&gt;&gt;</button>);
+		// }
 
+
+						//{pageInfo}
+						// <input ref="pageSize" defaultValue={this.props.pageSize} onInput={this.handleInput}/>
 		return (
 			<div>
-				{pageInfo}
-				<input ref="pageSize" defaultValue={this.props.pageSize} onInput={this.handleInput}/>
+
 				<table>
 					<tbody>
 						<tr>
@@ -470,9 +614,9 @@ class BookingList extends React.Component {
 						{bookings}
 					</tbody>
 				</table>
-				<div>
+				{/* <div>
 					{navLinks}
-				</div>
+				</div> */}
 			</div>
 		)
 	}

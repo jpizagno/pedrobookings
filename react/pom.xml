@@ -106,6 +106,16 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>model install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install react-responsive-modal --save</arguments>
+						</configuration>
+					</execution>
+
+					<execution>
 						<id>webpack build</id>
 						<goals>
 							<goal>webpack</goal>
