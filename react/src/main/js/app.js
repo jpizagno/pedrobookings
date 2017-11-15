@@ -29,13 +29,9 @@ class App extends React.Component {
 			, yearFilter : -1
 			, modelOpen : false
 		};
-		//this.updatePageSize = this.updatePageSize.bind(this);
 		this.onCreate = this.onCreate.bind(this);
 		this.onUpdate = this.onUpdate.bind(this);
 		this.onDelete = this.onDelete.bind(this);
-		//this.onNavigate = this.onNavigate.bind(this);
-		//this.refreshCurrentPage = this.refreshCurrentPage.bind(this);
-		//this.refreshAndGoToLastPage = this.refreshAndGoToLastPage.bind(this);
 		this.followApiQueryFilterBookings = this.followApiQueryFilterBookings.bind(this);
 		this.loadFromServer = this.loadFromServer.bind(this);
 		this.setFilterStateOn = this.setFilterStateOn.bind(this);
@@ -45,24 +41,6 @@ class App extends React.Component {
 		this.updateMonthValue = this.updateMonthValue.bind(this);
 		this.updateYearValue = this.updateYearValue.bind(this);
 	}
-
-//	// example: curl with login
-//	shell% curl --user greg:turnquist --cookie-jar ./cookies http://localhost:8092/#
-//	shell% more cookies 
-//	shell% curl --cookie cookies localhost:8092/bookings
-//	// api call examples
-//	componentDidMount() {
-//		client({method: 'GET', path: '/api/employees'}).done(response => {
-//			this.setState({employees: response.entity._embedded.employees});
-//		});
-//		this.MessageList();
-//	}
-//
-//	MessageList() {		    
-//		    fetch(`localhost:8092/bookingyearmonth?month=12&year=1900`)
-//	 		.then(result=>result.json())
-//	 		.then(messages=>this.setState({messages}))
-//		  }
 
 
 	onOpenModal() {
@@ -104,8 +82,6 @@ class App extends React.Component {
 				return bookingCollection;
 			});
 		}).then(bookingCollection => {
-			//console.log(bookingCollection);  // bookingsCollection has "http://localhost:8092/api/bookings?size=2"
-			//console.log(bookingCollection.entity._embedded.bookings);
 			this.page = bookingCollection.entity.page;
 			return bookingCollection.entity._embedded.bookings.map(booking =>
 					client({
@@ -198,91 +174,6 @@ class App extends React.Component {
 		});
 	}
 
-	// onNavigate(navUri) {
-	// 	client({
-	// 		method: 'GET',
-	// 		path: navUri
-	// 	}).then(bookingCollection => {
-	// 		this.links = bookingCollection.entity._links;
-	// 		this.page = bookingCollection.entity.page;
-
-	// 		return bookingCollection.entity._embedded.bookings.map(booking =>
-	// 				client({
-	// 					method: 'GET',
-	// 					path: booking._links.self.href
-	// 				})
-	// 		);
-	// 	}).then(bookingPromises => {
-	// 		return when.all(bookingPromises);
-	// 	}).done(bookings => {
-	// 		...
-	// 		this.setState({
-	// 			page: this.page,
-	// 			bookingsAll: bookings,
-	// 			attributes: Object.keys(this.schema.properties),
-	// 			pageSize: this.state.pageSize,
-	// 			links: this.links
-	// 		});
-	// 	});
-	// }
-
-	// updatePageSize(pageSize) {
-	// 	if (pageSize !== this.state.pageSize) {
-	// 		this.loadFromServer(pageSize);
-	// 	}
-	// 	..
-	// 	if (this.state.isFiltered) {
-	// 		followApiQueryFilterBookings();
-	// 	}
-	// }
-
-	// refreshAndGoToLastPage(message) {
-	// 	...
-	// 	follow(client, root, [{
-	// 		rel: 'bookings',
-	// 		params: {size: this.state.pageSize}
-	// 	}]).done(response => {
-	// 		if (response.entity._links.last !== undefined) {
-	// 			this.onNavigate(response.entity._links.last.href);
-	// 		} else {
-	// 			this.onNavigate(response.entity._links.self.href);
-	// 		}
-	// 	})
-	// }
-
-	// refreshCurrentPage(message) {
-	// 	...
-	// 	follow(client, root, [{
-	// 		rel: 'bookings',
-	// 		params: {
-	// 			size: this.state.pageSize,
-	// 			page: this.state.page.number
-	// 		}
-	// 	}]).then(bookingCollection => {
-	// 		this.links = bookingCollection.entity._links;
-	// 		this.page = bookingCollection.entity.page;
-
-	// 		return bookingCollection.entity._embedded.bookings.map(booking => {
-	// 			return client({
-	// 				method: 'GET',
-	// 				path: booking._links.self.href
-	// 			})
-	// 		});
-	// 	}).then(bookingPromises => {
-	// 		return when.all(bookingPromises);
-	// 	}).then(bookings => {
-	// 		followApiQuery(this.state.monthFilter, this.state.yearFilter);
-	// 		... ?
-	// 		this.setState({
-	// 			page: this.page,
-	// 			bookingsAll : bookings,
-	// 			attributes: Object.keys(this.schema.properties),
-	// 			pageSize: this.state.pageSize,
-	// 			links: this.links
-	// 		});			
-	// 	});
-	// }
-
 	componentDidMount() {
 		this.loadFromServer(this.state.pageSize);
 		this.setState({monthFilter : 12 , bookingsAreFiltered: true , yearFilter : 1900 }, function () {
@@ -298,8 +189,6 @@ class App extends React.Component {
 
 	setFilterStateOn(e ) {
 		e.preventDefault();
-			//var monthFilterIn = ReactDOM.findDOMNode("month_dom_id").value.trim();
-			//var yearFilterIn =  ReactDOM.findDOMNode("year_dom_id").value.trim();
 			this.setState({bookingsAreFiltered: true , modelOpen : false }, function () {
 				this.followApiQueryFilterBookings();
 			});
@@ -316,8 +205,6 @@ class App extends React.Component {
 			}) ;			
 	}
 
-	//<BookingsFilter setFilterState={this.setFilterState}  modelOpen={this.state.modelOpen} onCloseModal={this.onCloseModal}  onCreate={this.onCreate} /> 
-	
 	updateMonthValue(evt) {
 		this.setState({
 		  monthFilter: evt.target.value
@@ -359,68 +246,14 @@ class App extends React.Component {
 				<BookingList page={this.state.page}
 								bookings={this.state.bookingsToDisplay}
 							  links={this.state.links}
-							  //pageSize={this.state.pageSize}
 							  attributes={this.state.attributes}
-							  //onNavigate={this.onNavigate}
 							  onUpdate={this.onUpdate}
 							  onDelete={this.onDelete}
-							  //updatePageSize={this.updatePageSize}
 							  />
 			</div>
 		)
 	}
 }
-
-// class BookingsFilter extends React.Component {
-
-// 	constructor(props) {
-// 		super(props);
-// 		this.handleFilterOn = this.handleFilterOn.bind(this);
-// 		this.handleFilterOff = this.handleFilterOff.bind(this);
-// 	}
-
-// 	handleFilterOn(e) {
-// 		e.preventDefault();
-// 		var monthFilter = ReactDOM.findDOMNode("month_dom_id").value.trim();
-// 		var yearFilter = ReactDOM.findDOMNode("year_dom_id").value.trim();
-// 		this.props.setFilterState( true , monthFilter , yeyearFilterar);
-// 		window.location = "#";
-// 		this.props.onCloseModal();
-// 	}
-
-// 	handleFilterOff(e) {
-// 		e.preventDefault();
-// 		this.props.setFilterState( false , -1 , -1);
-// 		this.props.onCloseModal();
-// 	}
-
-
-// 	render() {
-// 		const { modelOpen } = this.props.modelOpen;
-// 		return (
-// 			<Modal open={modelOpen} onClose={this.props.onCloseModal} little>
-// 				<div>
-// 						<div>
-// 							<a href="#" title="Close" className="close">X</a>
-
-// 							<h2>Set Filter by Month and Year</h2>
-
-// 							<form>
-// 								<p key="month_dom_id">
-// 									<input type="text" placeholder="month" ref="month_dom_id" className="field" />
-// 								</p>
-// 								<p key="year_dom_id">
-// 									<input type="text" placeholder="year" ref="year_dom_id" className="field" />
-// 								</p>
-// 								<button onClick={this.handleFilterOn}>Filter On</button>
-// 								<button onClick={this.handleFilterOff}>Filter Off</button>
-// 							</form>
-// 						</div>
-// 				</div>
-// 			</Modal>
-// 		)
-// 	}
-// }
 
 class CreateDialog extends React.Component {
 
@@ -522,47 +355,9 @@ class BookingList extends React.Component {
 
 	constructor(props) {
 		super(props);
-		//this.handleNavFirst = this.handleNavFirst.bind(this);
-		//this.handleNavPrev = this.handleNavPrev.bind(this);
-		//this.handleNavNext = this.handleNavNext.bind(this);
-		//this.handleNavLast = this.handleNavLast.bind(this);
-		//this.handleInput = this.handleInput.bind(this);
 	}
 
-	// handleInput(e) {
-	// 	e.preventDefault();
-	// 	var pageSize = ReactDOM.findDOMNode(this.refs.pageSize).value;
-	// 	if (/^[0-9]+$/.test(pageSize)) {
-	// 		this.props.updatePageSize(pageSize);
-	// 	} else {
-	// 		ReactDOM.findDOMNode(this.refs.pageSize).value = pageSize.substring(0, pageSize.length - 1);
-	// 	}
-	// }
-
-	// handleNavFirst(e) {
-	// 	e.preventDefault();
-	// 	this.props.onNavigate(this.props.links.first.href);
-	// }
-
-	// handleNavPrev(e) {
-	// 	e.preventDefault();
-	// 	this.props.onNavigate(this.props.links.prev.href);
-	// }
-
-	// handleNavNext(e) {
-	// 	e.preventDefault();
-	// 	this.props.onNavigate(this.props.links.next.href);
-	// }
-
-	// handleNavLast(e) {
-	// 	e.preventDefault();
-	// 	this.props.onNavigate(this.props.links.last.href);
-	// }
-
 	render() {
-		// var pageInfo = this.props.page.hasOwnProperty("number") ?
-		// 	<h3>Bookings - Page {this.props.page.number + 1} of {this.props.page.totalPages}</h3> : null;
-
 		var bookings = this.props.bookings.map(booking =>
 			<Booking key={booking.entity._links.self.href}
 					booking={booking}
@@ -571,23 +366,6 @@ class BookingList extends React.Component {
 					  onDelete={this.props.onDelete}/>
 		);
 
-		// var navLinks = [];
-		// if ("first" in this.props.links) {
-		// 	navLinks.push(<button key="first" onClick={this.handleNavFirst}>&lt;&lt;</button>);
-		// }
-		// if ("prev" in this.props.links) {
-		// 	navLinks.push(<button key="prev" onClick={this.handleNavPrev}>&lt;</button>);
-		// }
-		// if ("next" in this.props.links) {
-		// 	navLinks.push(<button key="next" onClick={this.handleNavNext}>&gt;</button>);
-		// }
-		// if ("last" in this.props.links) {
-		// 	navLinks.push(<button key="last" onClick={this.handleNavLast}>&gt;&gt;</button>);
-		// }
-
-
-						//{pageInfo}
-						// <input ref="pageSize" defaultValue={this.props.pageSize} onInput={this.handleInput}/>
 		return (
 			<div>
 
@@ -614,9 +392,6 @@ class BookingList extends React.Component {
 						{bookings}
 					</tbody>
 				</table>
-				{/* <div>
-					{navLinks}
-				</div> */}
 			</div>
 		)
 	}
