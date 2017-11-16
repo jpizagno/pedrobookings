@@ -137,7 +137,8 @@ class App extends React.Component {
 				entity: newBooking,
 				headers: {'Content-Type': 'application/json'}
 			})
-		})
+		});
+		window.location = "#";
 	}
 
 	onUpdate(booking, updatedBooking) {
@@ -161,6 +162,7 @@ class App extends React.Component {
 					'. Your copy is stale.');
 			}
 		});
+		window.location = "#";
 	}
 
 	onDelete(booking) {
@@ -172,13 +174,15 @@ class App extends React.Component {
 						booking.entity._links.self.href);
 			}
 		});
+		window.location = "#";
+		window.location.reload();
 	}
 
 	componentDidMount() {
 		this.loadFromServer(this.state.pageSize);
-		this.setState({monthFilter : 12 , bookingsAreFiltered: true , yearFilter : 1900 }, function () {
-			this.followApiQueryFilterBookings();
-		});
+		// this.setState({monthFilter : 12 , isFiltered: true , yearFilter : 1900 }, function () {
+		// 	this.followApiQueryFilterBookings();
+		// });
 
 		stompClient.register([
 			{route: '/topic/newBooking', callback: this.refreshAndGoToLastPage},
@@ -189,7 +193,7 @@ class App extends React.Component {
 
 	setFilterStateOn(e ) {
 		e.preventDefault();
-			this.setState({bookingsAreFiltered: true , modelOpen : false }, function () {
+			this.setState({isFiltered: true , modelOpen : false }, function () {
 				this.followApiQueryFilterBookings();
 			});
 	}
@@ -197,25 +201,25 @@ class App extends React.Component {
 	setFilterStateOff(e ) {
 		e.preventDefault();
 			this.setState({ 
-				bookingsAreFiltered: false 
+				isFiltered: false 
 				, bookingsToDisplay : this.state.bookingsAll
 				, monthFilter : -2
 				, yearFilter : -2
 				, modelOpen : false
-			}) ;			
+			}) ;		
 	}
 
 	updateMonthValue(evt) {
 		this.setState({
 		  monthFilter: evt.target.value
-		  ,bookingsAreFiltered: true
+		  ,isFiltered: true
 		});
 	  }
 
 	  updateYearValue(evt) {
 		this.setState({
 		  yearFilter: evt.target.value
-		  ,bookingsAreFiltered: true
+		  ,isFiltered: true
 		});
 	  }
 
@@ -317,6 +321,7 @@ class UpdateDialog extends React.Component {
 		});
 		this.props.onUpdate(this.props.booking, updatedBooking);
 		window.location = "#";
+		window.location.reload();
 	}
 
 	render() {
