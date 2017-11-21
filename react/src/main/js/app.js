@@ -40,6 +40,7 @@ class App extends React.Component {
 		this.onCloseModal = this.onCloseModal.bind(this);
 		this.updateMonthValue = this.updateMonthValue.bind(this);
 		this.updateYearValue = this.updateYearValue.bind(this);
+		this.setTotal = this.setTotal.bind(this);
 	}
 
 
@@ -50,12 +51,17 @@ class App extends React.Component {
 	onCloseModal() {
 		this.setState({ modelOpen: false });
 	}
+
+	setTotal(booking) {
+		var total =  booking.kreuzfahrt*0.035 + booking.flug*0.015 + booking.hotel*0.015 + booking.versicherung*0.015 ;
+		booking.total = total;
+		return booking;
+	}
 		
 	loadFromServer(pageSize) {
 		follow(client, root, [
 				{rel: 'bookings', params: {size: pageSize}}]  // query here is:   "http://localhost:8092/api" but "bookings" added with size=2
 		).then(bookingCollection => {
-			//console.log(bookingCollection.entity._links.profile.href); // query here is: "http://localhost:8092/api/profile/bookings"
 			return client({
 				method: 'GET',
 				path: bookingCollection.entity._links.profile.href, 
@@ -66,7 +72,6 @@ class App extends React.Component {
 				 * subtypes ($ref).
 				 */
 				Object.keys(schema.entity.properties).forEach(function (property) {
-					console.log(property);
 					if (schema.entity.properties[property].hasOwnProperty('format') &&
 						schema.entity.properties[property].format === 'uri') {
 						delete schema.entity.properties[property];
@@ -77,7 +82,6 @@ class App extends React.Component {
 				});
 
 				this.schema = schema.entity;
-				console.log(this.schema);
 				this.links = bookingCollection.entity._links;
 				return bookingCollection;
 			});
@@ -92,7 +96,6 @@ class App extends React.Component {
 		}).then(bookingPromises => {
 			return when.all(bookingPromises);
 		}).done(bookings => {
-			console.log(bookings[0]);
 			this.setState({
 				page: this.page,
 				bookingsAll: bookings,
@@ -129,7 +132,8 @@ class App extends React.Component {
 		});
 	}
 
-	onCreate(newBooking) {
+	onCreate(bookingIn) {
+		var newBooking = this.setTotal(bookingIn);
 		follow(client, root, ['bookings']).done(response => {
 			client({
 				method: 'POST',
@@ -141,7 +145,8 @@ class App extends React.Component {
 		window.location = "#";
 	}
 
-	onUpdate(booking, updatedBooking) {
+	onUpdate(booking, bookingIn) {
+		var updatedBooking = this.setTotal(bookingIn);
 		client({
 			method: 'PUT',
 			path: booking.entity._links.self.href,
