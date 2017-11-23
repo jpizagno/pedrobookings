@@ -41,6 +41,7 @@ class App extends React.Component {
 		this.updateMonthValue = this.updateMonthValue.bind(this);
 		this.updateYearValue = this.updateYearValue.bind(this);
 		this.setTotal = this.setTotal.bind(this);
+		this.generateReport = this.generateReport.bind(this);
 	}
 
 
@@ -60,7 +61,7 @@ class App extends React.Component {
 		
 	loadFromServer(pageSize) {
 		follow(client, root, [
-				{rel: 'bookings', params: {size: pageSize}}]  // query here is:   "http://localhost:8092/api" but "bookings" added with size=2
+				{rel: 'bookings', params: {size: pageSize}}] 
 		).then(bookingCollection => {
 			return client({
 				method: 'GET',
@@ -107,6 +108,16 @@ class App extends React.Component {
 			});
 		});
 
+	}
+
+	generateReport() {
+		follow(client, root, [
+			{rel: 'bookings'}
+			, {rel: 'report'}
+			, {rel: 'generateReport', params:{month: this.state.monthFilter, year: this.state.yearFilter}}] 
+		).done(apiResponse => {
+			this.setState({urlOfReport : apiResponse})
+		});
 	}
 
 	followApiQueryFilterBookings() {
@@ -185,9 +196,6 @@ class App extends React.Component {
 
 	componentDidMount() {
 		this.loadFromServer(this.state.pageSize);
-		// this.setState({monthFilter : 12 , isFiltered: true , yearFilter : 1900 }, function () {
-		// 	this.followApiQueryFilterBookings();
-		// });
 
 		stompClient.register([
 			{route: '/topic/newBooking', callback: this.refreshAndGoToLastPage},
@@ -233,6 +241,7 @@ class App extends React.Component {
 			<div>
 				<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate}/>
 				<button onClick={this.onOpenModal}> Filter </button>
+				<button onClick={this.generateReport}> Generate Report </button>
 				<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
 					<div>
 						<div>
