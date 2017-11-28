@@ -1,6 +1,7 @@
 'use strict';
 
 import Modal from 'react-responsive-modal';
+import { Base64 } from 'js-base64';
 
 const React = require('react');
 const ReactDOM = require('react-dom')
@@ -111,12 +112,18 @@ class App extends React.Component {
 	}
 
 	generateReport() {
-		follow(client, root, [
-			{rel: 'bookings'}
-			, {rel: 'report'}
-			, {rel: 'generateReport', params:{month: this.state.monthFilter, year: this.state.yearFilter}}] 
-		).done(apiResponse => {
-			this.setState({urlOfReport : apiResponse})
+		let url = 'http://localhost:8092/reportyearmonth?month=12&year=2017';
+		let headers = new Headers();
+		let username = 'greg';
+		let password = 'turnquist';
+		headers.append('Authorization', 'Basic ' + Base64.encode(username + ":" + password));
+		fetch(url, {method:'GET',
+	        headers: headers,
+	        //credentials: 'user:passwd'
+	       })
+	.then(response => response.json())
+	.then(json => {
+		console.log(json.url)
 		});
 	}
 

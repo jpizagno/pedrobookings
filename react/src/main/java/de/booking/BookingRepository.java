@@ -47,5 +47,4 @@ public interface BookingRepository extends PagingAndSortingRepository<Booking, L
 	// login:   curl --user greg:turnquist --cookie-jar ./cookies http://localhost:8092/
 	// "href" :   curl --cookie cookies "http://localhost:8092/api/bookings/search/findByMonthDepartureAndYearDeparture?month=12&year=1900"
 	public List<Booking> findByMonthDepartureAndYearDeparture(@Param("month") Integer monthDeparture, @Param("year") Integer yearDeparture);
-
 }

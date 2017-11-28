@@ -12,6 +12,7 @@
   "author": "James Pizagno",
   "license": "Apache-2.0",
   "dependencies": {
+    "js-base64": "^2.1.9",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-responsive-modal": "^2.0.0",
