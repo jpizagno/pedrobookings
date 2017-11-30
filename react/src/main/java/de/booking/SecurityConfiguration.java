@@ -26,7 +26,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * @author James Pizagno
  */
-// tag::code[]
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -61,4 +60,3 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 }
-// end::code[]

@@ -113,13 +113,13 @@ class App extends React.Component {
 
 	generateReport() {
 		let url = 'http://localhost:8092/reportyearmonth?month=12&year=2017';
-		let headers = new Headers();
-		let username = 'greg';
-		let password = 'turnquist';
-		headers.append('Authorization', 'Basic ' + Base64.encode(username + ":" + password));
-		fetch(url, {method:'GET',
-	        headers: headers,
-	        //credentials: 'user:passwd'
+		fetch(url, {
+			credentials: 'same-origin',
+			method:'GET',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			}			
 	       })
 	.then(response => response.json())
 	.then(json => {
