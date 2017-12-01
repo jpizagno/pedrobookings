@@ -29,6 +29,7 @@ class App extends React.Component {
 			, monthFilter : -1 
 			, yearFilter : -1
 			, modelOpen : false
+			, reportUrl : '#'
 		};
 		this.onCreate = this.onCreate.bind(this);
 		this.onUpdate = this.onUpdate.bind(this);
@@ -46,10 +47,11 @@ class App extends React.Component {
 	}
 
 
+	// State for Filter Model
 	onOpenModal() {
 		this.setState({ modelOpen: true });
 	}
-	
+
 	onCloseModal() {
 		this.setState({ modelOpen: false });
 	}
@@ -111,8 +113,13 @@ class App extends React.Component {
 
 	}
 
+	goToReportUrl() {
+		window.location = this.state.reportUrl;
+		//window.location.reload();
+	}
+
 	generateReport() {
-		let url = 'http://localhost:8092/reportyearmonth?month=12&year=2017';
+		let url = 'http://localhost:8092/reportyearmonth?month='+this.state.monthFilter+'+&year='+this.state.yearFilter;
 		fetch(url, {
 			credentials: 'same-origin',
 			method:'GET',
@@ -123,9 +130,11 @@ class App extends React.Component {
 	       })
 	.then(response => response.json())
 	.then(json => {
-		console.log(json.url)
+		// Set redirect to URl of Report
+		this.setState({reportUrl: json.url }, function () {
+			this.goToReportUrl();
 		});
-	}
+	})}
 
 	followApiQueryFilterBookings() {
 		follow(client, root, [
@@ -161,6 +170,7 @@ class App extends React.Component {
 			})
 		});
 		window.location = "#";
+		window.location.reload();
 	}
 
 	onUpdate(booking, bookingIn) {
@@ -248,7 +258,9 @@ class App extends React.Component {
 			<div>
 				<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate}/>
 				<button onClick={this.onOpenModal}> Filter </button>
+
 				<button onClick={this.generateReport}> Generate Report </button>
+
 				<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
 					<div>
 						<div>
