@@ -25,6 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
 import lombok.Data;
+import de.booking.Manager;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -76,6 +77,10 @@ public class Booking {
 	@Column(name = "COMMENT")
 	private String comment;	
 
+	// current timestamp
+	@Column(name = "BOOKING_DATE")
+	private Date bookingDate;	
+	
 	// used for data security, i.e. multiple users
 	private @Version @JsonIgnore Long version;
 
@@ -101,6 +106,7 @@ public class Booking {
 		this.bookingNumber = booking_number;
 		this.storno = storno;	
 		this.comment = comment;	
+		this.bookingDate = booking_date;
 		this.manager = manager;
 	}
 
@@ -114,5 +120,9 @@ public class Booking {
 	
 	public float getTotal() {
 		return total;
+	}
+
+	public int getStorno() {
+		return this.storno;
 	}
 }

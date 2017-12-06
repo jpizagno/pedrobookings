@@ -423,6 +423,7 @@ class BookingList extends React.Component {
 							<th>bookingNumber</th>	
 							<th>storno</th>
 							<th>comment</th>
+							<th>booking date</th>
 							<th>manager</th>
 							<th></th>
 							<th></th>
@@ -462,6 +463,7 @@ class Booking extends React.Component {
 				<td>{this.props.booking.entity.bookingNumber}</td>	
 				<td>{this.props.booking.entity.storno}</td>
 				<td>{this.props.booking.entity.comment}</td>
+				<td>{this.props.booking.entity.bookingDate}</td>
 				<td>{this.props.booking.entity.manager.name}</td>
 				<td>
 					<UpdateDialog booking={this.props.booking}

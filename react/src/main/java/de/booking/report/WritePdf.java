@@ -3,7 +3,10 @@ package de.booking.report;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.lowagie.text.Chunk;
@@ -30,10 +33,13 @@ public class WritePdf {
 	 * @param title To be printed on PDF. ex: "Julia's bookings for month "+month_str+" year "+year_str
 	 * @return 0=Sucess, Fail!=0
 	 */
-	public String generateReport(List<Booking>  bookings, String fileOutName, String title) {
-		if (bookings.size() == 0 ) {
+	public String generateReport(List<Booking>  bookingsIn, String fileOutName, String title) {
+		if (bookingsIn.size() == 0 ) {
 			return "error_bookings_empty";
 		}
+		
+		// filter out Storno Bookings
+		List<Booking> bookings = filterStorno(bookingsIn);
 		
 		String path = ""; //"/Users/jim/Desktop/";
 
@@ -44,36 +50,22 @@ public class WritePdf {
 		Document document = new Document(PageSize.LETTER.rotate());
 
 		Field[] fields = bookings.get(0).getClass().getDeclaredFields();
-		int num_columns = fields.length;
 
-		/*
-		 * We do not want to print the columns:  id(0), comment(13), updated_time(15).
-		 * num_columns = num_columns - 3.
-		 * 
-		 * We want to rewrite "booking_number" as "Transactions-ID".
-		 * 
-		 */
-		num_columns = num_columns - 3;
-		// remove id,comment, updated_time from fields
-		// better to recreate fields without these
-		Field[] fields_tmp = new Field[num_columns];
-		fields_tmp[0] = fields[1];
-		Field[] tmp = Arrays.copyOfRange(fields, 2, 13);
-		for (int i=0;i<tmp.length;i++){
-			fields_tmp[i+1] = tmp[i];
-		}
-		fields_tmp[12] = fields[14];
-		fields = fields_tmp;
-
-		String[] columnTitles = new String[num_columns];
-		for (int col_i=0; col_i<num_columns;col_i++){
-			columnTitles[col_i] = fields[col_i].getName();
+		// remove id,comment, manager, version from fields for report
+		List<Field> fieldsFiltered = new LinkedList<>();
+		for (int col_i=0 ; col_i<fields.length ; col_i++){
+			if( !fields[col_i].getName().toLowerCase().equals("id") 
+					&& !fields[col_i].getName().toLowerCase().equals("comment")
+					&& !fields[col_i].getName().toLowerCase().equals("manager")
+					&& !fields[col_i].getName().toLowerCase().equals("version") 
+					&& !fields[col_i].getName().toLowerCase().equals("storno"))
+				fieldsFiltered.add(fields[col_i]);
 		}
 
 		try {
 			PdfWriter.getInstance(document, new FileOutputStream(path+fileOutName));
 			document.open();
-			PdfPTable table = new PdfPTable(num_columns);
+			PdfPTable table = new PdfPTable(fieldsFiltered.size());
 
 			// set universal FONT:
 			Font myFont = new Font(); // name & point size 
@@ -81,33 +73,42 @@ public class WritePdf {
 
 			// create title cell:
 			PdfPCell cell_title = new PdfPCell(new Paragraph(title));
-			cell_title.setColspan(num_columns);
+			cell_title.setColspan(fieldsFiltered.size());
 			cell_title.setHorizontalAlignment(Element.ALIGN_CENTER);
 			//cell_title.setBackgroundColor(new Color(128,200,128));
 			cell_title.setPadding(title_padding);
 			table.addCell(cell_title);
 
 			// create total:
-			float total4monthNyear = getTotal( bookings ) ;
+			PdfPCell cell_total = new PdfPCell(new Paragraph("Julia's total:  "+String.valueOf(getTotal( bookings ))) );
 
-			PdfPCell cell_total = new PdfPCell(new Paragraph("Julia's total:  "+String.valueOf(total4monthNyear)) );
-			cell_total.setColspan(num_columns);
+			cell_total.setColspan(fieldsFiltered.size());
 			cell_total.setHorizontalAlignment(Element.ALIGN_CENTER);
 			//cell_total.setBackgroundColor(new Color(128,200,128));
 			cell_total.setPadding(title_padding);
 			table.addCell(cell_total);
 
+			Font myFontSmaller = new Font(); // name & point size 
+			myFontSmaller.setSize(5);
+			
 			// add column titles:
-			for (int col_i=0; col_i < columnTitles.length; col_i++) {
+			for(Field field : fieldsFiltered) {
 				Paragraph myP = new Paragraph();
-				Chunk bar ;
-				if (col_i==10) {
-					// need smaller font here
-					Font myFontSmaller = new Font(); // name & point size 
-					myFontSmaller.setSize(5);
-					bar = new Chunk("Transactions-ID", myFontSmaller );
+				Chunk bar;
+				if (field.getName().equalsIgnoreCase("daydeparture")) {
+					bar = new Chunk("Day Departure", myFontSmaller ); 
+				} else if (field.getName().equalsIgnoreCase("monthdeparture")) {
+					bar = new Chunk("Month Departure", myFontSmaller ); 
+				} else if (field.getName().equalsIgnoreCase("yeardeparture")) {
+					bar = new Chunk("Year Departure", myFontSmaller ); 
+				} else if (field.getName().equalsIgnoreCase("firstname")) {
+					bar = new Chunk("First Name", myFontSmaller ); 
+				} else if (field.getName().equalsIgnoreCase("bookingnumber")) {
+					bar = new Chunk("Booking Number", myFontSmaller ); 
+				} else if (field.getName().equalsIgnoreCase("bookingdate")) {
+					bar = new Chunk("Booking Date", myFontSmaller ); 
 				} else {
-					bar = new Chunk(columnTitles[col_i], myFont ); 
+					bar = new Chunk(field.getName(), myFont ); 
 				}
 				myP.add( bar ); 
 				table.addCell(myP);
@@ -118,24 +119,22 @@ public class WritePdf {
 			for(Booking myBookingtmp : bookings) {
 
 				//Field[] fieldsLoop = myBookingtmp.getClass().getDeclaredFields();
-				for (int col_i=0; col_i < fields.length; col_i++) {
+				for (int col_i=0; col_i < fieldsFiltered.size(); col_i++) {
 					Paragraph myP = new Paragraph();
-					fields[col_i].setAccessible(true);
 					Object value;
 					try {			
-						value = fields[col_i].get(myBookingtmp);
-						String column_atthis_row = " ";
-						if (value != null) {
-							column_atthis_row = value.toString();
+						fieldsFiltered.get(col_i).setAccessible(true);
+						if ( fieldsFiltered.get(col_i).getName().equalsIgnoreCase("bookingdate")) {
+							SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/YYYY");
+							Date date = (Date) fieldsFiltered.get(col_i).get(myBookingtmp) ;
+							value = dt1.format(date  );
+						} else {
+							value =  fieldsFiltered.get(col_i).get(myBookingtmp); 
 						}
-//						if(col_i==12) {
-//							// removes HH:MM:SS from timestamp. 
-//							column_atthis_row = column_atthis_row.substring(0, 10);
-//						}
-						Chunk bar = new Chunk(column_atthis_row, myFont ); 
+						Chunk bar = new Chunk(value.toString(), myFont);  
 						myP.add( bar ); 
 						table.addCell(myP);
-					} catch (IllegalArgumentException e) {
+					} catch (IllegalArgumentException e) { 
 						e.printStackTrace();
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
@@ -156,6 +155,23 @@ public class WritePdf {
 		return fileOutName;
 	}
 	
+
+	/**
+	 * Filters out bookings with storno=1.  
+	 * 
+	 * @param bookingsIn to be filters
+	 * @return a List of Booking with storno=0
+	 */
+	private List<Booking> filterStorno(List<Booking> bookingsIn) {
+		List<Booking> bookings = new LinkedList<>();
+		for (Booking booking: bookingsIn) {
+			if (booking.getStorno() == 0) {
+				bookings.add(booking);
+			}
+		}
+		return bookings;
+	}
+
 
 	private static float getTotal( List<Booking> monthYearResults ) {
 		float sum_total = 0;
