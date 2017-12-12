@@ -169,8 +169,8 @@ class App extends React.Component {
 				headers: {'Content-Type': 'application/json'}
 			})
 		});
-		window.location = "#";
-		window.location.reload();
+		//TODO: work on automatic reloud, databinding loses contact to Spring/Hibernate server when reload() is called
+		//window.location.reload();
 	}
 
 	onUpdate(booking, bookingIn) {
@@ -312,17 +312,21 @@ class CreateDialog extends React.Component {
 		window.location = "#";
 	}
 
+	openCreateBookingDialog() {
+		window.location = "#createBooking";
+	}
+
 	render() {
 		var inputs = this.props.attributes.map(attribute =>
 				<p key={attribute}>
-					<input type="text" placeholder={attribute} ref={attribute} className="field" />
+					<input type="text" placeholder={ (attribute=='bookingDate') ? 'yyyy-MM-dd Booking Date' : attribute } ref={attribute} className="field" />
 				</p>
 		);
 		return (
 			<div>
-				<a href="#createBooking">Create</a>
+				<button onClick={this.openCreateBookingDialog}> Create </button>
 
-				<div id="createBooking" className="modalDialog">
+				<div id="createBooking" className="modalDialog" >
 					<div>
 						<a href="#" title="Close" className="close">X</a>
 
