@@ -253,40 +253,61 @@ class App extends React.Component {
 		});
 	  }
 
+	openCreateBookingDialog() {
+		window.location = "#createBooking";
+	}
+
 	render() {
 		return (
-			<div>
-				<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate}/>
-				<button onClick={this.onOpenModal}> Filter </button>
+			<div id="parent">
+				<div class="container-fluid" id="buttonsId">
+					<div class="row">
+						<div class="col-md-4 col-md-offset-1">
 
-				<button onClick={this.generateReport}> Generate Report </button>
+							<button onClick={this.onOpenModal}> Filter </button>
 
-				<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
-					<div>
-						<div>
-							<h2>Set Filter by Month and Year</h2>
+							<button onClick={this.generateReport}> Generate Report </button>
 
-							<form>
-								<p key="month_dom_id">
-									<input type="text" placeholder="month" ref="month_dom_id" className="field" onChange={this.updateMonthValue}/>
-								</p>
-								<p key="year_dom_id">
-									<input type="text" placeholder="year" ref="year_dom_id" className="field" onChange={this.updateYearValue}/>
-								</p>
-								<button onClick={this.setFilterStateOn}>Filter On</button>
-								<button onClick={this.setFilterStateOff}>Filter Off</button>
-							</form>
+							<button onClick={this.openCreateBookingDialog}> Create </button>
+
+							<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
+								<div>
+									<div>
+										<h2>Set Filter by Month and Year</h2>
+
+										<form>
+											<p key="month_dom_id">
+												<input type="text" placeholder="month" ref="month_dom_id" className="field" onChange={this.updateMonthValue}/>
+											</p>
+											<p key="year_dom_id">
+												<input type="text" placeholder="year" ref="year_dom_id" className="field" onChange={this.updateYearValue}/>
+											</p>
+											<button onClick={this.setFilterStateOn}>Filter On</button>
+											<button onClick={this.setFilterStateOff}>Filter Off</button>
+										</form>
+									</div>
+								</div>
+							</Modal>
+
+							<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate}/>
+
 						</div>
 					</div>
-				</Modal>
-				
-				<BookingList page={this.state.page}
-								bookings={this.state.bookingsToDisplay}
-							  links={this.state.links}
-							  attributes={this.state.attributes}
-							  onUpdate={this.onUpdate}
-							  onDelete={this.onDelete}
-							  />
+				</div> 
+	
+				<div class="container-fluid" id="bookingsListId">
+					<div class="row">
+						<div class="col">
+							<BookingList page={this.state.page}
+									bookings={this.state.bookingsToDisplay}
+									links={this.state.links}
+									attributes={this.state.attributes}
+									onUpdate={this.onUpdate}
+									onDelete={this.onDelete}
+									/>
+						</div>
+					</div>
+				</div>
 			</div>
 		)
 	}
@@ -312,10 +333,6 @@ class CreateDialog extends React.Component {
 		window.location = "#";
 	}
 
-	openCreateBookingDialog() {
-		window.location = "#createBooking";
-	}
-
 	render() {
 		var inputs = this.props.attributes.map(attribute =>
 				<p key={attribute}>
@@ -323,8 +340,6 @@ class CreateDialog extends React.Component {
 				</p>
 		);
 		return (
-			<div>
-				<button onClick={this.openCreateBookingDialog}> Create </button>
 
 				<div id="createBooking" className="modalDialog" >
 					<div>
@@ -337,8 +352,7 @@ class CreateDialog extends React.Component {
 							<button onClick={this.handleSubmit}>Create</button>
 						</form>
 					</div>
-				</div>
-			</div>
+				</div >
 		)
 	}
 }
