@@ -11,7 +11,7 @@
     <body>
         <div class="container-fluid" id="logoutId">
             <div class="row">
-                <div class="col">
+                <div class="col-md-4">
                     Hello, <span th:text="${#authentication.name}">user</span>.
                     <form th:action="@{/logout}" method="post">
                         <input type="submit" value="Log Out"/>

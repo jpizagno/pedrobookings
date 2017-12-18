@@ -260,44 +260,39 @@ class App extends React.Component {
 	render() {
 		return (
 			<div id="parent">
-				<div class="container-fluid" id="buttonsId">
-					<div class="row">
-						<div class="col-md-4 col-md-offset-1">
-
-							<button onClick={this.onOpenModal}> Filter </button>
-
-							<button onClick={this.generateReport}> Generate Report </button>
-
-							<button onClick={this.openCreateBookingDialog}> Create </button>
-
-							<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
-								<div>
-									<div>
-										<h2>Set Filter by Month and Year</h2>
-
-										<form>
-											<p key="month_dom_id">
-												<input type="text" placeholder="month" ref="month_dom_id" className="field" onChange={this.updateMonthValue}/>
-											</p>
-											<p key="year_dom_id">
-												<input type="text" placeholder="year" ref="year_dom_id" className="field" onChange={this.updateYearValue}/>
-											</p>
-											<button onClick={this.setFilterStateOn}>Filter On</button>
-											<button onClick={this.setFilterStateOff}>Filter Off</button>
-										</form>
-									</div>
-								</div>
-							</Modal>
-
-							<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate}/>
-
+				<div className="container-fluid" id="buttonsId">
+					<div className="row">
+						<div className="col-md-4 offset-md-1">
+							<button type="button" class="btn btn-default" onClick={this.onOpenModal}> Filter </button>
+							<button type="button" class= "btn btn-default" onClick={this.generateReport}> Generate Report </button>
+							<button type="button" class="btn btn-default" onClick={this.openCreateBookingDialog}> Create </button>
 						</div>
+
+						<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
+							<div>
+								<div>
+									<h2>Set Filter by Month and Year</h2>
+
+									<form>
+										<p key="month_dom_id">
+											<input type="text" placeholder="month" ref="month_dom_id" className="field" onChange={this.updateMonthValue}/>
+										</p>
+										<p key="year_dom_id">
+											<input type="text" placeholder="year" ref="year_dom_id" className="field" onChange={this.updateYearValue}/>
+										</p>
+										<button onClick={this.setFilterStateOn}>Filter On</button>
+										<button onClick={this.setFilterStateOff}>Filter Off</button>
+									</form>
+								</div>
+							</div>
+						</Modal>
+
+						<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate}/>
+
 					</div>
-				</div> 
-	
-				<div class="container-fluid" id="bookingsListId">
-					<div class="row">
-						<div class="col">
+
+					<div className="row top-buffer">
+						<div className="col">
 							<BookingList page={this.state.page}
 									bookings={this.state.bookingsToDisplay}
 									links={this.state.links}
