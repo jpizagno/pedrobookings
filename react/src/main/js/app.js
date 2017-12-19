@@ -8,7 +8,7 @@ const ReactDOM = require('react-dom')
 const when = require('when');
 const client = require('./client');
 
-const follow = require('./follow'); // function to hop multiple links by "rel"
+const follow = require('./follow'); 
 
 const stompClient = require('./websocket-listener');
 
@@ -261,7 +261,8 @@ class App extends React.Component {
 		return (
 			<div id="parent">
 				<div className="container-fluid" id="buttonsId">
-					<div className="row">
+					<div className="row top-buffer">
+
 						<div className="col-md-4 offset-md-1">
 							<button type="button" class="btn btn-default" onClick={this.onOpenModal}> Filter </button>
 							<button type="button" class= "btn btn-default" onClick={this.generateReport}> Generate Report </button>

@@ -9,16 +9,24 @@
         <link rel="stylesheet" href="/main.css" />
     </head>
     <body>
-        <div class="container-fluid" id="logoutId">
-            <div class="row">
-                <div class="col-md-4">
-                    Hello, <span th:text="${#authentication.name}">user</span>.
-                    <form th:action="@{/logout}" method="post">
-                        <input type="submit" value="Log Out"/>
-                    </form>
+
+        <!--   Navigation Bar --> 
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdown" data-toggle="dropdown">Navigation
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="logout">Logout</a></li>
+                    </ul>
                 </div>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <div class="text">Logged in as: <span th:text="${#authentication.name}">user</span></div>
+                    </li>    
+                </ul>
             </div>
-        </div>
+        </nav>
 
         <div id="react"></div>
 
