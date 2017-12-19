@@ -20,7 +20,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
-import de.booking.Booking;
+import de.booking.model.Booking;
 
 
 public class WritePdf {

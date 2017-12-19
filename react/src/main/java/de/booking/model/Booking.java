@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.booking;
+package de.booking.model;
 
 import java.util.Date;
 
@@ -25,9 +25,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
 import lombok.Data;
-import de.booking.Manager;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import de.booking.repository.Manager;
 
 /**
  * @author James Pizagno

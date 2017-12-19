@@ -1,4 +1,4 @@
-package de.booking;
+package de.booking.model;
 
 public class Response {
 	private String url;

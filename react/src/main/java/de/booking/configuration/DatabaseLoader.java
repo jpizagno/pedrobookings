@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.booking;
+package de.booking.configuration;
 
 import java.util.Date;
 
@@ -23,6 +23,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import de.booking.model.Booking;
+import de.booking.repository.BookingRepository;
+import de.booking.repository.Manager;
+import de.booking.repository.ManagerRepository;
 
 /**
  * @author James Pizagno

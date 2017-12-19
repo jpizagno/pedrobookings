@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.booking;
+package de.booking.controller;
 
-import org.springframework.data.repository.Repository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author James Pizagno
  */
-@RepositoryRestResource(exported = false)
-public interface ManagerRepository extends Repository<Manager, Long> {
+@Controller
+public class HomeController {
 
-	Manager save(Manager manager);
-
-	Manager findByName(String name);
+	@RequestMapping(value = "/")
+	public String index() {
+		return "index";
+	}
 
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.booking;
+package de.booking.configuration;
 
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
 
-	static final String MESSAGE_PREFIX = "/topic";
+	public static final String MESSAGE_PREFIX = "/topic";
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {

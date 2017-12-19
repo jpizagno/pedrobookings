@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.booking;
+package de.booking.repository;
 
-import static de.booking.WebSocketConfiguration.*;
+import static de.booking.configuration.WebSocketConfiguration.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
@@ -25,6 +25,8 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+
+import de.booking.model.Booking;
 
 /**
  * @author James Pizagno

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.booking;
+package de.booking.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +22,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
+
+import de.booking.model.Booking;
 
 /**
  * @author James Pizagno

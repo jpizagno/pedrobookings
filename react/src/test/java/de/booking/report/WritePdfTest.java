@@ -9,8 +9,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.booking.Booking;
-import de.booking.Manager;
+import de.booking.model.Booking;
+import de.booking.repository.Manager;
 
 public class WritePdfTest {
 	

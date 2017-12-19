@@ -1,4 +1,4 @@
-package de.booking;
+package de.booking.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +14,10 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.booking.model.Booking;
+import de.booking.model.Response;
 import de.booking.report.WritePdf;
+import de.booking.repository.BookingRepository;
 
 import org.springframework.web.bind.annotation.RequestParam;
 

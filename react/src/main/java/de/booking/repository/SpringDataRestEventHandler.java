@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.booking;
+package de.booking.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
@@ -22,6 +22,8 @@ import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import de.booking.model.Booking;
 
 /**
  * @author James Pizagno
