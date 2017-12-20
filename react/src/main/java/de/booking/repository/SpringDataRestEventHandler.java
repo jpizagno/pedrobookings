@@ -18,8 +18,8 @@ package de.booking.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +33,8 @@ import de.booking.model.Booking;
 public class SpringDataRestEventHandler {
 
 	private final ManagerRepository managerRepository;
+	
+	private SecurityContext securityContext;
 
 	@Autowired
 	public SpringDataRestEventHandler(ManagerRepository managerRepository) {
@@ -40,9 +42,17 @@ public class SpringDataRestEventHandler {
 	}
 
 	@HandleBeforeCreate
+	@HandleBeforeSave
 	public void applyUserInformationUsingSecurityContext(Booking booking) {
 
-		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		//String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		if ( securityContext == null) { 
+			// this is called during runtime/production, securityContext can be notNull during UnitTesting
+			securityContext = SecurityContextHolder.getContext();
+		}
+		String name = securityContext.getAuthentication().getName();
+		
 		Manager manager = this.managerRepository.findByName(name);
 		if (manager == null) {
 			Manager newManager = new Manager();
@@ -53,16 +63,12 @@ public class SpringDataRestEventHandler {
 		booking.setManager(manager);
 	}
 	
-	@HandleBeforeSave
-	public void applyUserInformationUsingSecurityContext_afterSave(Booking booking) {
-		String name = SecurityContextHolder.getContext().getAuthentication().getName();
-		Manager manager = this.managerRepository.findByName(name);
-		if (manager == null) {
-			Manager newManager = new Manager();
-			newManager.setName(name);
-			newManager.setRoles(new String[]{"ROLE_MANAGER"});
-			manager = this.managerRepository.save(newManager);
-		}
-		booking.setManager(manager);
+	/**
+	 * Created for testing outside of Spring Context.
+	 * 
+	 * @param securityContext
+	 */
+	public void setSecurityContext(SecurityContext securityContext) {
+		this.securityContext = securityContext;
 	}
 }

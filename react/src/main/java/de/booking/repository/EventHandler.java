@@ -38,6 +38,8 @@ public class EventHandler {
 	private final SimpMessagingTemplate websocket;
 
 	private final EntityLinks entityLinks;
+	
+	private String path;
 
 	@Autowired
 	public EventHandler(SimpMessagingTemplate websocket, EntityLinks entityLinks) {
@@ -69,8 +71,21 @@ public class EventHandler {
 	 * @param employee
 	 */
 	private String getPath(Booking booking) {
-		return this.entityLinks.linkForSingleResource(booking.getClass(),
-				booking.getId()).toUri().getPath();
+		if( this.path == null) {
+			return this.entityLinks.linkForSingleResource(booking.getClass(),
+					booking.getId()).toUri().getPath();
+		} else {
+			return this.path;
+		}
+	} 
+	
+	/**
+	 * implemented for Testing
+	 * 
+	 * @param path
+	 */
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 }

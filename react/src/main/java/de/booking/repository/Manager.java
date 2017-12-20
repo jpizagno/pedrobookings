@@ -30,10 +30,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * @author James Pizagno
  */
-@Data
+// @Data // this annotation will generate Getters, Settings, ToStrings, and @EqualsAndHashCode, but is HARD TO TEST
 @ToString(exclude = "password")
 @Entity
 public class Manager {
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 

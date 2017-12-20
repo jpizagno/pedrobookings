@@ -33,62 +33,178 @@ import de.booking.repository.Manager;
 /**
  * @author James Pizagno
  */
-@Data
-@Entity
+//@Data  // this annotation will generate Getters, Settings, ToStrings, and @EqualsAndHashCode, but is hard to test
+@Entity 
 public class Booking {
+
+	public float getFlug() {
+		return flug;
+	}
+
+	public void setFlug(float flug) {
+		this.flug = flug;
+	}
+
+	public float getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(float hotel) {
+		this.hotel = hotel;
+	}
+
+	public float getVersicherung() {
+		return versicherung;
+	}
+
+	public void setVersicherung(float versicherung) {
+		this.versicherung = versicherung;
+	}
+
+	public int getDayDeparture() {
+		return dayDeparture;
+	}
+
+	public void setDayDeparture(int dayDeparture) {
+		this.dayDeparture = dayDeparture;
+	}
+
+	public int getMonthDeparture() {
+		return monthDeparture;
+	}
+
+	public void setMonthDeparture(int monthDeparture) {
+		this.monthDeparture = monthDeparture;
+	}
+
+	public int getYearDeparture() {
+		return yearDeparture;
+	}
+
+	public void setYearDeparture(int yearDeparture) {
+		this.yearDeparture = yearDeparture;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getBookingNumber() {
+		return bookingNumber;
+	}
+
+	public void setBookingNumber(String bookingNumber) {
+		this.bookingNumber = bookingNumber;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public Date getBookingDate() {
+		return bookingDate;
+	}
+
+	public void setBookingDate(Date bookingDate) {
+		this.bookingDate = bookingDate;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setKreuzfahrt(float kreuzfahrt) {
+		this.kreuzfahrt = kreuzfahrt;
+	}
+
+	public void setTotal(float total) {
+		this.total = total;
+	}
+
+	public void setStorno(int storno) {
+		this.storno = storno;
+	}
 
 	private @Id @GeneratedValue Long id;
 	
 	@Column(name = "KREUZFAHRT")
-	private float kreuzfahrt ;
+	protected float kreuzfahrt ;
 	
 	@Column(name = "FLUG")
-	private float flug ;
+	protected float flug ;
 
 	@Column(name = "HOTEL")
-	private float hotel;
+	protected float hotel;
 	
 	@Column(name = "VERSICHERUNG")
-	private float versicherung;
+	protected float versicherung;
 
 	@Column(name = "TOTAL")
-	private float total;
+	protected float total;
 
 	@Column(name = "DAY_DEPARTURE")
-	private int dayDeparture; 
+	protected int dayDeparture; 
 	
 	@Column(name = "MONTH_DEPARTURE")
-	private int monthDeparture;
+	protected int monthDeparture;
 	
 	@Column(name = "YEAR_DEPARTURE")
 	private int yearDeparture;	
 
 	@Column(name = "SURNAME")
-	private String surname;	
+	protected String surname;	
 	
 	@Column(name = "FIRST_NAME")
-	private String firstName;	
+	protected String firstName;	
 	
 	@Column(name = "BOOKING_NUMBER")
-	private String bookingNumber;	
+	protected String bookingNumber;	
 	
 	@Column(name = "STORNO")
-	private int storno;	
+	protected int storno;	
 
 	@Column(name = "COMMENT")
-	private String comment;	
+	protected String comment;	
 
 	// current timestamp
 	@Column(name = "BOOKING_DATE")
-	private Date bookingDate;	
+	protected Date bookingDate;	
 	
 	// used for data security, i.e. multiple users
-	private @Version @JsonIgnore Long version;
+	protected @Version @JsonIgnore Long version;
 
 	// who entered this booking
 	private @ManyToOne Manager manager;
 
-	private Booking() {}
+	protected Booking() {}
 
 	public Booking(float kreuzfahrt, float flug, float hotel, float versicherung, 
 			int day_departure, int month_departure, int year_departure, 
@@ -126,4 +242,9 @@ public class Booking {
 	public int getStorno() {
 		return this.storno;
 	}
+	
+	public float getKreuzfahrt() {
+		return kreuzfahrt;
+	}
+
 }

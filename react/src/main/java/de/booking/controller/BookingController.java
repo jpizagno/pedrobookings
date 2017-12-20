@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/")
 @PreAuthorize("hasRole('ROLE_MANAGER')")
 public class BookingController {
-	
+
 	@Autowired
 	public BookingRepository bookingRepository;
 	
@@ -65,7 +65,7 @@ public class BookingController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/report")
-    void getFile(HttpServletResponse response) throws IOException {
+    public void getFile(HttpServletResponse response) throws IOException {
 
         String path = localReportDirectory + fileOutName;
         
@@ -79,5 +79,14 @@ public class BookingController {
         FileCopyUtils.copy(inputStream, response.getOutputStream());
 
     }
+	
+	/**
+	 * Getter implemented for testing
+	 * 
+	 * @param fileOutName
+	 */
+	public void setFileOutName(String fileOutName) {
+		this.fileOutName = fileOutName;
+	}
 
 }

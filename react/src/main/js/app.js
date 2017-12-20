@@ -114,8 +114,7 @@ class App extends React.Component {
 	}
 
 	goToReportUrl() {
-		window.location = "report"; //this.state.reportUrl;
-		//window.location.reload();
+		window.location = "report"; 
 	}
 
 	generateReport() {
