@@ -17,7 +17,9 @@ package de.booking.repository;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.ToString;
@@ -33,6 +35,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 // @Data // this annotation will generate Getters, Settings, ToStrings, and @EqualsAndHashCode, but is HARD TO TEST
 @ToString(exclude = "password")
 @Entity
+@Table(name = "manager")
 public class Manager {
 
 	public Long getId() {
@@ -45,7 +48,7 @@ public class Manager {
 
 	public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
-	private @Id @GeneratedValue Long id;
+	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 
 	private String name;
 
