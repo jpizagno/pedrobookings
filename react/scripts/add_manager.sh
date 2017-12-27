@@ -9,7 +9,7 @@ echo
 read -sp 'Manager password on webpage:  ' managerpassword
 echo
  
-mysql -u$mysqluser -p$mysqlpass<<EOFMYSQL
-INSERT INTO db_example.manager (name,password,roles) VALUES ( '$managername' , '$managerpassword' , 'ROLE_MANAGER')
-EOFMYSQL
 
+cd ../
+mvn clean compile assembly:single
+java -cp ./target/react-bookinghandler-0.0.1-SNAPSHOT-jar-with-dependencies.jar  de.booking.configuration.AddManager db_example $mysqluser $mysqlpass $managername $managerpassword 

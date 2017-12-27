@@ -20,6 +20,13 @@ public class AddManager {
 
 	public static void main(String[] args) {
 		AddManager addMgmt = new AddManager();
+		
+		if (args.length != 5) {
+			System.out.println("Wrong number of arguments:");
+			System.out.println("java -cp ./target/react-bookinghandler-0.0.1-SNAPSHOT-jar-with-dependencies.jar  de.booking.configuration.AddManager db_example $mysqluser $mysqlpass $managername $managerpassword");
+			System.exit(1);
+		}
+		
 		addMgmt.add(args);
 	}
 
@@ -49,6 +56,7 @@ public class AddManager {
 			e.printStackTrace();
 			session.getTransaction().rollback();
 		}
+		System.exit(0);
 	}
 
 }
