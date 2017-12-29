@@ -1,6 +1,6 @@
-CREATE DATABASE `bookings_test` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
+CREATE DATABASE `bookings` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 
-USE bookings_test;
+USE bookings;
 
 CREATE TABLE `manager` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -33,7 +33,7 @@ CREATE TABLE `booking` (
   KEY `FKtieubmmea3tjdmg6m0pk6lomv` (`manager_id`),
   CONSTRAINT `FKtieubmmea3tjdmg6m0pk6lomv` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1
-
+;
 
 CREATE TABLE `percentages` (
   `kreuzfahrt_percent` float DEFAULT NULL,

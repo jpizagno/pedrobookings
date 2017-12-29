@@ -1,4 +1,4 @@
-use bookings_test ;
+use bookings;
 
 INSERT INTO `booking`
 (`kreuzfahrt`,`flug`,`hotel`,`versicherung`,`total`,`day_departure`,`month_departure`,`year_departure`,
