@@ -1,5 +1,5 @@
 .form-container div, .form-container  span{
-    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif
 }
 
 .form-container ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
