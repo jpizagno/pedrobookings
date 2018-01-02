@@ -270,7 +270,7 @@ class App extends React.Component {
 						<div className="col-md-4 offset-md-1">
 							<button type="button" class="btn btn-default" onClick={this.onOpenModal}> Filter </button>
 							<button type="button" class= "btn btn-default" onClick={this.generateReport}> Generate Report </button>
-							<button type="button" class="btn btn-default" onClick={this.openCreateBookingDialog}> Create </button>
+							<button type="button" class="btn btn-default" id="createStart" onClick={this.openCreateBookingDialog}> Create </button>
 						</div>
 
 						<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
