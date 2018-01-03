@@ -34,6 +34,7 @@ class App extends React.Component {
 			, monthFilter : -1 
 			, yearFilter : -1
 			, modelOpen : false
+			, modalOpenCreate : false
 			, reportUrl : '#'
 		};
 		this.onCreate = this.onCreate.bind(this);
@@ -45,6 +46,8 @@ class App extends React.Component {
 		this.setFilterStateOff = this.setFilterStateOff.bind(this);
 		this.onOpenModal = this.onOpenModal.bind(this);
 		this.onCloseModal = this.onCloseModal.bind(this);
+		this.onOpenModalCreate = this.onOpenModalCreate.bind(this);
+		this.onCloseModalCreate = this.onCloseModalCreate.bind(this);
 		this.updateMonthValue = this.updateMonthValue.bind(this);
 		this.updateYearValue = this.updateYearValue.bind(this);
 		this.setTotal = this.setTotal.bind(this);
@@ -56,9 +59,16 @@ class App extends React.Component {
 	onOpenModal() {
 		this.setState({ modelOpen: true });
 	}
-
 	onCloseModal() {
 		this.setState({ modelOpen: false });
+	}
+
+	// State for Create Model
+	onOpenModalCreate() {
+		this.setState({ modalOpenCreate: true });
+	}
+	onCloseModalCreate() {
+		this.setState({ modalOpenCreate: false });
 	}
 
 	setTotal(booking) {
@@ -250,15 +260,11 @@ class App extends React.Component {
 		});
 	  }
 
-	  updateYearValue(evt) {
+	updateYearValue(evt) {
 		this.setState({
-		  yearFilter: evt.target.value
-		  ,isFiltered: true
+			yearFilter: evt.target.value
+			,isFiltered: true
 		});
-	  }
-
-	openCreateBookingDialog() {
-		window.location = "#createBooking";
 	}
 
 	render() {
@@ -268,9 +274,9 @@ class App extends React.Component {
 					<div className="row top-buffer">
 
 						<div className="col-md-4 offset-md-1">
-							<button type="button" class="btn btn-default" onClick={this.onOpenModal}> Filter </button>
-							<button type="button" class= "btn btn-default" onClick={this.generateReport}> Generate Report </button>
-							<button type="button" class="btn btn-default" id="createStart" onClick={this.openCreateBookingDialog}> Create </button>
+							<button type="button" className="btn btn-default" onClick={this.onOpenModal}> Filter </button>
+							<button type="button" className= "btn btn-default" onClick={this.generateReport}> Generate Report </button>
+							<button type="button" className="btn btn-default" id="createStart" onClick={this.onOpenModalCreate}> Create </button>
 						</div>
 
 						<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
@@ -292,7 +298,7 @@ class App extends React.Component {
 							</div>
 						</Modal>
 
-						<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate}/>
+						<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate} closeModal={this.onCloseModalCreate} modalOpenState={this.state.modalOpenCreate}/>
 
 					</div>
 
