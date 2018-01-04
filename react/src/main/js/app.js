@@ -274,9 +274,9 @@ class App extends React.Component {
 					<div className="row top-buffer">
 
 						<div className="col-md-4 offset-md-1">
-							<button type="button" className="btn btn-default" onClick={this.onOpenModal}> Filter </button>
-							<button type="button" className= "btn btn-default" onClick={this.generateReport}> Generate Report </button>
-							<button type="button" className="btn btn-default" id="createStart" onClick={this.onOpenModalCreate}> Create </button>
+							<button type="button" className="btn btn-unsto btn3d" onClick={this.onOpenModal}> Filter </button>
+							<button type="button" className="btn btn-storno btn3d" onClick={this.generateReport}> Generate Report </button>
+							<button type="button" className="btn btn-success btn3d" id="createStart" onClick={this.onOpenModalCreate}> Create </button>
 						</div>
 
 						<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>

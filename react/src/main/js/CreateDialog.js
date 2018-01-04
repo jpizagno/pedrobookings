@@ -42,7 +42,7 @@ class CreateDialog extends React.Component {
         var style2 = {color: "rgb(198, 40, 40)" , background: "rgb(255, 205, 210)" } ;
 
         return (
-            <Modal open={this.props.modalOpenState} onClose={this.props.closeModal} id="createBooking" little>
+            <Modal open={this.props.modalOpenState} onClose={this.props.closeModal} id="createBooking" classNames={{ modal: 'custom-modal' }}>
 
                 <div className="container-fluid">
                     <div className="row">
@@ -135,7 +135,7 @@ class CreateDialog extends React.Component {
                                         <div className="row">
                                             <span className="req-input invalid" >
                                                 <span className="input-status" data-toggle="tooltip" data-placement="top" title="Input Booking Date DD/MM/YYYY. i.e. 28/02/2017"> </span>
-                                                <input type="text" data-min-length="8" id="bookingdate" ref="bookingDate" placeholder="Booking Date (31/12/2017)"/>
+                                                <input type="text" data-min-length="8" id="bookingdate" ref="bookingDate" placeholder="Booking Date (2017-12-31)"/>
                                             </span>
                                         </div>
                                         <div className="row">

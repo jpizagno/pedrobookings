@@ -1,3 +1,8 @@
+.custom-modal {
+	background: #74767e !important;
+	max-width: 2000px !important;
+	width: 100%;
+  }
 
 .dropdown-menu > li > a {
     display: block;
@@ -522,12 +527,14 @@ body {
 }
 
 .btn3d.btn-delete {
-    box-shadow:0 0 0 1px #b93802 inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #AA0000, 0 8px 8px 1px rgba(0,0,0,0.5);
-    background-color:#D73814;
+    box-shadow:0 0 0 1px #c01b16 inset, 0 0 0 2px rgb(146, 30, 30) inset, 0 8px 0 0 #AA0000, 0 8px 8px 1px rgba(0,0,0,0.5);
+	background-color:#c01b16;
+	color:rgb(255, 255, 255);
 }
 .btn3d.btn-delete:active, .btn3d.btn-delete.active {
-    box-shadow:0 0 0 1px #b93802 inset, 0 0 0 1px rgba(255,255,255,0.15) inset, 0 1px 3px 1px rgba(0,0,0,0.3);
-    background-color: #D73814;
+    box-shadow:0 0 0 1px #c01b16 inset, 0 0 0 1px rgb(146, 30, 30) inset, 0 1px 3px 1px rgba(0,0,0,0.3);
+	background-color: #c01b16;
+	color:rgb(255, 255, 255);
 }
 
 .btn3d.btn-storno {
