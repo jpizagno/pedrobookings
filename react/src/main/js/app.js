@@ -36,6 +36,7 @@ class App extends React.Component {
 			, modelOpen : false
 			, modalOpenCreate : false
 			, reportUrl : '#'
+			, managerName : 'Still loading .... '
 		};
 		this.onCreate = this.onCreate.bind(this);
 		this.onUpdate = this.onUpdate.bind(this);
@@ -122,7 +123,8 @@ class App extends React.Component {
 				bookingsToDisplay : bookings,
 				attributes: Object.keys(this.schema.properties),
 				pageSize: pageSize,
-				links: this.links
+				links: this.links,
+				managerName : bookings[0].entity.manager.name
 			});
 		});
 
@@ -270,9 +272,20 @@ class App extends React.Component {
 	render() {
 		return (
 			<div id="parent">
+
+				<div className="navbar navbar-default navbar-fixed-top">
+						<div className="dropdown">
+							<button className="btn btn-default dropdown-toggle" type="button" id="dropdown" data-toggle="dropdown">Navigation
+							<span className="caret"></span></button>
+							<ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
+								<li role="presentation"><a role="menuitem" href="logout">Logout</a></li>
+							</ul>
+						</div>
+						<div id="logintext" className="text">Logged in as: {this.state.managerName} </div>
+				</div>
+
 				<div className="container-fluid" id="buttonsId">
 					<div className="row top-buffer">
-
 						<div className="col-md-4 offset-md-1">
 							<button type="button" className="btn btn-unsto btn3d" onClick={this.onOpenModal}> Filter </button>
 							<button type="button" className="btn btn-storno btn3d" onClick={this.generateReport}> Generate Report </button>
