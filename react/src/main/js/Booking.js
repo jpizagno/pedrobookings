@@ -14,6 +14,9 @@ class Booking extends React.Component {
     }
 
     render() {
+
+        var id = "deleteSelectedBooking" + this.props.booking.entity.kreuzfahrt;
+
         return (
             <tr>
                 <td>{this.props.booking.entity.kreuzfahrt}</td>							
@@ -37,7 +40,7 @@ class Booking extends React.Component {
                                     onUpdate={this.props.onUpdate}/>
                 </td>
                 <td>
-                    <button type="button" className="btn btn-delete btn3d" id="deleteSelectedBooking" onClick={this.handleDelete} >Delete</button>
+                    <button type="button" className="btn btn-delete btn3d" id={id} onClick={this.handleDelete} >Delete</button>
                 </td>
             </tr>
         )

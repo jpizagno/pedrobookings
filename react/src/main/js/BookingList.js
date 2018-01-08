@@ -9,7 +9,7 @@ class BookingList extends React.Component {
     }
 
     render() {
-        var bookings = this.props.bookings.map(booking =>
+        var bookings = this.props.bookings.map(booking =>      
             <Booking key={booking.entity._links.self.href}
                     booking={booking}
                         attributes={this.props.attributes}
@@ -20,7 +20,7 @@ class BookingList extends React.Component {
         return (
             <div>
 
-                <table>
+                <table id="DataTable">
                     <tbody>
                         <tr>
                             <th>kreuzfahrt</th>							
