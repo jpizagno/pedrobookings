@@ -3,10 +3,10 @@
 import Modal from 'react-responsive-modal';
 import { Base64 } from 'js-base64';
 
-import Booking from './Booking.js';
-import UpdateDialog from './UpdateDialog.js';
-import CreateDialog from './CreateDialog.js';
-import BookingList from './BookingList.js';
+import Booking from './Booking.jsx';
+import UpdateDialog from './UpdateDialog.jsx';
+import CreateDialog from './CreateDialog.jsx';
+import BookingList from './BookingList.jsx';
 
 const React = require('react');
 const ReactDOM = require('react-dom')
