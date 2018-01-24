@@ -1,9 +1,7 @@
 define([
-    "react",
-    "react-dom"
+    "react"
   ], function(
-    React,
-    ReactDOM
+    React
   ) {
 
     return React.createClass({

@@ -18,6 +18,8 @@ define([
 
     var myManager = {name:  'manager name'};
 
+    var myHref = { href: "http://localhost:8092/api/bookings/4" };
+    var myLinks = {self: myHref};
     var myEntity = {
         kreuzfahrt: 100	,						
         flug:  100 , 
@@ -33,10 +35,12 @@ define([
         storno:  0 , 
         comment:  'comment' , 
         bookingDate :  '2018-01-14', 
-        manager: myManager
+        manager: myManager,
+        _links: myLinks
       };
-
       var myBooking = {entity: myEntity};
+
+      console.log(myBooking);
 
     beforeEach(function() {
       this.text = "Test 123456",
@@ -46,10 +50,11 @@ define([
     it("Booking Button says 'Delete' ", function() {
       var component = render({
         text: this.text , 
-        booking: this.booking							
+        booking: this.booking ,	
+        attributes: []
       });
 
-      var button = TestUtils.findRenderedDOMComponentWithTag(component, "button");
+      var button = TestUtils.findRenderedDOMComponentWithClass(component, "btn btn-delete btn3d");
 
       expect(button.getDOMNode().textContent).toEqual("Delete");
     });

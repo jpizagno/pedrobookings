@@ -1,99 +1,48 @@
-const React = require('react');
+define([
+    "react",
+    "jsx!UpdateDialog"
+  ], function(
+    React,
+    UpdateDialog
+  ) {
 
-import UpdateDialog from './UpdateDialog.js';
+    return React.createClass({
 
-class Booking extends React.Component {
-    
-    constructor(props) {
-        super(props);
-        this.handleDelete = this.handleDelete.bind(this);
-    }
+        handleDelete: function() {
+            this.props.onDelete(this.props.booking);
+        },
 
-    handleDelete() {
-        this.props.onDelete(this.props.booking);
-    }
+        render: function() {
 
-    render() {
+            var id = "deleteSelectedBooking" + this.props.booking.entity.kreuzfahrt;
 
-        var id = "deleteSelectedBooking" + this.props.booking.entity.kreuzfahrt;
-
-        return (
-            <tr>
-                <td>{this.props.booking.entity.kreuzfahrt}</td>							
-                <td>{this.props.booking.entity.flug}</td>
-                <td>{this.props.booking.entity.hotel}</td>
-                <td>{this.props.booking.entity.versicherung}</td>
-                <td>{this.props.booking.entity.total}</td>
-                <td>{this.props.booking.entity.dayDeparture}</td> 
-                <td>{this.props.booking.entity.monthDeparture}</td>
-                <td>{this.props.booking.entity.yearDeparture}</td>
-                <td>{this.props.booking.entity.surname}</td>
-                <td>{this.props.booking.entity.firstName}</td>
-                <td>{this.props.booking.entity.bookingNumber}</td>	
-                <td>{this.props.booking.entity.storno}</td>
-                <td>{this.props.booking.entity.comment}</td>
-                <td>{this.props.booking.entity.bookingDate.substring(0,19)}</td>
-                <td>{this.props.booking.entity.manager.name}</td>
-                <td>
+            return (
+                <tr>
+                    <td>{this.props.booking.entity.kreuzfahrt}</td>							
+                    <td>{this.props.booking.entity.flug}</td>
+                    <td>{this.props.booking.entity.hotel}</td>
+                    <td>{this.props.booking.entity.versicherung}</td>
+                    <td>{this.props.booking.entity.total}</td>
+                    <td>{this.props.booking.entity.dayDeparture}</td> 
+                    <td>{this.props.booking.entity.monthDeparture}</td>
+                    <td>{this.props.booking.entity.yearDeparture}</td>
+                    <td>{this.props.booking.entity.surname}</td>
+                    <td>{this.props.booking.entity.firstName}</td>
+                    <td>{this.props.booking.entity.bookingNumber}</td>	
+                    <td>{this.props.booking.entity.storno}</td>
+                    <td>{this.props.booking.entity.comment}</td>
+                    <td>{this.props.booking.entity.bookingDate.substring(0,19)}</td>
+                    <td>{this.props.booking.entity.manager.name}</td>
+                    <td>
                     <UpdateDialog booking={this.props.booking}
                                     attributes={this.props.attributes}
                                     onUpdate={this.props.onUpdate}/>
-                </td>
-                <td>
-                    <button type="button" className="btn btn-delete btn3d" id={id} onClick={this.handleDelete} >Delete</button>
-                </td>
-            </tr>
-        )
-    }
-}
-
-export default Booking;
-
-// define([
-//     "react",
-//     "main/js/UpdateDialog"
-//   ], function(
-//     React,
-//     UpdateDialog
-//   ) {
-
-//     return React.createClass({
-
-//         handleDelete: function() {
-//             this.props.onDelete(this.props.booking);
-//         },
-
-//         render: function() {
-
-//             var id = "deleteSelectedBooking" + this.props.booking.entity.kreuzfahrt;
-
-//             return (
-//                 <tr>
-//                     <td>{this.props.booking.entity.kreuzfahrt}</td>							
-//                     <td>{this.props.booking.entity.flug}</td>
-//                     <td>{this.props.booking.entity.hotel}</td>
-//                     <td>{this.props.booking.entity.versicherung}</td>
-//                     <td>{this.props.booking.entity.total}</td>
-//                     <td>{this.props.booking.entity.dayDeparture}</td> 
-//                     <td>{this.props.booking.entity.monthDeparture}</td>
-//                     <td>{this.props.booking.entity.yearDeparture}</td>
-//                     <td>{this.props.booking.entity.surname}</td>
-//                     <td>{this.props.booking.entity.firstName}</td>
-//                     <td>{this.props.booking.entity.bookingNumber}</td>	
-//                     <td>{this.props.booking.entity.storno}</td>
-//                     <td>{this.props.booking.entity.comment}</td>
-//                     <td>{this.props.booking.entity.bookingDate.substring(0,19)}</td>
-//                     <td>{this.props.booking.entity.manager.name}</td>
-//                     <td>
-//                         <UpdateDialog booking={this.props.booking}
-//                                         attributes={this.props.attributes}
-//                                         onUpdate={this.props.onUpdate}/>
-//                         </td>
-//                     <td>
-//                         <button type="button" className="btn btn-delete btn3d" id={id} onClick={this.handleDelete} >Delete</button>
-//                     </td>
-//                 </tr>
-//             )
-//         }
-//     });
-// });
+                    </td>
+                    <td>
+                        <button type="button" className="btn btn-delete btn3d" id={id} onClick={this.handleDelete} >Delete</button>
+                    </td>
+                </tr>
+            )
+        }
+    });
+});
