@@ -3,6 +3,8 @@
 set -e
 set -x
 
+# testing if phantomjs is in PATH
+phantomjs -v
 
 echo "    "
 echo running Backend Java and Spring Controller Tests.....

@@ -1,20 +1,43 @@
+# Simple Data Entry Web Page
 
-test api with login:
-curl --user greg:turnquist --cookie-jar ./cookies http://localhost:8092/
-curl --cookie cookies "http://localhost:8092/api/bookings/search/findByMonthDepartureAndYearDeparture?month=12&year=1900"
+This website will allow one to manage bookings. The data management includes create, update, delete.  Login is included along with manager mappings.  Tests are included.  The technology includes a Frontend with ReactJS and Bootstrap, and a Backend with Java Spring and a MySQL Database.
 
 
-** build
-compile with 
-mvn clean install
+##  Run
 
-** Run
-run with:
-mvn spring-boot:run
+Run the app using the run.sh script.  
+It basically runs "mvn spring-boot:run"
+The app will be available at http://localhost:8092. The initial login to view test data is james/password12345
 
-** Test
-to Test must install phantom JS and set path to binary:
-export PATH=$PATH:/home/jpizagno/Otto/Code/ReactTestExample/Phantom/phantomjs-2.1.1-linux-x86_64/bin
-mvn jasmine:test
-mvn jasmine:bdd # jetty on http://localhost:8234
+```
+shell% ./run.sh
+```
+
+### Adjust Settings
+
+* The application port setting can be found under:  src/main/resources/application.properties
+* MySQL settings (port, login) can be found under:  src/main/resources/application.properties
+* A new manger can be added to MySQL using these scripts:  scripts/add_manager.sh
+* MySQL DDL and DML scripts can be found under:  scripts/
+
+## Test
+
+The test.sh script will run backend Java /Spring tests, and then run Frontend tests using phantomJS and ReactJS.TestUtils.
+
+```
+shell% ./test.sh
+```
+
+* PhantomJS must be installed and in the Unix PATH
+
+### CLI Access to Spring API
+
+To get CLI Access to the Spring API, one must first login using curl with cookie-jar:
+
+```
+shell% curl --user greg:turnquist --cookie-jar ./cookies http://localhost:8092/
+shell% curl --cookie cookies "http://localhost:8092/api/bookings/search/findByMonthDepartureAndYearDeparture?month=12&year=1900"
+```
+
+
 
