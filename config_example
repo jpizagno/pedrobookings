@@ -1,5 +1,0 @@
-[database]
-db_name     = bookings
-db_user     = jim
-db_password = password
-db_ip = localhost
