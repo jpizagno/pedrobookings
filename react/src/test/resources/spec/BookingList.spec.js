@@ -1,20 +1,20 @@
 
 define([
   "react",
-  "jsx!Booking"
+  "jsx!BookingList"
 ], function(
   React,
-  Booking
+  BookingList
 ) {
   
   var TestUtils = React.addons.TestUtils;
 
   var render = function(props) {
-    var element = React.createElement(Booking, props);
+    var element = React.createElement(BookingList, props);
     return TestUtils.renderIntoDocument(element);
   };
 
-  describe("Booking.jsx test.... ", function() {
+  describe("BookingList.jsx test.... ", function() {
 
     var myManager = {name:  'manager name'};
 
@@ -41,20 +41,18 @@ define([
       var myBooking = {entity: myEntity};
 
     beforeEach(function() {
-      this.text = "Test 123456",
-      this.booking = myBooking
+      this.bookings = [myBooking]
     });
 
-    it("Booking Button says 'Delete' ", function() {
+    it("BookingList has table ", function() {
       var component = render({
-        text: this.text , 
-        booking: this.booking ,	
+        bookings: this.bookings ,	
         attributes: []
       });
 
-      var button = TestUtils.findRenderedDOMComponentWithClass(component, "btn btn-delete btn3d");
-
-      expect(button.getDOMNode().textContent).toEqual("Delete");
+      var rows = TestUtils.scryRenderedDOMComponentsWithTag( component, "tr");
+      // 2 rows. 1 for header-titles and second for data in this.bookings
+      expect(rows.length).toEqual(2);
     });
 
   });

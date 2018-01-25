@@ -1,6 +1,4 @@
 import Modal from 'react-responsive-modal';
-
-
 define([
     "react",
     "react-dom"

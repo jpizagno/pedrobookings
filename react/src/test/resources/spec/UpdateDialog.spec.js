@@ -1,20 +1,20 @@
 
 define([
   "react",
-  "jsx!Booking"
+  "jsx!UpdateDialog"
 ], function(
   React,
-  Booking
+  UpdateDialog
 ) {
   
   var TestUtils = React.addons.TestUtils;
 
   var render = function(props) {
-    var element = React.createElement(Booking, props);
+    var element = React.createElement(UpdateDialog, props);
     return TestUtils.renderIntoDocument(element);
   };
 
-  describe("Booking.jsx test.... ", function() {
+  describe("UpdateDialog.jsx test.... ", function() {
 
     var myManager = {name:  'manager name'};
 
@@ -41,20 +41,18 @@ define([
       var myBooking = {entity: myEntity};
 
     beforeEach(function() {
-      this.text = "Test 123456",
       this.booking = myBooking
     });
 
-    it("Booking Button says 'Delete' ", function() {
+    it("H2 title says 'Update a booking' ", function() {
       var component = render({
-        text: this.text , 
         booking: this.booking ,	
         attributes: []
       });
 
-      var button = TestUtils.findRenderedDOMComponentWithClass(component, "btn btn-delete btn3d");
-
-      expect(button.getDOMNode().textContent).toEqual("Delete");
+      var h2 = TestUtils.findRenderedDOMComponentWithTag(component, "h2");
+      
+      expect(h2.getDOMNode().textContent).toEqual("Update a booking")
     });
 
   });

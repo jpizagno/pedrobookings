@@ -1,49 +1,29 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 set -x
 
 
 echo "    "
-echo " running Backend Java and Spring Controller Tests....."
+echo running Backend Java and Spring Controller Tests.....
 echo "    "
+echo running Maven Tests in quiet mode, only errors will be show.  To run maven in verbose mode, remove -q
 
 mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test -Pintegration-test -Dmaven.test.failure.ignore=false
 
-echo "    "
-echo "java Jacoco.exec test results can be found under ./target/"
-echo "    "
-echo "Press any key to end...."
-read -n 1 
+echo " "
+echo running ReactJS tests using PhantomJS
+echo " "
+mvn -q -Dorg.slf4j.simpleLogger.defaultLogLevel=WARN jasmine:test
 
-#echo "    "
-#echo " running NPM ReactJS tests"
-#echo "    "
-#
-## npm install
-#sudo yum install nodejs npm --enablerepo=epel -y
-#sudo npm install n -g
-#sudo n stable
-#sudo npm install react-responsive-modal --save 
-#sudo npm install -g create-react-app
+echo " "
+echo " "
+echo " "
+echo "    "
+echo SUCCESS all tests passed
+echo BackEnd java Jacoco.exec test results can be found under ./target/
+echo "    "
+echo FrontEnd/ReactJS tests can be seen by running mvn jasmine:bdd , and seeing the results at http://localhost:8234
 
-## create test project
-#sudo mkdir my-app-test
-#sudo chmod a+xrw my-app-test
-#create-react-app my-app-test
-#
-## copy software into my-app-test
-#rm -rf my-app-test/src/*
-#rsync -av ./src/ ./my-app-test/src/ 
-#
-## run tests
-#echo '   '
-#echo ' ************** '
-#echo ' cd into my-app-test/ '
-#cd my-app-test/
-#echo ' ************* '
-#echo ' running npm install '
-#npm install
-#echo ' running npm test '
-#npm test
+
 

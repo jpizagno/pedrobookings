@@ -1,10 +1,11 @@
-
-import Booking from './Booking.jsx';
+//import Booking from './Booking.jsx';
 
 define([
-    "react"
+    "react",
+    "jsx!Booking"
   ], function(
-    React
+    React,
+    Booking
   ) {
     return React.createClass({
         render() {
