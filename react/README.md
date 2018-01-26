@@ -35,7 +35,7 @@ shell% ./test.sh
 To get CLI Access to the Spring API, one must first login using curl with cookie-jar:
 
 ```
-shell% curl --user greg:turnquist --cookie-jar ./cookies http://localhost:8092/
+shell% curl --user james:password12345 --cookie-jar ./cookies http://localhost:8092/
 shell% curl --cookie cookies "http://localhost:8092/api/bookings/search/findByMonthDepartureAndYearDeparture?month=12&year=1900"
 ```
 
