@@ -25,11 +25,10 @@ class App extends React.Component {
 		this.state = {
 			bookingsAll: []
 			, bookingsFiltered: [] 
-			, bookingsToDisplay : []
-			, isFiltered: false
+			, isFiltered: true
 			, attributes: []
 			, page: 1
-			, pageSize: 100000
+			, pageSize: 5
 			, links: {}
 			, monthFilter : -1 
 			, yearFilter : -1
@@ -120,7 +119,6 @@ class App extends React.Component {
 				page: this.page,
 				bookingsAll: bookings,
 				bookingsFiltered: bookings,
-				bookingsToDisplay : bookings,
 				attributes: Object.keys(this.schema.properties),
 				pageSize: pageSize,
 				links: this.links,
@@ -169,7 +167,6 @@ class App extends React.Component {
 		}).done(bookings => {
 			this.setState({
 				bookingsFiltered: bookings,
-				bookingsToDisplay: bookings,
 				isFiltered : true
 			});
 		});
@@ -248,7 +245,6 @@ class App extends React.Component {
 		e.preventDefault();
 			this.setState({ 
 				isFiltered: false 
-				, bookingsToDisplay : this.state.bookingsAll
 				, monthFilter : -2
 				, yearFilter : -2
 				, modelOpen : false
@@ -318,7 +314,7 @@ class App extends React.Component {
 					<div className="row top-buffer">
 						<div className="col">
 							<BookingList page={this.state.page}
-									bookings={this.state.bookingsToDisplay}
+									bookings={ this.state.isFiltered ?  this.state.bookingsFiltered : this.state.bookingsAll}
 									links={this.state.links}
 									attributes={this.state.attributes}
 									onUpdate={this.onUpdate}
