@@ -69,6 +69,13 @@ public class DatabaseLoader implements CommandLineRunner {
 				31, 11, 1900, "surname2", "firstName2", "bookingNumber2", 
 				0, "4comment B", new Date(), greg));
 		
+		for (int bi=0 ; bi<2000 ; bi++) {
+			this.bookings.save(new Booking(0.0f, 10.0f, 1.0f, 2.0f, 
+					31, 11, 1900, "surname"+bi, "firstName"+bi, "bookingNumber"+bi, 
+					0, "comment "+bi, new Date(), greg));
+			System.out.println("WAIT: loading data in database loading bi="+bi+"/2000 comment="+"comment "+bi);
+		}
+		
 		SecurityContextHolder.clearContext();
 	}
 }

@@ -3,12 +3,15 @@ package de.booking.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,17 +31,17 @@ public class BookingController {
 
 	@Autowired
 	public BookingRepository bookingRepository;
-	
+
 	@Value("${userDefined.localReportDirectory}")
 	private String localReportDirectory;
-	
+
 	private String fileOutName;
 
 	/**
 	 * Generate Report for given month and year.
 	 * 
 	 * example curl:
-	 * curl --cookie cookies "localhost:8092/bookingyearmonth?month=12&year=1900"
+	 * curl --cookie cookies "localhost:8092/reportyearmonth?month=12&year=1900"
 	 * 
 	 * @param month
 	 * @param year
@@ -49,7 +52,7 @@ public class BookingController {
 			, @RequestParam(value="year", required=true) Integer year) {
 
 		List<Booking> bookings = bookingRepository.findByMonthDepartureAndYearDeparture(month, year);
-		
+
 		WritePdf writer = new WritePdf();
 		fileOutName = "report_" + month + "_" + year + ".pdf";
 		String title =  "Julia's bookings for month "+month+" year "+year ;
@@ -65,21 +68,21 @@ public class BookingController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/report")
-    public void getFile(HttpServletResponse response) throws IOException {
+	public void getFile(HttpServletResponse response) throws IOException {
 
-        String path = localReportDirectory + fileOutName;
-        
-        File file = new File(path);
-        FileInputStream inputStream = new FileInputStream(file);
+		String path = localReportDirectory + fileOutName;
 
-        response.setContentType("application/pdf");
-        response.setContentLength((int) file.length());
-        response.setHeader("Content-Disposition", "inline;filename=\"" + fileOutName + "\"");
+		File file = new File(path);
+		FileInputStream inputStream = new FileInputStream(file);
 
-        FileCopyUtils.copy(inputStream, response.getOutputStream());
+		response.setContentType("application/pdf");
+		response.setContentLength((int) file.length());
+		response.setHeader("Content-Disposition", "inline;filename=\"" + fileOutName + "\"");
 
-    }
-	
+		FileCopyUtils.copy(inputStream, response.getOutputStream());
+
+	}
+
 	/**
 	 * Getter implemented for testing
 	 * 
