@@ -85,7 +85,7 @@ class App extends React.Component {
 		          		).then(bookingCollection => {
 			return client({
 				method: 'GET',
-				path: "http://localhost:8092/api/profile/bookings", //bookingCollection.entity._links.profile.href, 
+				path: "http://" + window.location.hostname + ":8092/api/profile/bookings", //bookingCollection.entity._links.profile.href, 
 				headers: {'Accept': 'application/schema+json'}
 			}).then(schema => {
 				/**
