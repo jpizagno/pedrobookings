@@ -100,11 +100,10 @@
 			_this.state = {
 				bookingsAll: [],
 				bookingsFiltered: [],
-				bookingsToDisplay: [],
-				isFiltered: false,
+				isFiltered: true,
 				attributes: [],
 				page: 1,
-				pageSize: 100000,
+				pageSize: 10,
 				links: {},
 				monthFilter: -1,
 				yearFilter: -1,
@@ -169,10 +168,10 @@
 			value: function loadFromServer(pageSize) {
 				var _this2 = this;
 	
-				follow(client, root, [{ rel: 'bookings', params: { size: pageSize } }]).then(function (bookingCollection) {
+				follow(client, root, [{ rel: 'bookings' }, { rel: 'search' }, { rel: 'findTop10ByOrderByIdDesc' }]).then(function (bookingCollection) {
 					return client({
 						method: 'GET',
-						path: bookingCollection.entity._links.profile.href,
+						path: "http://localhost:8092/api/profile/bookings", //bookingCollection.entity._links.profile.href, 
 						headers: { 'Accept': 'application/schema+json' }
 					}).then(function (schema) {
 						/**
@@ -206,7 +205,6 @@
 						page: _this2.page,
 						bookingsAll: bookings,
 						bookingsFiltered: bookings,
-						bookingsToDisplay: bookings,
 						attributes: Object.keys(_this2.schema.properties),
 						pageSize: pageSize,
 						links: _this2.links,
@@ -258,7 +256,6 @@
 				}).done(function (bookings) {
 					_this4.setState({
 						bookingsFiltered: bookings,
-						bookingsToDisplay: bookings,
 						isFiltered: true
 					});
 				});
@@ -334,7 +331,6 @@
 				e.preventDefault();
 				this.setState({
 					isFiltered: false,
-					bookingsToDisplay: this.state.bookingsAll,
 					monthFilter: -2,
 					yearFilter: -2,
 					modelOpen: false
@@ -471,7 +467,7 @@
 								'div',
 								{ className: 'col' },
 								React.createElement(_BookingList2.default, { page: this.state.page,
-									bookings: this.state.bookingsToDisplay,
+									bookings: this.state.isFiltered ? this.state.bookingsFiltered : this.state.bookingsAll,
 									links: this.state.links,
 									attributes: this.state.attributes,
 									onUpdate: this.onUpdate,
@@ -35112,251 +35108,274 @@
 /* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
+	'use strict';
 	
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5), __webpack_require__(303)], __WEBPACK_AMD_DEFINE_RESULT__ = function (React, UpdateDialog) {
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	
-	    return React.createClass({
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	        handleDelete: function handleDelete() {
+	var _UpdateDialog = __webpack_require__(303);
+	
+	var _UpdateDialog2 = _interopRequireDefault(_UpdateDialog);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var React = __webpack_require__(5);
+	
+	var Booking = function (_React$Component) {
+	    _inherits(Booking, _React$Component);
+	
+	    function Booking(props) {
+	        _classCallCheck(this, Booking);
+	
+	        var _this = _possibleConstructorReturn(this, (Booking.__proto__ || Object.getPrototypeOf(Booking)).call(this, props));
+	
+	        _this.handleDelete = _this.handleDelete.bind(_this);
+	        return _this;
+	    }
+	
+	    _createClass(Booking, [{
+	        key: 'handleDelete',
+	        value: function handleDelete() {
 	            this.props.onDelete(this.props.booking);
-	        },
-	
-	        render: function render() {
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
 	
 	            var id = "deleteSelectedBooking" + this.props.booking.entity.kreuzfahrt;
 	
 	            return React.createElement(
-	                "tr",
+	                'tr',
 	                null,
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.kreuzfahrt
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.flug
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.hotel
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.versicherung
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.total
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.dayDeparture
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.monthDeparture
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.yearDeparture
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.surname
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.firstName
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.bookingNumber
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.storno
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.comment
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.bookingDate.substring(0, 19)
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    this.props.booking.entity.manager.name
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
-	                    React.createElement(UpdateDialog, { booking: this.props.booking,
+	                    React.createElement(_UpdateDialog2.default, { booking: this.props.booking,
 	                        attributes: this.props.attributes,
 	                        onUpdate: this.props.onUpdate })
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    React.createElement(
-	                        "button",
-	                        { type: "button", className: "btn btn-delete btn3d", id: id, onClick: this.handleDelete },
-	                        "Delete"
+	                        'button',
+	                        { type: 'button', className: 'btn btn-delete btn3d', id: id, onClick: this.handleDelete },
+	                        'Delete'
 	                    )
 	                )
 	            );
 	        }
-	    });
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    }]);
 	
-	// const React = require('react');
-	// import UpdateDialog from './UpdateDialog.js';
-	// class Booking extends React.Component {
+	    return Booking;
+	}(React.Component);
 	
-	//     constructor(props) {
-	//         super(props);
-	//         this.handleDelete = this.handleDelete.bind(this);
-	//     }
-	
-	//     handleDelete() {
-	//         this.props.onDelete(this.props.booking);
-	//     }
-	
-	//     render() {
-	
-	//         var id = "deleteSelectedBooking" + this.props.booking.entity.kreuzfahrt;
-	
-	//         return (
-	//             <tr>
-	//                 <td>{this.props.booking.entity.kreuzfahrt}</td>							
-	//                 <td>{this.props.booking.entity.flug}</td>
-	//                 <td>{this.props.booking.entity.hotel}</td>
-	//                 <td>{this.props.booking.entity.versicherung}</td>
-	//                 <td>{this.props.booking.entity.total}</td>
-	//                 <td>{this.props.booking.entity.dayDeparture}</td> 
-	//                 <td>{this.props.booking.entity.monthDeparture}</td>
-	//                 <td>{this.props.booking.entity.yearDeparture}</td>
-	//                 <td>{this.props.booking.entity.surname}</td>
-	//                 <td>{this.props.booking.entity.firstName}</td>
-	//                 <td>{this.props.booking.entity.bookingNumber}</td>	
-	//                 <td>{this.props.booking.entity.storno}</td>
-	//                 <td>{this.props.booking.entity.comment}</td>
-	//                 <td>{this.props.booking.entity.bookingDate.substring(0,19)}</td>
-	//                 <td>{this.props.booking.entity.manager.name}</td>
-	//                 <td>
-	//                     <UpdateDialog booking={this.props.booking}
-	//                                     attributes={this.props.attributes}
-	//                                     onUpdate={this.props.onUpdate}/>
-	//                 </td>
-	//                 <td>
-	//                     <button type="button" className="btn btn-delete btn3d" id={id} onClick={this.handleDelete} >Delete</button>
-	//                 </td>
-	//             </tr>
-	//         )
-	//     }
-	// }
-	// export default Booking;
+	exports.default = Booking;
 
 /***/ }),
 /* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
+	'use strict';
 	
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5)], __WEBPACK_AMD_DEFINE_RESULT__ = function (React) {
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	
-	    return React.createClass({
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	        handleSubmit: function handleSubmit(e) {
-	            var _this = this;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var React = __webpack_require__(5);
+	var ReactDOM = __webpack_require__(141);
+	
+	var UpdateDialog = function (_React$Component) {
+	    _inherits(UpdateDialog, _React$Component);
+	
+	    function UpdateDialog(props) {
+	        _classCallCheck(this, UpdateDialog);
+	
+	        var _this = _possibleConstructorReturn(this, (UpdateDialog.__proto__ || Object.getPrototypeOf(UpdateDialog)).call(this, props));
+	
+	        _this.handleSubmit = _this.handleSubmit.bind(_this);
+	        return _this;
+	    }
+	
+	    _createClass(UpdateDialog, [{
+	        key: 'handleSubmit',
+	        value: function handleSubmit(e) {
+	            var _this2 = this;
 	
 	            e.preventDefault();
 	            var updatedBooking = {};
 	            this.props.attributes.forEach(function (attribute) {
-	                updatedBooking[attribute] = ReactDOM.findDOMNode(_this.refs[attribute]).value.trim();
+	                updatedBooking[attribute] = ReactDOM.findDOMNode(_this2.refs[attribute]).value.trim();
 	            });
 	            this.props.onUpdate(this.props.booking, updatedBooking);
 	            window.location = "#";
 	            window.location.reload();
-	        },
-	
-	        render: function render() {
-	            var _this2 = this;
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this3 = this;
 	
 	            var inputs = this.props.attributes.map(function (attribute) {
 	                return React.createElement(
-	                    "p",
-	                    { key: _this2.props.booking.entity[attribute] + attribute },
-	                    React.createElement("input", { type: "text", placeholder: attribute,
-	                        defaultValue: _this2.props.booking.entity[attribute],
-	                        ref: attribute, className: "field" })
+	                    'p',
+	                    { key: _this3.props.booking.entity[attribute] + attribute },
+	                    React.createElement('input', { type: 'text', placeholder: attribute,
+	                        defaultValue: _this3.props.booking.entity[attribute],
+	                        ref: attribute, className: 'field' })
 	                );
 	            });
 	
 	            var dialogId = "updateBooking-" + this.props.booking.entity._links.self.href;
 	
 	            return React.createElement(
-	                "div",
+	                'div',
 	                { key: this.props.booking.entity._links.self.href },
 	                React.createElement(
-	                    "a",
+	                    'a',
 	                    { href: "#" + dialogId },
-	                    "Update"
+	                    'Update'
 	                ),
 	                React.createElement(
-	                    "div",
-	                    { id: dialogId, className: "modalDialog" },
+	                    'div',
+	                    { id: dialogId, className: 'modalDialog' },
 	                    React.createElement(
-	                        "div",
+	                        'div',
 	                        null,
 	                        React.createElement(
-	                            "a",
-	                            { href: "#", title: "Close", className: "close" },
-	                            "X"
+	                            'a',
+	                            { href: '#', title: 'Close', className: 'close' },
+	                            'X'
 	                        ),
 	                        React.createElement(
-	                            "h2",
+	                            'h2',
 	                            null,
-	                            "Update a booking"
+	                            'Update a booking'
 	                        ),
 	                        React.createElement(
-	                            "form",
+	                            'form',
 	                            null,
 	                            inputs,
 	                            React.createElement(
-	                                "button",
+	                                'button',
 	                                { onClick: this.handleSubmit },
-	                                "Update"
+	                                'Update'
 	                            )
 	                        )
 	                    )
 	                )
 	            );
 	        }
-	    });
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    }]);
+	
+	    return UpdateDialog;
+	}(React.Component);
+	
+	exports.default = UpdateDialog;
 
 /***/ }),
 /* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _reactResponsiveModal = __webpack_require__(1);
 	
@@ -35364,12 +35383,32 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5), __webpack_require__(141)], __WEBPACK_AMD_DEFINE_RESULT__ = function (React, ReactDOM) {
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	    return React.createClass({
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	        handleSubmit: function handleSubmit(e) {
-	            var _this = this;
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var React = __webpack_require__(5);
+	var ReactDOM = __webpack_require__(141);
+	
+	var CreateDialog = function (_React$Component) {
+	    _inherits(CreateDialog, _React$Component);
+	
+	    function CreateDialog(props) {
+	        _classCallCheck(this, CreateDialog);
+	
+	        var _this = _possibleConstructorReturn(this, (CreateDialog.__proto__ || Object.getPrototypeOf(CreateDialog)).call(this, props));
+	
+	        _this.handleSubmit = _this.handleSubmit.bind(_this);
+	        _this.closeModal = _this.closeModal.bind(_this);
+	        return _this;
+	    }
+	
+	    _createClass(CreateDialog, [{
+	        key: 'handleSubmit',
+	        value: function handleSubmit(e) {
+	            var _this2 = this;
 	
 	            e.preventDefault();
 	            var newBooking = {};
@@ -35379,24 +35418,26 @@
 	                } else if (attribute == "comment") {
 	                    newBooking[attribute] = '';
 	                } else {
-	                    newBooking[attribute] = ReactDOM.findDOMNode(_this.refs[attribute]).value.trim();
+	                    newBooking[attribute] = ReactDOM.findDOMNode(_this2.refs[attribute]).value.trim();
 	                }
 	            });
 	            this.props.onCreate(newBooking);
 	            this.props.closeModal();
-	        },
-	
-	        closeModal: function closeModal(e) {
+	        }
+	    }, {
+	        key: 'closeModal',
+	        value: function closeModal(e) {
 	            e.preventDefault();
 	            window.location = "#";
-	        },
-	
-	        render: function render() {
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
 	            var inputs = this.props.attributes.map(function (attribute) {
 	                return React.createElement(
-	                    "p",
+	                    'p',
 	                    { key: attribute },
-	                    React.createElement("input", { type: "text", placeholder: attribute == 'bookingDate' ? 'yyyy-MM-dd Booking Date' : attribute, ref: attribute, className: "field" })
+	                    React.createElement('input', { type: 'text', placeholder: attribute == 'bookingDate' ? 'yyyy-MM-dd Booking Date' : attribute, ref: attribute, className: 'field' })
 	                );
 	            });
 	
@@ -35405,106 +35446,106 @@
 	
 	            return React.createElement(
 	                _reactResponsiveModal2.default,
-	                { open: this.props.modalOpenState, onClose: this.props.closeModal, id: "createBooking", classNames: { modal: 'custom-modal' } },
+	                { open: this.props.modalOpenState, onClose: this.props.closeModal, id: 'createBooking', classNames: { modal: 'custom-modal' } },
 	                React.createElement(
-	                    "div",
-	                    { className: "container-fluid" },
+	                    'div',
+	                    { className: 'container-fluid' },
 	                    React.createElement(
-	                        "div",
-	                        { className: "row" },
+	                        'div',
+	                        { className: 'row' },
 	                        React.createElement(
-	                            "div",
-	                            { className: "col-md-4" },
+	                            'div',
+	                            { className: 'col-md-4' },
 	                            React.createElement(
-	                                "form",
+	                                'form',
 	                                null,
 	                                React.createElement(
-	                                    "div",
-	                                    { id: "contact-form", className: "form-container", "data-form-container": true },
+	                                    'div',
+	                                    { id: 'contact-form', className: 'form-container', 'data-form-container': true },
 	                                    React.createElement(
-	                                        "div",
-	                                        { className: "row" },
+	                                        'div',
+	                                        { className: 'row' },
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "form-title" },
+	                                            'div',
+	                                            { className: 'form-title' },
 	                                            React.createElement(
-	                                                "span",
+	                                                'span',
 	                                                null,
-	                                                "Costs "
+	                                                'Costs '
 	                                            )
 	                                        )
 	                                    ),
 	                                    React.createElement(
-	                                        "div",
-	                                        { className: "input-container" },
+	                                        'div',
+	                                        { className: 'input-container' },
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input" },
+	                                                'span',
+	                                                { className: 'req-input' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Input Kreuzfahrt" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Input Kreuzfahrt' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", "data-min-length": "8", ref: "kreuzfahrt", id: "kreuzfahrt", "default": 0, placeholder: "Kreuzfahrt" })
+	                                                React.createElement('input', { type: 'text', 'data-min-length': '8', ref: 'kreuzfahrt', id: 'kreuzfahrt', 'default': 0, placeholder: 'Kreuzfahrt' })
 	                                            )
 	                                        ),
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input" },
+	                                                'span',
+	                                                { className: 'req-input' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Input Flug" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Input Flug' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", id: "flug", ref: "flug", placeholder: "Flug" })
+	                                                React.createElement('input', { type: 'text', id: 'flug', ref: 'flug', placeholder: 'Flug' })
 	                                            )
 	                                        ),
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input" },
+	                                                'span',
+	                                                { className: 'req-input' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Input Hotel" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Input Hotel' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", id: "hotel", ref: "hotel", placeholder: "Hotel" })
+	                                                React.createElement('input', { type: 'text', id: 'hotel', ref: 'hotel', placeholder: 'Hotel' })
 	                                            )
 	                                        ),
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input" },
+	                                                'span',
+	                                                { className: 'req-input' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Input Versicherung" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Input Versicherung' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", id: "versicherung", ref: "versicherung", placeholder: "Versicherung" })
+	                                                React.createElement('input', { type: 'text', id: 'versicherung', ref: 'versicherung', placeholder: 'Versicherung' })
 	                                            )
 	                                        ),
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input" },
+	                                                'span',
+	                                                { className: 'req-input' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Input Storno" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Input Storno' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", id: "storno", ref: "storno", placeholder: "Storno (0=Good, 1=Storno)" })
+	                                                React.createElement('input', { type: 'text', id: 'storno', ref: 'storno', placeholder: 'Storno (0=Good, 1=Storno)' })
 	                                            )
 	                                        )
 	                                    )
@@ -35512,70 +35553,70 @@
 	                            )
 	                        ),
 	                        React.createElement(
-	                            "div",
-	                            { className: "col-md-4" },
+	                            'div',
+	                            { className: 'col-md-4' },
 	                            React.createElement(
-	                                "form",
+	                                'form',
 	                                null,
 	                                React.createElement(
-	                                    "div",
-	                                    { id: "contact-form", className: "form-container", "data-form-container": true, style: style1 },
+	                                    'div',
+	                                    { id: 'contact-form', className: 'form-container', 'data-form-container': true, style: style1 },
 	                                    React.createElement(
-	                                        "div",
-	                                        { className: "row" },
+	                                        'div',
+	                                        { className: 'row' },
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "form-title" },
+	                                            'div',
+	                                            { className: 'form-title' },
 	                                            React.createElement(
-	                                                "span",
+	                                                'span',
 	                                                null,
-	                                                "Name and Booking Number "
+	                                                'Name and Booking Number '
 	                                            )
 	                                        )
 	                                    ),
 	                                    React.createElement(
-	                                        "div",
-	                                        { className: "input-container" },
+	                                        'div',
+	                                        { className: 'input-container' },
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input valid" },
+	                                                'span',
+	                                                { className: 'req-input valid' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Input Surname" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Input Surname' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", "data-min-length": "8", ref: "surname", id: "surname", placeholder: "Surname" })
+	                                                React.createElement('input', { type: 'text', 'data-min-length': '8', ref: 'surname', id: 'surname', placeholder: 'Surname' })
 	                                            )
 	                                        ),
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input valid" },
+	                                                'span',
+	                                                { className: 'req-input valid' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Please Input First Name" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Please Input First Name' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", id: "firstname", ref: "firstName", placeholder: "First Name" })
+	                                                React.createElement('input', { type: 'text', id: 'firstname', ref: 'firstName', placeholder: 'First Name' })
 	                                            )
 	                                        ),
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input valid" },
+	                                                'span',
+	                                                { className: 'req-input valid' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Please Input Booking Number" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Please Input Booking Number' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", id: "bookingnumber", ref: "bookingNumber", placeholder: "Booking Number" })
+	                                                React.createElement('input', { type: 'text', id: 'bookingnumber', ref: 'bookingNumber', placeholder: 'Booking Number' })
 	                                            )
 	                                        )
 	                                    )
@@ -35583,84 +35624,84 @@
 	                            )
 	                        ),
 	                        React.createElement(
-	                            "div",
-	                            { className: "col-md-4" },
+	                            'div',
+	                            { className: 'col-md-4' },
 	                            React.createElement(
-	                                "form",
+	                                'form',
 	                                null,
 	                                React.createElement(
-	                                    "div",
-	                                    { id: "contact-form", className: "form-container", "data-form-container": true, style: style2 },
+	                                    'div',
+	                                    { id: 'contact-form', className: 'form-container', 'data-form-container': true, style: style2 },
 	                                    React.createElement(
-	                                        "div",
-	                                        { className: "row" },
+	                                        'div',
+	                                        { className: 'row' },
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "form-title" },
+	                                            'div',
+	                                            { className: 'form-title' },
 	                                            React.createElement(
-	                                                "span",
+	                                                'span',
 	                                                null,
-	                                                " Dates "
+	                                                ' Dates '
 	                                            )
 	                                        )
 	                                    ),
 	                                    React.createElement(
-	                                        "div",
-	                                        { className: "input-container" },
+	                                        'div',
+	                                        { className: 'input-container' },
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input invalid" },
+	                                                'span',
+	                                                { className: 'req-input invalid' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Input Booking Date DD/MM/YYYY. i.e. 28/02/2017" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Input Booking Date DD/MM/YYYY. i.e. 28/02/2017' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", "data-min-length": "8", id: "bookingdate", ref: "bookingDate", placeholder: "Booking Date (2017-12-31)" })
+	                                                React.createElement('input', { type: 'text', 'data-min-length': '8', id: 'bookingdate', ref: 'bookingDate', placeholder: 'Booking Date (2017-12-31)' })
 	                                            )
 	                                        ),
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input invalid" },
+	                                                'span',
+	                                                { className: 'req-input invalid' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Please Input Day Departure. i.e. 28" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Please Input Day Departure. i.e. 28' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", id: "dayDeparture", ref: "dayDeparture", placeholder: "Departure Day (25)" })
+	                                                React.createElement('input', { type: 'text', id: 'dayDeparture', ref: 'dayDeparture', placeholder: 'Departure Day (25)' })
 	                                            )
 	                                        ),
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input invalid" },
+	                                                'span',
+	                                                { className: 'req-input invalid' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Please Input Month Departure. i.e. 12" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Please Input Month Departure. i.e. 12' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", id: "monthDeparture", ref: "monthDeparture", placeholder: "Departure Month (06)" })
+	                                                React.createElement('input', { type: 'text', id: 'monthDeparture', ref: 'monthDeparture', placeholder: 'Departure Month (06)' })
 	                                            )
 	                                        ),
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "row" },
+	                                            'div',
+	                                            { className: 'row' },
 	                                            React.createElement(
-	                                                "span",
-	                                                { className: "req-input invalid" },
+	                                                'span',
+	                                                { className: 'req-input invalid' },
 	                                                React.createElement(
-	                                                    "span",
-	                                                    { className: "input-status", "data-toggle": "tooltip", "data-placement": "top", title: "Please Input Year Departure. i.e. 2017" },
-	                                                    " "
+	                                                    'span',
+	                                                    { className: 'input-status', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Please Input Year Departure. i.e. 2017' },
+	                                                    ' '
 	                                                ),
-	                                                React.createElement("input", { type: "text", id: "yearDeparture", ref: "yearDeparture", placeholder: "Departure Year (2017)" })
+	                                                React.createElement('input', { type: 'text', id: 'yearDeparture', ref: 'yearDeparture', placeholder: 'Departure Year (2017)' })
 	                                            )
 	                                        )
 	                                    )
@@ -35669,34 +35710,44 @@
 	                        )
 	                    ),
 	                    React.createElement(
-	                        "div",
-	                        { className: "row" },
+	                        'div',
+	                        { className: 'row' },
 	                        React.createElement(
-	                            "div",
-	                            { className: "col-md-8 col-md-offset-1" },
+	                            'div',
+	                            { className: 'col-md-8 col-md-offset-1' },
 	                            React.createElement(
-	                                "button",
-	                                { type: "button", className: "btn btn-success btn3d", onClick: this.handleSubmit, id: "createEnd" },
-	                                "Book Cruise"
+	                                'button',
+	                                { type: 'button', className: 'btn btn-success btn3d', onClick: this.handleSubmit, id: 'createEnd' },
+	                                'Book Cruise'
 	                            ),
 	                            React.createElement(
-	                                "button",
-	                                { type: "button", className: "btn btn-delete btn3d", onClick: this.props.closeModal },
-	                                " Close "
+	                                'button',
+	                                { type: 'button', className: 'btn btn-delete btn3d', onClick: this.props.closeModal },
+	                                ' Close '
 	                            )
 	                        )
 	                    )
 	                )
 	            );
 	        }
-	    });
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    }]);
+	
+	    return CreateDialog;
+	}(React.Component);
+	
+	exports.default = CreateDialog;
 
 /***/ }),
 /* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _Booking = __webpack_require__(302);
 	
@@ -35704,116 +35755,137 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5)], __WEBPACK_AMD_DEFINE_RESULT__ = function (React) {
-	    return React.createClass({
-	        render: function render() {
-	            var _this = this;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var React = __webpack_require__(5);
+	
+	var BookingList = function (_React$Component) {
+	    _inherits(BookingList, _React$Component);
+	
+	    function BookingList(props) {
+	        _classCallCheck(this, BookingList);
+	
+	        return _possibleConstructorReturn(this, (BookingList.__proto__ || Object.getPrototypeOf(BookingList)).call(this, props));
+	    }
+	
+	    _createClass(BookingList, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
 	
 	            var bookings = this.props.bookings.map(function (booking) {
 	                return React.createElement(_Booking2.default, { key: booking.entity._links.self.href,
 	                    booking: booking,
-	                    attributes: _this.props.attributes,
-	                    onUpdate: _this.props.onUpdate,
-	                    onDelete: _this.props.onDelete });
+	                    attributes: _this2.props.attributes,
+	                    onUpdate: _this2.props.onUpdate,
+	                    onDelete: _this2.props.onDelete });
 	            });
 	
 	            return React.createElement(
-	                "div",
+	                'div',
 	                null,
 	                React.createElement(
-	                    "table",
-	                    { id: "DataTable" },
+	                    'table',
+	                    { id: 'DataTable' },
 	                    React.createElement(
-	                        "tbody",
+	                        'tbody',
 	                        null,
 	                        React.createElement(
-	                            "tr",
+	                            'tr',
 	                            null,
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "kreuzfahrt"
+	                                'kreuzfahrt'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "flug"
+	                                'flug'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "hotel"
+	                                'hotel'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "versicherung"
+	                                'versicherung'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "total"
+	                                'total'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "dayDeparture"
+	                                'dayDeparture'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "monthDeparture"
+	                                'monthDeparture'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "yearDeparture"
+	                                'yearDeparture'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "surname"
+	                                'surname'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "firstName"
+	                                'firstName'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "bookingNumber"
+	                                'bookingNumber'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "storno"
+	                                'storno'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "comment"
+	                                'comment'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "booking date"
+	                                'booking date'
 	                            ),
 	                            React.createElement(
-	                                "th",
+	                                'th',
 	                                null,
-	                                "manager"
+	                                'manager'
 	                            ),
-	                            React.createElement("th", null),
-	                            React.createElement("th", null)
+	                            React.createElement('th', null),
+	                            React.createElement('th', null)
 	                        ),
 	                        bookings
 	                    )
 	                )
 	            );
 	        }
-	    });
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    }]);
+	
+	    return BookingList;
+	}(React.Component);
+	
+	exports.default = BookingList;
 
 /***/ }),
 /* 306 */

@@ -18,6 +18,9 @@ package de.booking.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -44,8 +47,10 @@ public interface BookingRepository extends PagingAndSortingRepository<Booking, L
 	@PreAuthorize("#booking?.manager?.name == authentication?.name")
 	void delete(@Param("booking") Booking booking);
 	
-	//public List<Booking> findByMonthDepartureAndYearDeparture(int monthDeparture, int yearDeparture);
-
+	// curl --cookie cookies "http://localhost:8092/api/bookings/search/findTop10ByOrderByIdDesc"
+	@Query(value = "SELECT * FROM booking ORDER BY id DESC LIMIT 10", nativeQuery = true)
+	List<Booking> findTop10ByOrderByIdDesc();
+	
 	// login:   curl --user greg:turnquist --cookie-jar ./cookies http://localhost:8092/
 	// "href" :   curl --cookie cookies "http://localhost:8092/api/bookings/search/findByMonthDepartureAndYearDeparture?month=12&year=1900"
 	public List<Booking> findByMonthDepartureAndYearDeparture(@Param("month") Integer monthDeparture, @Param("year") Integer yearDeparture);

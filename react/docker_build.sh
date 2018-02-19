@@ -2,4 +2,5 @@
 
 set -e
 
+
 docker build -t  jpizagno/bookingwebapp .

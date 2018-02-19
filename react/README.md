@@ -38,6 +38,27 @@ To get CLI Access to the Spring API, one must first login using curl with cookie
 shell% curl --user james:password12345 --cookie-jar ./cookies http://localhost:8092/
 shell% curl --cookie cookies "http://localhost:8092/api/bookings/search/findByMonthDepartureAndYearDeparture?month=12&year=1900"
 ```
+### AWS
 
+Install on AWS EC2 using:
+```
+# install git
+shell% sudo yum install git -y
+# install Java 8 with JDK
+shell% sudo yum install java-1.8.0-openjdk-devel -y
+# install maven
+shell% sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+shell% sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+shell% sudo yum install -y apache-maven
+# set Java-8 for maven
+shell% sudo /usr/sbin/alternatives --config java
+shell% sudo /usr/sbin/alternatives --config javac
+# get code
+shell% https://github.com/jpizagno/bookingbootstrap.git
+shell% cd bookingbootstrap/react
+# edit src/main/resources/application.properties for ip addresses, and MySQL information
+# run application
+shell% ./run.sh
+```
 
 

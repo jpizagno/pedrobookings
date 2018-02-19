@@ -3,10 +3,10 @@
 import Modal from 'react-responsive-modal';
 import { Base64 } from 'js-base64';
 
-import Booking from './Booking.jsx';
-import UpdateDialog from './UpdateDialog.jsx';
-import CreateDialog from './CreateDialog.jsx';
-import BookingList from './BookingList.jsx';
+import Booking from './Booking.js';
+import UpdateDialog from './UpdateDialog.js';
+import CreateDialog from './CreateDialog.js';
+import BookingList from './BookingList.js';
 
 const React = require('react');
 const ReactDOM = require('react-dom')
@@ -28,7 +28,7 @@ class App extends React.Component {
 			, isFiltered: true
 			, attributes: []
 			, page: 1
-			, pageSize: 5
+			, pageSize: 10
 			, links: {}
 			, monthFilter : -1 
 			, yearFilter : -1
@@ -79,11 +79,13 @@ class App extends React.Component {
 		
 	loadFromServer(pageSize) {
 		follow(client, root, [
-				{rel: 'bookings', params: {size: pageSize}}] 
-		).then(bookingCollection => {
+		          			{rel: 'bookings'}
+		          			, {rel: 'search'}
+		          			, {rel: 'findTop10ByOrderByIdDesc'}] 
+		          		).then(bookingCollection => {
 			return client({
 				method: 'GET',
-				path: bookingCollection.entity._links.profile.href, 
+				path: "http://" + window.location.hostname + ":8092/api/profile/bookings", //bookingCollection.entity._links.profile.href, 
 				headers: {'Accept': 'application/schema+json'}
 			}).then(schema => {
 				/**

@@ -49,25 +49,32 @@ public class DatabaseLoader implements CommandLineRunner {
 	@Override
 	public void run(String... strings) throws Exception {
 
-		Manager greg = this.managers.save(new Manager("james", "password12345",
-							"ROLE_MANAGER"));
-
-		SecurityContextHolder.getContext().setAuthentication(
-			new UsernamePasswordAuthenticationToken("greg", "doesn't matter",
-				AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
-
-		this.bookings.save(new Booking(100.0f, 1.0f, 2.0f, 3.0f, 
-				31, 12, 1900, "surname1", "firstName1", "bookingNumber1", 
-				0, "5comment A", new Date(), greg));
-		this.bookings.save(new Booking(100000.0f, 1.0f, 2.0f, 3.0f, 
-				31, 12, 1900, "surname1", "firstName1", "bookingNumber1", 
-				0, "5comment A", new Date(), greg));
-		this.bookings.save(new Booking(101.0f, 10.0f, 1.0f, 2.0f, 
-				31, 11, 1900, "surname2", "firstName2", "bookingNumber2", 
-				0, "4comment B", new Date(), greg));
-		this.bookings.save(new Booking(111111.0f, 10.0f, 1.0f, 2.0f, 
-				31, 11, 1900, "surname2", "firstName2", "bookingNumber2", 
-				0, "4comment B", new Date(), greg));
+//		Manager greg = this.managers.save(new Manager("james", "password12345",
+//							"ROLE_MANAGER"));
+//
+//		SecurityContextHolder.getContext().setAuthentication(
+//			new UsernamePasswordAuthenticationToken("greg", "doesn't matter",
+//				AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
+//
+//		this.bookings.save(new Booking(100.0f, 1.0f, 2.0f, 3.0f, 
+//				31, 12, 1900, "surname1", "firstName1", "bookingNumber1", 
+//				0, "5comment A", new Date(), greg));
+//		this.bookings.save(new Booking(100000.0f, 1.0f, 2.0f, 3.0f, 
+//				31, 12, 1900, "surname1", "firstName1", "bookingNumber1", 
+//				0, "5comment A", new Date(), greg));
+//		this.bookings.save(new Booking(101.0f, 10.0f, 1.0f, 2.0f, 
+//				31, 11, 1900, "surname2", "firstName2", "bookingNumber2", 
+//				0, "4comment B", new Date(), greg));
+//		this.bookings.save(new Booking(111111.0f, 10.0f, 1.0f, 2.0f, 
+//				31, 11, 1900, "surname2", "firstName2", "bookingNumber2", 
+//				0, "4comment B", new Date(), greg));
+//		
+//		for (int bi=0 ; bi<2000 ; bi++) {
+//			this.bookings.save(new Booking(0.0f, 10.0f, 1.0f, 2.0f, 
+//					31, 11, 1900, "surname"+bi, "firstName"+bi, "bookingNumber"+bi, 
+//					0, "comment "+bi, new Date(), greg));
+//			System.out.println("WAIT: loading data in database loading bi="+bi+"/2000 comment="+"comment "+bi);
+//		}
 		
 		SecurityContextHolder.clearContext();
 	}
