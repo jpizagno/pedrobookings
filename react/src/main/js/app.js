@@ -35,7 +35,7 @@ class App extends React.Component {
 			, modelOpen : false
 			, modalOpenCreate : false
 			, reportUrl : '#'
-			, managerName : 'Still loading .... '
+			, loggedInManager: this.props.loggedInManager
 		};
 		this.onCreate = this.onCreate.bind(this);
 		this.onUpdate = this.onUpdate.bind(this);
@@ -189,27 +189,31 @@ class App extends React.Component {
 	}
 
 	onUpdate(booking, bookingIn) {
-		var updatedBooking = this.setTotal(bookingIn);
-		client({
-			method: 'PUT',
-			path: booking.entity._links.self.href,
-			entity: updatedBooking,
-			headers: {
-				'Content-Type': 'application/json',
-				'If-Match': booking.headers.Etag
-			}
-		}).done(response => {
-			/* Let the websocket handler update the state */
-		}, response => {
-			if (response.status.code === 403) {
-				alert('ACCESS DENIED: You are not authorized to update ' +
-						booking.entity._links.self.href);
-			}
-			if (response.status.code === 412) {
-				alert('DENIED: Unable to update ' + booking.entity._links.self.href +
-					'. Your copy is stale.');
-			}
-		});
+		if(employee.entity.manager.name == this.state.loggedInManager) {
+			var updatedBooking = this.setTotal(bookingIn);
+			client({
+				method: 'PUT',
+				path: booking.entity._links.self.href,
+				entity: updatedBooking,
+				headers: {
+					'Content-Type': 'application/json',
+					'If-Match': booking.headers.Etag
+				}
+			}).done(response => {
+				/* Let the websocket handler update the state */
+			}, response => {
+				if (response.status.code === 403) {
+					alert('ACCESS DENIED: You are not authorized to update ' +
+							booking.entity._links.self.href);
+				}
+				if (response.status.code === 412) {
+					alert('DENIED: Unable to update ' + booking.entity._links.self.href +
+						'. Your copy is stale.');
+				}
+			});
+		} else {
+			alert("You are not authorized to update " + booking.entity._links.self.href);
+		}
 		window.location = "#";
 	}
 
@@ -271,17 +275,6 @@ class App extends React.Component {
 		return (
 			<div id="parent">
 
-				<div className="navbar navbar-default navbar-fixed-top">
-						<div className="dropdown">
-							<button className="btn btn-default dropdown-toggle" type="button" id="dropdown" data-toggle="dropdown">Navigation
-							<span className="caret"></span></button>
-							<ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
-								<li role="presentation"><a role="menuitem" href="logout">Logout</a></li>
-							</ul>
-						</div>
-						<div id="logintext" className="text">Logged in as: {this.state.managerName} </div>
-				</div>
-
 				<div className="container-fluid" id="buttonsId">
 					<div className="row top-buffer">
 						<div className="col-md-4 offset-md-1">
@@ -331,7 +324,7 @@ class App extends React.Component {
 }
 
 ReactDOM.render(
-	<App />,
+	<App loggedInManager={document.getElementById('managername').innerHTML} />,
 	document.getElementById('react')
 )
 
