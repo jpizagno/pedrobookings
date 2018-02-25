@@ -57,8 +57,16 @@ shell% sudo /usr/sbin/alternatives --config javac
 shell% https://github.com/jpizagno/bookingbootstrap.git
 shell% cd bookingbootstrap/react
 # edit src/main/resources/application.properties for ip addresses, and MySQL information
+
+# test application
+shell% curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+shell% sudo yum -y install nodejs
+shell% sudo yum install gcc-c++ make
+shell% ./test.sh
+
 # run application
 shell% ./run.sh
+
 ```
 
 
