@@ -135,7 +135,7 @@ class App extends React.Component {
 	}
 
 	generateReport() {
-		let url = 'http://localhost:8092/reportyearmonth?month='+this.state.monthFilter+'+&year='+this.state.yearFilter;
+		let url = 'http://localhost:8092/reportyearmonth?month='+this.state.monthFilter+'&year='+this.state.yearFilter;
 		fetch(url, {
 			credentials: 'same-origin',
 			method:'GET',
