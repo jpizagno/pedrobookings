@@ -22,8 +22,9 @@ public class AddManager {
 		AddManager addMgmt = new AddManager();
 		
 		if (args.length != 6) {
+                        System.out.println("ERROR : \n");
 			System.out.println("Wrong number of arguments:");
-			System.out.println("java -cp ./target/react-bookinghandler-0.0.1-SNAPSHOT-jar-with-dependencies.jar  de.booking.configuration.AddManager db_example $mysqluser $mysqlpass $managername $managerpassword $ec2-public-dns-ipv4-of-mysqldb");
+			System.out.println("java -cp ./target/react-bookinghandler-0.0.1-SNAPSHOT-jar-with-dependencies.jar  de.booking.configuration.AddManager $mysqldatabase $mysqluser $mysqlpass $managername $managerpassword $ec2-public-dns-ipv4-of-mysqldb");
 			System.exit(1);
 		}
 		
