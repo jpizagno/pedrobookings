@@ -42,30 +42,7 @@ shell% curl --cookie cookies "http://localhost:8092/api/bookings/search/findByMo
 
 Install on AWS EC2 using:
 ```
-# install git
-shell% sudo yum install git -y
-# install Java 8 with JDK
-shell% sudo yum install java-1.8.0-openjdk-devel -y
-# install maven
-shell% sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-shell% sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
-shell% sudo yum install -y apache-maven
-# set Java-8 for maven
-shell% sudo /usr/sbin/alternatives --config java
-shell% sudo /usr/sbin/alternatives --config javac
-# get code
-shell% https://github.com/jpizagno/bookingbootstrap.git
-shell% cd bookingbootstrap/react
-# edit src/main/resources/application.properties for ip addresses, and MySQL information
-
-# test application
-shell% curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
-shell% sudo yum -y install nodejs
-shell% sudo yum install gcc-c++ make
-shell% ./test.sh
-
-# run application
-shell% ./run.sh
+shell% ./scripts/setup_aws.sh
 
 ```
 
