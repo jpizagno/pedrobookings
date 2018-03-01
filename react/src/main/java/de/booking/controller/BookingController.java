@@ -56,8 +56,8 @@ public class BookingController {
 		WritePdf writer = new WritePdf();
 		fileOutName = "report_" + month + "_" + year + ".pdf";
 		String title =  "Julia's bookings for month "+month+" year "+year ;
-		Response myResponse = new Response("reportUrl=" +writer.generateReport(bookings, fileOutName, title));
-
+		Response myResponse = new Response("reportUrl=" +writer.generateReport(bookings, localReportDirectory, fileOutName, title));
+		System.out.println(" response = " + myResponse.getUrl());
 		return myResponse;
 	}
 

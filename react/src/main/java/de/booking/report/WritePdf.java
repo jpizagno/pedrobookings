@@ -33,15 +33,15 @@ public class WritePdf {
 	 * @param title To be printed on PDF. ex: "Julia's bookings for month "+month_str+" year "+year_str
 	 * @return 0=Sucess, Fail!=0
 	 */
-	public String generateReport(List<Booking>  bookingsIn, String fileOutName, String title) {
+	public String generateReport(List<Booking>  bookingsIn, String path, String fileOutName, String title) {
 		if (bookingsIn.size() == 0 ) {
 			return "error_bookings_empty";
 		}
 		
+		System.out.println("starting to write to " + path + fileOutName);
+
 		// filter out Storno Bookings
 		List<Booking> bookings = filterStorno(bookingsIn);
-		
-		String path = ""; //"/Users/jim/Desktop/";
 
 		float title_padding = 10.0f;
 
@@ -145,6 +145,7 @@ public class WritePdf {
 			// close all:
 			document.add(table);
 			document.close();
+			System.out.println("finished to write to " + path + fileOutName);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -26,7 +26,7 @@ public class WritePdfTest {
 		bookings.add(booking);
 		
 		WritePdf writer = new WritePdf();
-		String url = writer.generateReport(bookings, "fileOutName.pdf", "title");
+		String url = writer.generateReport(bookings, "", "fileOutName.pdf", "title");
 		
 		assertThat(url, is("fileOutName.pdf") );
 	}
