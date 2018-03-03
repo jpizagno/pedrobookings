@@ -11,3 +11,8 @@ sudo yum install -y apache-maven
 # set Java-8 for maven
 sudo /usr/sbin/alternatives --config java
 sudo /usr/sbin/alternatives --config javac
+
+# install Docker
+sudo yum install -y docker
+sudo service docker start
+sudo usermod -a -G docker ec2-user
