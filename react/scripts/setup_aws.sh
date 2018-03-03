@@ -23,4 +23,6 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | b
 . ~/.nvm/nvm.sh
 nvm install 6.11.5
 nvm install --lts
+. ~/.nvm/nvm.sh
 npm install -g npx
+. ~/.nvm/nvm.sh
