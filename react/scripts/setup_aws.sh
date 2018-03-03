@@ -20,10 +20,11 @@ sudo usermod -a -G docker ec2-user
 # install Node for test.sh script
 cd /home/ec2-user/
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
-. ~/.nvm/nvm.sh
+/home/ec2-user/.nvm/nvm.sh
 nvm install 6.11.5
 nvm install --lts
 . ~/.nvm/nvm.sh
 npm install -g npx
 cd /home/ec2-user/
 . ~/.nvm/nvm.sh
+export PATH=$PATH:/home/ec2-user/.nvm/versions/node/v8.9.4/bin/

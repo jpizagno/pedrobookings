@@ -42,8 +42,12 @@ shell% curl --cookie cookies "http://localhost:8092/api/bookings/search/findByMo
 
 Install on AWS EC2 using:
 ```
-shell% ./scripts/setup_aws.sh
-
+shell% vi src/main/resources/application.properties # add MySQL user/password/url information
+shell% source ./scripts/setup_aws.sh
 ```
-
+The run docker images
+```
+shell% ./docker_build.sh
+shell% ./docker_run.sh  # wait a few minutes for container to start running Spring-Boot
+```
 
