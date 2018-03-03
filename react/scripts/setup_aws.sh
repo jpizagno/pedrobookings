@@ -16,3 +16,9 @@ sudo /usr/sbin/alternatives --config javac
 sudo yum install -y docker
 sudo service docker start
 sudo usermod -a -G docker ec2-user
+
+# install Node for test.sh script
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+. ~/.nvm/nvm.sh
+nvm install 6.11.5
+nvm install --lts
