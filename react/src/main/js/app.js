@@ -189,7 +189,7 @@ class App extends React.Component {
 	}
 
 	onUpdate(booking, bookingIn) {
-		if(employee.entity.manager.name == this.state.loggedInManager) {
+		if(booking.entity.manager.name == this.state.loggedInManager) {
 			var updatedBooking = this.setTotal(bookingIn);
 			client({
 				method: 'PUT',
