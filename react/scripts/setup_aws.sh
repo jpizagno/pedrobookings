@@ -25,4 +25,5 @@ nvm install 6.11.5
 nvm install --lts
 . ~/.nvm/nvm.sh
 npm install -g npx
+cd /home/ec2-user/
 . ~/.nvm/nvm.sh
