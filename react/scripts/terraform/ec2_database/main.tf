@@ -31,11 +31,12 @@ resource "aws_security_group" "bind_ec2_db_2" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "tcp"
-    cidr_blocks     = ["0.0.0.0/0"]
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
+
 }
 
 # inclucde DB here as well, so Terraform does not delete it
@@ -61,11 +62,12 @@ resource "aws_instance" "example_jim" {
   key_name = "${var.key_name}" 
 }
 
-
+# these have to be included in output, so that the next step can read them as "data.terraform_remote_state.folder_parent.aws_instance.example_jim.private_ip"
 output "aws_instance.example_jim.private_ip" {
   value = "${aws_instance.example_jim.private_ip}"
 }
 
+# these have to be included in output, so that the next step can read them as "data.terraform_remote_state.folder_parent.aws_security_group.bind_ec2_db_2.id"
 output "aws_security_group.bind_ec2_db_2.id" {
   value = "${aws_security_group.bind_ec2_db_2.id}"
 }
