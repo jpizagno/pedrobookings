@@ -68,7 +68,7 @@ resource "aws_db_instance" "default" {
   port                 = "3306"
   db_subnet_group_name = "default"
   parameter_group_name = "default.mysql5.6"
-  publicly_accessible =  "false"
+  publicly_accessible =  "true"
   vpc_security_group_ids = ["${data.terraform_remote_state.folder_parent.aws_security_group.bind_ec2_db_2.id}"]
 }
 
