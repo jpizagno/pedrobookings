@@ -72,16 +72,45 @@ resource "aws_db_instance" "default" {
   vpc_security_group_ids = ["${data.terraform_remote_state.folder_parent.aws_security_group.bind_ec2_db_2.id}"]
 }
 
+resource "aws_instance" "example_jim" {
+  ami =  "ami-9a91b371"  
+  instance_type = "t2.micro"
+  key_name = "${var.key_name}" 
+  vpc_security_group_ids = ["${data.terraform_remote_state.folder_parent.aws_security_group.bind_ec2_db_2.id}"]
+
+  # run script on machine
+  provisioner "remote-exec" {
+    connection {
+      user = "ec2-user"
+      host = "${aws_instance.example_jim.public_ip}"
+      agent = false
+      private_key = "${file("/home/jpizagno/AWS/jim-gastrofix.pem")}"
+    }
+    inline = [
+      "chmod +x /tmp/setup_aws_docker.sh",
+      "/tmp/setup_aws_docker.sh",
+    ]
+  }
+}
+
 # provide user output
 output "ip_ec2" {
   value = "${aws_instance.example_jim.public_ip}"
 }
 
-resource "aws_instance" "example_jim" {
-  ami = "${lookup(var.amis, var.region)}"   
-  instance_type = "t2.micro"
-  key_name = "${var.key_name}" 
-  vpc_security_group_ids = ["${data.terraform_remote_state.folder_parent.aws_security_group.bind_ec2_db_2.id}"]
-}
 
+#    connection {
+#       user = "ec2-user"
+#       host = "${aws_instance.example_jim.public_ip}"
+#       agent = false
+#       private_key = "${file("/home/jpizagno/AWS/jim-gastrofix.pem")}"
+#      }
 
+#"sudo git clone https://github.com/jpizagno/bookingbootstrap.git",
+#      "sudo chmod +x ./bookingbootstrap/react/scripts/setup_aws_docker.sh",
+#      "sudo ./bookingbootstrap/react/scripts/setup_aws_docker.sh",
+#      "sudo ./bookingbootstrap/react/docker_build.sh",
+#      "sudo ./bookingbootstrap/react/docker_run.sh"
+#      "sudo sed -i -e 's/julia/${var.mysql_user_name}/g' ./bookingbootstrap/react/src/main/resources/application.properties",
+#      "sudo sed -i -e 's/james76/${var.mysql_password}/g' ./bookingbootstrap/react/src/main/resources/application.properties",
+#      "sudo sed -i -e 's/localhost/${aws_db_instance.default.endpoint}/g' ./bookingbootstrap/react/src/main/resources/application.properties",

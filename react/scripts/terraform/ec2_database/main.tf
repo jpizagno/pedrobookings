@@ -57,9 +57,21 @@ resource "aws_db_instance" "default" {
 }
 
 resource "aws_instance" "example_jim" {
-  ami = "${lookup(var.amis, var.region)}"   
+  ami = "ami-9a91b371"   
   instance_type = "t2.micro"
   key_name = "${var.key_name}" 
+  vpc_security_group_ids = ["${aws_security_group.bind_ec2_db_2.id}"]
+
+    provisioner "file" {
+    connection {
+     user = "ec2-user"
+     host = "${aws_instance.example_jim.public_ip}"
+     agent = false
+     private_key = "${file("/home/jpizagno/AWS/jim-gastrofix.pem")}"
+    }
+    source      = "../setup_aws_docker.sh"
+    destination = "/tmp/setup_aws_docker.sh"
+  }
 }
 
 # these have to be included in output, so that the next step can read them as "data.terraform_remote_state.folder_parent.aws_instance.example_jim.private_ip"
