@@ -62,15 +62,29 @@ resource "aws_instance" "example_jim" {
   key_name = "${var.key_name}" 
   vpc_security_group_ids = ["${aws_security_group.bind_ec2_db_2.id}"]
 
-    provisioner "file" {
+   provisioner "file" {
     connection {
      user = "ec2-user"
      host = "${aws_instance.example_jim.public_ip}"
      agent = false
-     private_key = "${file("/home/jpizagno/AWS/jim-gastrofix.pem")}"
+     private_key = "${file("./jim-gastrofix.pem")}"
     }
     source      = "../setup_aws_docker.sh"
     destination = "/tmp/setup_aws_docker.sh"
+  }
+  
+    # run script on machine
+  provisioner "remote-exec" {
+    connection {
+      user = "ec2-user"
+      host = "${aws_instance.example_jim.public_ip}"
+      agent = false
+      private_key = "${file("./jim-gastrofix.pem")}"
+    }
+    inline = [
+      "chmod +x /tmp/setup_aws_docker.sh",
+      "/tmp/setup_aws_docker.sh",
+    ]
   }
 }
 
