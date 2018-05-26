@@ -1,4 +1,5 @@
 provider "aws" {
+  version = "~> 1.20"
   access_key = "${var.access_key}"  # from variables.tf
   secret_key = "${var.secret_key}" # from variables.tf
   region     = "${var.region}"  # from variables.tf
@@ -84,7 +85,7 @@ resource "aws_instance" "example_jim" {
       user = "ec2-user"
       host = "${aws_instance.example_jim.public_ip}"
       agent = false
-      private_key = "${file("./jim-gastrofix.pem")}"
+      private_key = "${file("/home/jpizagno/AWS/jim-gastrofix.pem")}"
     }
     inline = [
       "sudo sed -i -e 's/julia/${var.mysql_user_name}/g' ./bookingbootstrap/react/src/main/resources/application.properties",

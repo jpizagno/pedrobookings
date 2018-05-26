@@ -1,4 +1,5 @@
 provider "aws" {
+  version = "~> 1.20"
   access_key = "${var.access_key}"  # from variables.tf
   secret_key = "${var.secret_key}" # from variables.tf
   region     = "${var.region}"  # from variables.tf
@@ -67,7 +68,7 @@ resource "aws_instance" "example_jim" {
      user = "ec2-user"
      host = "${aws_instance.example_jim.public_ip}"
      agent = false
-     private_key = "${file("./jim-gastrofix.pem")}"
+     private_key = "${file("/home/jpizagno/AWS/jim-gastrofix.pem")}"
     }
     source      = "../setup_aws_docker.sh"
     destination = "/tmp/setup_aws_docker.sh"
@@ -79,7 +80,7 @@ resource "aws_instance" "example_jim" {
       user = "ec2-user"
       host = "${aws_instance.example_jim.public_ip}"
       agent = false
-      private_key = "${file("./jim-gastrofix.pem")}"
+      private_key = "${file("/home/jpizagno/AWS/jim-gastrofix.pem")}"
     }
     inline = [
       "chmod +x /tmp/setup_aws_docker.sh",
