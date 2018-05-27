@@ -1,4 +1,5 @@
 provider "aws" {
+  version = "~> 1.20"
   access_key = "${var.access_key}"  # from variables.tf
   secret_key = "${var.secret_key}" # from variables.tf
   region     = "${var.region}"  # from variables.tf
@@ -72,16 +73,14 @@ resource "aws_db_instance" "default" {
   vpc_security_group_ids = ["${data.terraform_remote_state.folder_parent.aws_security_group.bind_ec2_db_2.id}"]
 }
 
-# provide user output
-output "ip_ec2" {
-  value = "${aws_instance.example_jim.public_ip}"
-}
-
 resource "aws_instance" "example_jim" {
-  ami = "${lookup(var.amis, var.region)}"   
+  ami =  "ami-9a91b371"  
   instance_type = "t2.micro"
   key_name = "${var.key_name}" 
   vpc_security_group_ids = ["${data.terraform_remote_state.folder_parent.aws_security_group.bind_ec2_db_2.id}"]
 }
 
-
+# provide user output
+output "ip_ec2" {
+  value = "${aws_instance.example_jim.public_ip}"
+}
