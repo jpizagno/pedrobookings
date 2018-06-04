@@ -55,6 +55,8 @@ resource "aws_db_instance" "default" {
   parameter_group_name = "default.mysql5.6"
   publicly_accessible =  "true"
   vpc_security_group_ids = ["${aws_security_group.bind_ec2_db_2.id}"]
+  skip_final_snapshot = true
+  snapshot_identifier = "bookings03april2018"
 }
 
 resource "aws_instance" "example_jim" {

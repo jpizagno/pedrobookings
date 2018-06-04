@@ -7,8 +7,25 @@ class CreateDialog extends React.Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.isValidDate = this.isValidDate.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
+
+    // checks if Date is valid.  Format DD/MM/YYYY
+    isValidDate(ddMMYYYY) {
+        var dateParts = ddMMYYYY.split('/');
+        var year = dateParts[2], month = dateParts[1], day = dateParts[0];
+        // Assume not leap year by default (note zero index for Jan)
+        var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      
+        // If evenly divisible by 4 and not evenly divisible by 100,
+        // or is evenly divisible by 400, then a leap year
+        if ((!(year % 4) && year % 100) || !(year % 400)) {
+          daysInMonth[1] = 29;
+        }
+        return !(/\D/.test(String(day))) && day > 0 && day <= daysInMonth[--month]
+    }
+      
 
     handleSubmit(e) {
         e.preventDefault();
@@ -22,8 +39,12 @@ class CreateDialog extends React.Component {
                 newBooking[attribute] = ReactDOM.findDOMNode(this.refs[attribute]).value.trim();
             }
         });
-        this.props.onCreate(newBooking);
-        this.props.closeModal();
+        if (this.isValidDate(newBooking["dayDeparture"] + '/' + newBooking["monthDeparture"] + '/' + newBooking["yearDeparture"]) == false) {
+            alert("wrong dates dayDeparture="+newBooking["dayDeparture"]+" monthDeparture="+newBooking["monthDeparture"]+" yearDeparture="+newBooking["yearDeparture"]) ;
+        } else {
+            this.props.onCreate(newBooking);
+            this.props.closeModal();
+        }
     }
 
     closeModal(e) {

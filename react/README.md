@@ -5,12 +5,12 @@ This website will allow one to manage bookings. The data management includes cre
 
 ##  Run
 
-Run the app using the run.sh script.  
-It basically runs "mvn spring-boot:run"
-The app will be available at http://localhost:8092. The initial login to view test data is james/password12345
+Do not run the app locally. Always run (for tests as well) in a Docker environment.
 
+The run docker images
 ```
-shell% ./run.sh
+shell% ./docker_build.sh
+shell% ./docker_run.sh  # wait a few minutes for container to start running Spring-Boot
 ```
 
 ### Adjust Settings
@@ -23,6 +23,7 @@ shell% ./run.sh
 ## Test
 
 The test.sh script will run backend Java /Spring tests, and then run Frontend tests using phantomJS and ReactJS.TestUtils.
+The script in scripts/setup_aws_all.sh must be run first.
 
 ```
 shell% ./test.sh

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+
+set -x
+
 export TF_LOG=INFO
 export TF_LOG_PATH=./terraform.log
 
