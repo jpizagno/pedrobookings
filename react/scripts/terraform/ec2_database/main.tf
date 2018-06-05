@@ -56,7 +56,7 @@ resource "aws_db_instance" "default" {
   publicly_accessible =  "true"
   vpc_security_group_ids = ["${aws_security_group.bind_ec2_db_2.id}"]
   skip_final_snapshot = true
-  snapshot_identifier = "bookings03april2018"
+  snapshot_identifier = "${var.db_snapshot_name}"
 }
 
 resource "aws_instance" "example_jim" {
@@ -105,4 +105,9 @@ output "aws_instance.example_jim.private_ip" {
 # these have to be included in output, so that the next step can read them as "data.terraform_remote_state.folder_parent.aws_security_group.bind_ec2_db_2.id"
 output "aws_security_group.bind_ec2_db_2.id" {
   value = "${aws_security_group.bind_ec2_db_2.id}"
+}
+
+# export endpoint for fixing
+output "aws_db_instance.default.endpoint" {
+  value = "${aws_db_instance.default.endpoint}"
 }

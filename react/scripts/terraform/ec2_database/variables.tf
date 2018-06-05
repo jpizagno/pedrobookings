@@ -7,6 +7,7 @@ variable "mysql_password" {}
 variable "user_ip_address" {}
 variable "vpc_id" {}
 variable "pem_file_location" {}
+variable "db_snapshot_name" {}
 
 # one example of variable
 variable "region" {
@@ -16,8 +17,6 @@ variable "region" {
 variable "amis" {
   type = "map"
   default = {
-    "us-east-1" = "ami-b374d5a5"
-    "us-west-2" = "ami-4b32be2b"
     "eu-central-1" = "ami-3a70df55"
   }
 }
