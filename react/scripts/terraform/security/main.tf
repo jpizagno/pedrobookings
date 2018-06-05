@@ -63,16 +63,16 @@ resource "aws_db_instance" "default" {
   engine               = "mysql"
   engine_version       = "5.6.39"
   instance_class       = "db.t2.micro"
-  name                 = "${var.mysql_db_name}"
+  name                 = "bookings"
   username             = "${var.mysql_user_name}"
   password             = "${var.mysql_password}"
   port                 = "3306"
   db_subnet_group_name = "default"
   parameter_group_name = "default.mysql5.6"
   publicly_accessible =  "true"
-  vpc_security_group_ids = ["${data.terraform_remote_state.folder_parent.aws_security_group.bind_ec2_db_2.id}"]
+  vpc_security_group_ids = ["${aws_security_group.bind_ec2_db_2.id}"]
   skip_final_snapshot = true
-  snapshot_identifier = "bookings03april2018"
+  snapshot_identifier = "${var.db_snapshot_name}"
 }
 
 resource "aws_instance" "example_jim" {
