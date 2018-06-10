@@ -63,7 +63,7 @@ resource "aws_db_instance" "default" {
   engine               = "mysql"
   engine_version       = "5.6.39"
   instance_class       = "db.t2.micro"
-  name                 = "bookings"
+  name                 = "${var.mysql_db_name}"
   username             = "${var.mysql_user_name}"
   password             = "${var.mysql_password}"
   port                 = "3306"
