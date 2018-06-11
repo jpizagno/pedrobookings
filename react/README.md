@@ -41,14 +41,12 @@ shell% curl --cookie cookies "http://localhost:8092/api/bookings/search/findByMo
 ```
 ### AWS
 
-Install on AWS EC2 using:
-```
-shell% vi src/main/resources/application.properties # add MySQL user/password/url information
-shell% source ./scripts/setup_aws.sh
-```
-The run docker images
-```
-shell% ./docker_build.sh
-shell% ./docker_run.sh  # wait a few minutes for container to start running Spring-Boot
-```
+To run on AWS use terraform, and the script is in ./scripts/terraform/build.sh
 
+Example Call:
+```
+shell% ./build.sh 
+```
+Enter the RDS snapshot name.  It may take 10-20 minutes to setup, and wait a few more minutes after that for the EC2 instance with the Spring-Boot applicaiton to start
+
+If the app does not start, then try restarting the docker container in the EC2 instance
