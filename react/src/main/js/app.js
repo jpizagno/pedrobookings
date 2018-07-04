@@ -144,13 +144,14 @@ class App extends React.Component {
 				'Content-Type': 'application/json',
 			}			
 	       })
-	.then(response => response.json())
-	.then(json => {
-		// Set redirect to URl of Report
-		this.setState({reportUrl: json.url }, function () {
-			this.goToReportUrl();
-		});
-	})}
+		.then(response => response.json())
+		.then(json => {
+			// Set redirect to URl of Report
+			this.setState({reportUrl: json.url }, function () {
+				this.goToReportUrl();
+			});
+		})
+	}
 
 	followApiQueryFilterBookings() {
 		follow(client, root, [
@@ -182,10 +183,20 @@ class App extends React.Component {
 				path: response.entity._links.self.href,
 				entity: newBooking,
 				headers: {'Content-Type': 'application/json'}
-			})
+			}).done(response => {
+				/* Let the websocket handler update the state */
+			}, response => {
+				if (response.status.code === 403) {
+					alert('ACCESS DENIED: You are not authorized to update ' +
+							booking.entity._links.self.href);
+				}
+				if (response.status.code === 412) {
+					alert('DENIED: Unable to update ' + booking.entity._links.self.href +
+						'. Your copy is stale.');
+				}
+			});
 		});
-		//TODO: work on automatic reloud, databinding loses contact to Spring/Hibernate server when reload() is called
-		//window.location.reload();
+		window.location = "#";
 	}
 
 	onUpdate(booking, bookingIn) {
