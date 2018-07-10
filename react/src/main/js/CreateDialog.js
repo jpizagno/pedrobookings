@@ -31,8 +31,12 @@ class CreateDialog extends React.Component {
         e.preventDefault();
         var newBooking = {};
         this.props.attributes.forEach(attribute => {
-            if (attribute == "total") {
-                newBooking[attribute] = 0;
+            if (['total', 'flug', 'kreuzfahrt', 'hotel', 'versicherung', 'storno'].indexOf(attribute) >= 0) {
+                if( ReactDOM.findDOMNode(this.refs[attribute]) == null  || ReactDOM.findDOMNode(this.refs[attribute]).value.trim() === "" ) {
+                    newBooking[attribute] = 0;
+                } else {
+                    newBooking[attribute] = ReactDOM.findDOMNode(this.refs[attribute]).value.trim();
+                }
             } else  if ( attribute == "comment") {
                 newBooking[attribute] = '';
             } else {
@@ -79,7 +83,7 @@ class CreateDialog extends React.Component {
                                         <div className="row">
                                             <span className="req-input" >
                                                 <span className="input-status" data-toggle="tooltip" data-placement="top" title="Input Kreuzfahrt"> </span>
-                                                <input type="text" data-min-length="8" ref="kreuzfahrt" id="kreuzfahrt" default={0} placeholder="Kreuzfahrt" />
+                                                <input type="text" data-min-length="8" ref="kreuzfahrt" id="kreuzfahrt"  placeholder="Kreuzfahrt" />
                                             </span>
                                         </div>
                                         <div className="row">
@@ -97,13 +101,13 @@ class CreateDialog extends React.Component {
                                         <div className="row">
                                             <span className="req-input">
                                                 <span className="input-status" data-toggle="tooltip" data-placement="top" title="Input Versicherung"> </span>
-                                                <input type="text" id="versicherung" ref="versicherung" placeholder="Versicherung"/>
+                                                <input type="text" id="versicherung" ref="versicherung"  placeholder="Versicherung"/>
                                             </span>
                                         </div>
                                         <div className="row">
                                             <span className="req-input">
                                                 <span className="input-status" data-toggle="tooltip" data-placement="top" title="Input Storno"> </span>
-                                                <input type="text" id="storno" ref="storno" placeholder="Storno (0=Good, 1=Storno)"/>
+                                                <input type="text" id="storno" ref="storno"  placeholder="Storno (0=Good, 1=Storno)"/>
                                             </span>
                                         </div>
                                     </div>
