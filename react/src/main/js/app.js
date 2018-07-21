@@ -183,20 +183,8 @@ class App extends React.Component {
 				path: response.entity._links.self.href,
 				entity: newBooking,
 				headers: {'Content-Type': 'application/json'}
-			}).done(response => {
-				/* Let the websocket handler update the state */
-			}, response => {
-				if (response.status.code === 403) {
-					alert('ACCESS DENIED: You are not authorized to update ' +
-							booking.entity._links.self.href);
-				}
-				if (response.status.code === 412) {
-					alert('DENIED: Unable to update ' + booking.entity._links.self.href +
-						'. Your copy is stale.');
-				}
-			});
+			})
 		});
-		window.location = "#";
 	}
 
 	onUpdate(booking, bookingIn) {

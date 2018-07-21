@@ -25,6 +25,8 @@ import de.booking.model.Booking;
 
 public class WritePdf {
 
+	int widthCells;
+
 	/**
 	 * Generates a Report, given these bookings.
 	 * 
@@ -37,15 +39,12 @@ public class WritePdf {
 		if (bookingsIn.size() == 0 ) {
 			return "error_bookings_empty";
 		}
-		
-		System.out.println("starting to write to " + path + fileOutName);
 
 		// filter out Storno Bookings
 		List<Booking> bookings = filterStorno(bookingsIn);
 
 		float title_padding = 10.0f;
 
-		//Document document = new Document();
 		// Landscape mode:
 		Document document = new Document(PageSize.LETTER.rotate());
 
@@ -65,35 +64,31 @@ public class WritePdf {
 		try {
 			PdfWriter.getInstance(document, new FileOutputStream(path+fileOutName));
 			document.open();
-			PdfPTable table = new PdfPTable(fieldsFiltered.size());
+
+			// since we have extra column for "Num" increase Table size:
+			widthCells = fieldsFiltered.size() + 1;
+
+			PdfPTable table = new PdfPTable(widthCells);
 
 			// set universal FONT:
 			Font myFont = new Font(); // name & point size 
 			myFont.setSize(6);
 
 			// create title cell:
-			PdfPCell cell_title = new PdfPCell(new Paragraph(title));
-			cell_title.setColspan(fieldsFiltered.size());
-			cell_title.setHorizontalAlignment(Element.ALIGN_CENTER);
-			//cell_title.setBackgroundColor(new Color(128,200,128));
-			cell_title.setPadding(title_padding);
-			table.addCell(cell_title);
+			addTitleCell(title, title_padding, table);
 
 			// create total:
-			PdfPCell cell_total = new PdfPCell(new Paragraph("Julia's total:  "+String.valueOf(getTotal( bookings ))) );
-
-			cell_total.setColspan(fieldsFiltered.size());
-			cell_total.setHorizontalAlignment(Element.ALIGN_CENTER);
-			//cell_total.setBackgroundColor(new Color(128,200,128));
-			cell_total.setPadding(title_padding);
-			table.addCell(cell_total);
+			addTotalCell(bookings, title_padding, table);
 
 			Font myFontSmaller = new Font(); // name & point size 
 			myFontSmaller.setSize(5);
 			
 			// add column titles:
+			Paragraph myP = new Paragraph();
+			myP.add( new Chunk("Num", myFont ) );
+			table.addCell(myP);
 			for(Field field : fieldsFiltered) {
-				Paragraph myP = new Paragraph();
+				myP = new Paragraph();
 				Chunk bar;
 				if (field.getName().equalsIgnoreCase("daydeparture")) {
 					bar = new Chunk("Day Departure", myFontSmaller ); 
@@ -116,23 +111,25 @@ public class WritePdf {
 
 			// add columns
 			// for each item just add cell:
+			int row_i = 1;
 			for(Booking myBookingtmp : bookings) {
+				// add Num column, or row counter
+				row_i = addNumCell(table, myFont, row_i);
 
-				//Field[] fieldsLoop = myBookingtmp.getClass().getDeclaredFields();
 				for (int col_i=0; col_i < fieldsFiltered.size(); col_i++) {
-					Paragraph myP = new Paragraph();
+					myP = new Paragraph();
 					Object value;
-					try {			
+					try {
 						fieldsFiltered.get(col_i).setAccessible(true);
-						if ( fieldsFiltered.get(col_i).getName().equalsIgnoreCase("bookingdate")) {
+						if (fieldsFiltered.get(col_i).getName().equalsIgnoreCase("bookingdate")) {
 							SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/YYYY");
-							Date date = (Date) fieldsFiltered.get(col_i).get(myBookingtmp) ;
-							value = dt1.format(date  );
+							Date date = (Date) fieldsFiltered.get(col_i).get(myBookingtmp);
+							value = dt1.format(date);
 						} else {
-							value =  fieldsFiltered.get(col_i).get(myBookingtmp); 
+							value = fieldsFiltered.get(col_i).get(myBookingtmp);
 						}
-						Chunk bar = new Chunk(value.toString(), myFont);  
-						myP.add( bar ); 
+						Chunk bar = new Chunk(value.toString(), myFont);
+						myP.add( bar );
 						table.addCell(myP);
 					} catch (IllegalArgumentException e) { 
 						e.printStackTrace();
@@ -145,8 +142,6 @@ public class WritePdf {
 			// close all:
 			document.add(table);
 			document.close();
-			System.out.println("finished to write to " + path + fileOutName);
-
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (DocumentException e) {
@@ -155,7 +150,55 @@ public class WritePdf {
 		
 		return fileOutName;
 	}
-	
+
+	/**
+	 * Add Title Cell for Month, spanning entire row
+	 *
+	 * @param title
+	 * @param title_padding
+	 * @param table
+	 */
+	private void addTitleCell(String title, float title_padding, PdfPTable table) {
+		PdfPCell cell_title = new PdfPCell(new Paragraph(title));
+		cell_title.setColspan(widthCells);
+		cell_title.setHorizontalAlignment(Element.ALIGN_CENTER);
+		cell_title.setPadding(title_padding);
+		table.addCell(cell_title);
+	}
+
+	/**
+	 * Add Total in a single row
+	 *
+	 * @param bookings
+	 * @param title_padding
+	 * @param table
+	 */
+	private void addTotalCell(List<Booking> bookings, float title_padding, PdfPTable table) {
+		PdfPCell cell_total = new PdfPCell(new Paragraph("Julia's total:  "+String.valueOf(getTotal( bookings ))) );
+		cell_total.setColspan(widthCells);
+		cell_total.setHorizontalAlignment(Element.ALIGN_CENTER);
+		cell_total.setPadding(title_padding);
+		table.addCell(cell_total);
+	}
+
+	/**
+	 * Adds row_i to the table, using this font
+	 *
+	 * @param table
+	 * @param myFont
+	 * @param row_i
+	 * @return
+	 */
+	private int addNumCell(PdfPTable table, Font myFont, int row_i) {
+		Paragraph myP;
+		Chunk bar = new Chunk(""+row_i, myFont);
+		myP = new Paragraph();
+		myP.add( bar );
+		table.addCell(myP);
+		row_i++;
+		return row_i;
+	}
+
 
 	/**
 	 * Filters out bookings with storno=1.  
