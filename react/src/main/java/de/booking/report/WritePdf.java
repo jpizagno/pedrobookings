@@ -65,7 +65,7 @@ public class WritePdf {
 			PdfWriter.getInstance(document, new FileOutputStream(path+fileOutName));
 			document.open();
 
-			// since we have extra column for "Num" increase Table size:
+			// since we have an extra column for "Num" increase Table size:
 			widthCells = fieldsFiltered.size() + 1;
 
 			PdfPTable table = new PdfPTable(widthCells);
