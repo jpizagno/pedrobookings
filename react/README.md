@@ -12,6 +12,7 @@ The run docker images
 shell% ./docker_build.sh
 shell% ./docker_run.sh  # wait a few minutes for container to start running Spring-Boot
 ```
+One may need to connect to a local MySQL instance by adding the flag --net="host" to the docker run command in docker_run.sh
 
 ### Adjust Settings
 
@@ -29,8 +30,6 @@ The script in scripts/setup_aws_all.sh must be run first.
 shell% ./test.sh
 ```
 
-* PhantomJS must be installed and in the Unix PATH
-
 ### CLI Access to Spring API
 
 To get CLI Access to the Spring API, one must first login using curl with cookie-jar:
@@ -45,7 +44,7 @@ To run on AWS use terraform, and the script is in ./scripts/terraform/build.sh
 
 Example Call:
 ```
-shell% ./build.sh 
+shell% ./scripts/terraform/build.sh 
 ```
 Enter the RDS snapshot name.  It may take 10-20 minutes to setup, and wait a few more minutes after that for the EC2 instance with the Spring-Boot applicaiton to start
 

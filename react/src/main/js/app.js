@@ -277,7 +277,8 @@ class App extends React.Component {
 				<div className="container-fluid" id="buttonsId">
 					<div className="row top-buffer">
 						<div className="col-md-4 offset-md-1">
-							<button type="button" className="btn btn-unsto btn3d" onClick={this.onOpenModal}> Filter </button>
+							<button type="button" className="btn btn-unsto btn3d" onClick={this.onOpenModal}> Filter Month/Year</button>
+							<button type="button" className="btn btn-filterbooking btn3d" onClick={this.onOpenModalFilterBookingNumber}> Filter Booking Number</button>
 							<button type="button" className="btn btn-storno btn3d" onClick={this.generateReport}> Generate Report </button>
 							<button type="button" className="btn btn-success btn3d" id="createStart" onClick={this.onOpenModalCreate}> Create </button>
 						</div>
