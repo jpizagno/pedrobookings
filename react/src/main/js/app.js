@@ -32,7 +32,9 @@ class App extends React.Component {
 			, links: {}
 			, monthFilter : -1 
 			, yearFilter : -1
+			, bookingNumberFilter : -1
 			, modelOpen : false
+			, modalFilterBookingNumber : false
 			, modalOpenCreate : false
 			, reportUrl : '#'
 			, loggedInManager: this.props.loggedInManager
@@ -41,21 +43,25 @@ class App extends React.Component {
 		this.onUpdate = this.onUpdate.bind(this);
 		this.onDelete = this.onDelete.bind(this);
 		this.followApiQueryFilterBookings = this.followApiQueryFilterBookings.bind(this);
+		this.followApiQueryFilterBookingNumber = this.followApiQueryFilterBookingNumber.bind(this);
 		this.loadFromServer = this.loadFromServer.bind(this);
 		this.setFilterStateOn = this.setFilterStateOn.bind(this);
 		this.setFilterStateOff = this.setFilterStateOff.bind(this);
 		this.onOpenModal = this.onOpenModal.bind(this);
 		this.onCloseModal = this.onCloseModal.bind(this);
+		this.onOpenModalFilterBookingNumber = this.onOpenModalFilterBookingNumber.bind(this);
+		this.onCloseModalFilterBookingNumber = this.onCloseModalFilterBookingNumber.bind(this);
 		this.onOpenModalCreate = this.onOpenModalCreate.bind(this);
 		this.onCloseModalCreate = this.onCloseModalCreate.bind(this);
 		this.updateMonthValue = this.updateMonthValue.bind(this);
 		this.updateYearValue = this.updateYearValue.bind(this);
+		this.updateBookingNumberFilter = this.updateBookingNumberFilter.bind(this);
 		this.setTotal = this.setTotal.bind(this);
 		this.generateReport = this.generateReport.bind(this);
 	}
 
 
-	// State for Filter Model
+	// State for Filter Modal
 	onOpenModal() {
 		this.setState({ modelOpen: true });
 	}
@@ -63,7 +69,15 @@ class App extends React.Component {
 		this.setState({ modelOpen: false });
 	}
 
-	// State for Create Model
+	// Modal for filtering my Booking Number
+	onOpenModalFilterBookingNumber() {
+	    this.setState( modalFilterBookingNumber: true);
+    }
+    onCloseModalFilterBookingNumber() {
+        this.setState( modalFilterBookingNumber: false);
+    }
+
+	// State for Create Modal
 	onOpenModalCreate() {
 		this.setState({ modalOpenCreate: true });
 	}
@@ -175,6 +189,28 @@ class App extends React.Component {
 		});
 	}
 
+	followApiQueryFilterBookingNumber() {
+	    follow(client, root, [
+            {rel: 'bookings'}
+            , {rel: 'search'}
+            , {rel: 'findByBookingNumber', params:{bookingNumber: this.state.bookingNumberFilter}}]
+        ).then(bookingCollection => {
+            return bookingCollection.entity._embedded.bookings.map(booking =>
+                    client({
+                        method: 'GET',
+                        path: booking._links.self.href
+                    })
+            );
+        }).then(bookingPromises => {
+            return when.all(bookingPromises);
+        }).done(bookings => {
+            this.setState({
+                bookingsFiltered: bookings,
+                isFiltered : true
+            });
+        });
+	}
+
 	onCreate(bookingIn) {
 		var newBooking = this.setTotal(bookingIn);
 		follow(client, root, ['bookings']).done(response => {
@@ -239,13 +275,13 @@ class App extends React.Component {
 		]);
 	}
 
+    // filters for Month/Year
 	setFilterStateOn(e ) {
 		e.preventDefault();
 			this.setState({isFiltered: true , modelOpen : false }, function () {
 				this.followApiQueryFilterBookings();
 			});
 	}
-
 	setFilterStateOff(e ) {
 		e.preventDefault();
 			this.setState({ 
@@ -255,6 +291,21 @@ class App extends React.Component {
 				, modelOpen : false
 			}) ;		
 	}
+
+	// filters for Booking Number
+	setFilterStateBookingNumberOn(e ) {
+    		e.preventDefault();
+    			this.setState({isFiltered: true , modalFilterBookingNumber :  false}, function () {
+    				this.followApiQueryFilterBookingNumber();
+    			});
+    	}
+    setFilterStateBookingNumberOff(e ) {
+        e.preventDefault();
+            this.setState({
+                isFiltered: false
+                , modalFilterBookingNumber : false
+            }) ;
+    }
 
 	updateMonthValue(evt) {
 		this.setState({
@@ -270,6 +321,13 @@ class App extends React.Component {
 		});
 	}
 
+	updateBookingNumberFilter(evt) {
+	    this.setState({
+            bookingNumberFilter: evt.target.value
+            ,isFiltered: true
+        });
+	}
+
 	render() {
 		return (
 			<div id="parent">
@@ -283,6 +341,7 @@ class App extends React.Component {
 							<button type="button" className="btn btn-success btn3d" id="createStart" onClick={this.onOpenModalCreate}> Create </button>
 						</div>
 
+                        // Modal for Filter by Month/year
 						<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
 							<div>
 								<div>
@@ -301,6 +360,24 @@ class App extends React.Component {
 								</div>
 							</div>
 						</Modal>
+
+						// Modal filter by Booking Number
+						<Modal open={this.state.modalFilterBookingNumber} onClose={this.onCloseModalFilterBookingNumber} little>
+                            <div>
+                                <div>
+                                    <h2Filter by Boooking Number</h2>
+
+                                    <form>
+                                        <p key="booking_numeber_id">
+                                            <input type="text" placeholder="booking number" ref="booking_numeber_id" className="field" onChange={this.updateBookingNumberFilter}/>
+                                        </p>
+                                        <button onClick={this.setFilterStateBookingNumberOn}>Filter On</button>
+                                        <button onClick={this.setFilterStateBookingNumberOff}>Filter Off</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </Modal>
+
 
 						<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate} closeModal={this.onCloseModalCreate} modalOpenState={this.state.modalOpenCreate}/>
 
