@@ -47,6 +47,8 @@ class App extends React.Component {
 		this.loadFromServer = this.loadFromServer.bind(this);
 		this.setFilterStateOn = this.setFilterStateOn.bind(this);
 		this.setFilterStateOff = this.setFilterStateOff.bind(this);
+		this.setFilterStateBookingNumberOn = this.setFilterStateBookingNumberOn.bind(this);
+        this.setFilterStateBookingNumberOff = this.setFilterStateBookingNumberOff.bind(this);
 		this.onOpenModal = this.onOpenModal.bind(this);
 		this.onCloseModal = this.onCloseModal.bind(this);
 		this.onOpenModalFilterBookingNumber = this.onOpenModalFilterBookingNumber.bind(this);
@@ -71,10 +73,10 @@ class App extends React.Component {
 
 	// Modal for filtering my Booking Number
 	onOpenModalFilterBookingNumber() {
-	    this.setState( modalFilterBookingNumber: true);
+	    this.setState( { modalFilterBookingNumber: true } );
     }
     onCloseModalFilterBookingNumber() {
-        this.setState( modalFilterBookingNumber: false);
+        this.setState( { modalFilterBookingNumber: false } );
     }
 
 	// State for Create Modal
@@ -341,7 +343,7 @@ class App extends React.Component {
 							<button type="button" className="btn btn-success btn3d" id="createStart" onClick={this.onOpenModalCreate}> Create </button>
 						</div>
 
-                        // Modal for Filter by Month/year
+
 						<Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
 							<div>
 								<div>
@@ -361,11 +363,11 @@ class App extends React.Component {
 							</div>
 						</Modal>
 
-						// Modal filter by Booking Number
+
 						<Modal open={this.state.modalFilterBookingNumber} onClose={this.onCloseModalFilterBookingNumber} little>
                             <div>
                                 <div>
-                                    <h2Filter by Boooking Number</h2>
+                                    <h2>Filter by Boooking Number</h2>
 
                                     <form>
                                         <p key="booking_numeber_id">
