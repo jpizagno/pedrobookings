@@ -55,6 +55,6 @@ public interface BookingRepository extends PagingAndSortingRepository<Booking, L
 	// "href" :   curl --cookie cookies "http://localhost:8092/api/bookings/search/findByMonthDepartureAndYearDeparture?month=12&year=1900"
 	public List<Booking> findByMonthDepartureAndYearDeparture(@Param("month") Integer monthDeparture, @Param("year") Integer yearDeparture);
 
-	// for filter by Booking Number
+	// for filter by Booking Number, a List because there may be many bookings for a single bookingNumber, which is an error
 	public List<Booking> findByBookingNumber(@Param("bookingNumber") String bookingNumber);
 }
