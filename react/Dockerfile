@@ -3,9 +3,6 @@ FROM openjdk:8
 RUN apt-get update -y
 RUN apt-get install maven -y
 
-COPY . /usr/myapp
-WORKDIR /usr/myapp
-
 #RUN mvn clean install
 
 # install npm
@@ -33,5 +30,8 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 RUN node -v
 RUN npm -v
 RUN npm install babel-preset-env --save-dev
+
+COPY . /usr/myapp
+WORKDIR /usr/myapp
 
 CMD ["mvn", "spring-boot:run"]

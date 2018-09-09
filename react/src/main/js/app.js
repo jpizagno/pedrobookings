@@ -4,8 +4,8 @@ import Modal from 'react-responsive-modal';
 import { Base64 } from 'js-base64';
 
 import Booking from './Booking.js';
-import UpdateDialog from './UpdateDialog.js';
 import CreateDialog from './CreateDialog.js';
+import ModalSearchBookingNumber from './ModalSearchBookingNumber.js';
 import BookingList from './BookingList.js';
 
 const React = require('react');
@@ -297,7 +297,7 @@ class App extends React.Component {
 	// filters for Booking Number
 	setFilterStateBookingNumberOn(e ) {
     		e.preventDefault();
-    			this.setState({isFiltered: true , modalFilterBookingNumber :  false}, function () {
+    			this.setState({isFiltered: true , modalFilterBookingNumber :  true}, function () {
     				this.followApiQueryFilterBookingNumber();
     			});
     	}
@@ -364,21 +364,13 @@ class App extends React.Component {
 						</Modal>
 
 
-						<Modal open={this.state.modalFilterBookingNumber} onClose={this.onCloseModalFilterBookingNumber} little>
-                            <div>
-                                <div>
-                                    <h2>Filter by Boooking Number</h2>
-
-                                    <form>
-                                        <p key="booking_numeber_id">
-                                            <input type="text" placeholder="booking number" ref="booking_numeber_id" className="field" onChange={this.updateBookingNumberFilter}/>
-                                        </p>
-                                        <button onClick={this.setFilterStateBookingNumberOn}>Filter On</button>
-                                        <button onClick={this.setFilterStateBookingNumberOff}>Filter Off</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </Modal>
+                        <ModalSearchBookingNumber 
+                            updateBookingNumberFilter={this.updateBookingNumberFilter} 
+                            setFilterStateBookingNumberOn={this.setFilterStateBookingNumberOn} 
+                            setFilterStateBookingNumberOff={this.setFilterStateBookingNumberOff} 
+                            modalFilterBookingNumber={this.state.modalFilterBookingNumber} 
+                            onCloseModalFilterBookingNumber={this.onCloseModalFilterBookingNumber} 
+                        />
 
 
 						<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate} closeModal={this.onCloseModalCreate} modalOpenState={this.state.modalOpenCreate}/>
