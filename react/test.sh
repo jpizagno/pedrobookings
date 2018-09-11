@@ -19,12 +19,18 @@ echo " "
 
 rm -rf my-test-app
 npx create-react-app my-test-app
+
 cp src/main/js/Booking.js my-test-app/src/
 cp src/test/resources/spec/Booking.test.js my-test-app/src/
+
 cp src/main/js/BookingList.js my-test-app/src/
 cp src/test/resources/spec/BookingList.test.js my-test-app/src/
+
 cp src/main/js/UpdateDialog.js my-test-app/src/
 cp src/test/resources/spec/UpdateDialog.test.js my-test-app/src/
+
+cp src/main/js/ModalSearchBookingNumber.js my-test-app/src/
+cp src/test/resources/spec/ModalSearchBookingNumber.test.js my-test-app/src/
 
 cd my-test-app
 npm test

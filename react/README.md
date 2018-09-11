@@ -27,7 +27,7 @@ The test.sh script will run backend Java /Spring tests, and then run Frontend te
 The script in scripts/setup_aws_all.sh must be run first.
 
 ```
-shell% ./test.sh
+docker-shell% ./test.sh
 ```
 
 ### CLI Access to Spring API
