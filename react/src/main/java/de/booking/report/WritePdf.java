@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -27,6 +30,8 @@ public class WritePdf {
 
 	int widthCells;
 
+	private Logger logger = LoggerFactory.getLogger(WritePdf.class);
+
 	/**
 	 * Generates a Report, given these bookings.
 	 * 
@@ -36,6 +41,7 @@ public class WritePdf {
 	 * @return 0=Sucess, Fail!=0
 	 */
 	public String generateReport(List<Booking>  bookingsIn, String path, String fileOutName, String title) {
+		logger.info("creating report with path="+path+" fileOutName="+fileOutName+" number of input bookings="+bookingsIn.size());
 		if (bookingsIn.size() == 0 ) {
 			return "error_bookings_empty";
 		}
@@ -147,7 +153,8 @@ public class WritePdf {
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
-		
+
+		logger.info("finished creating report with path="+path+" fileOutName="+fileOutName);
 		return fileOutName;
 	}
 

@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/")
 @PreAuthorize("hasRole('ROLE_MANAGER')")
 public class BookingController {
+
+	private Logger logger = LoggerFactory.getLogger(BookingController.class);
 
 	@Autowired
 	public BookingRepository bookingRepository;
@@ -57,7 +63,7 @@ public class BookingController {
 		fileOutName = "report_" + month + "_" + year + ".pdf";
 		String title =  "Julia's bookings for month "+month+" year "+year ;
 		Response myResponse = new Response("reportUrl=" +writer.generateReport(bookings, localReportDirectory, fileOutName, title));
-		System.out.println(" response = " + myResponse.getUrl());
+		logger.info("backend. processing month="+month+" year="+year+" response = " + myResponse.getUrl());
 		return myResponse;
 	}
 
@@ -80,7 +86,7 @@ public class BookingController {
 		response.setHeader("Content-Disposition", "inline;filename=\"" + fileOutName + "\"");
 
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
-
+		logger.info("backend. file written to path="+path);
 	}
 
 	/**

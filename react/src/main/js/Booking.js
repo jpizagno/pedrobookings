@@ -10,6 +10,7 @@ class Booking extends React.Component {
     }
 
     handleDelete() {
+        console.log("deleting booking to this.props.booking.entity.bookingNumber=" + this.props.booking.entity.bookingNumber);
         this.props.onDelete(this.props.booking);
     }
 

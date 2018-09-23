@@ -46,6 +46,7 @@ class CreateDialog extends React.Component {
         if (this.isValidDate(newBooking["dayDeparture"] + '/' + newBooking["monthDeparture"] + '/' + newBooking["yearDeparture"]) == false) {
             alert("wrong dates dayDeparture="+newBooking["dayDeparture"]+" monthDeparture="+newBooking["monthDeparture"]+" yearDeparture="+newBooking["yearDeparture"]) ;
         } else {
+            console.log("creating and sending booking to backend. newBooking['bookingnumber']=" + newBooking['bookingnumber']);
             this.props.onCreate(newBooking);
             this.props.closeModal();
         }
