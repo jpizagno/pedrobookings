@@ -14,6 +14,7 @@ class UpdateDialog extends React.Component {
         this.props.attributes.forEach(attribute => {
             updatedBooking[attribute] = ReactDOM.findDOMNode(this.refs[attribute]).value.trim();
         });
+        console.log("updating booking to updatedBooking['bookingnumber']=" + updatedBooking['bookingnumber']);
         this.props.onUpdate(this.props.booking, updatedBooking);
         window.location = "#";
         window.location.reload();
