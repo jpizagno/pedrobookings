@@ -1,6 +1,5 @@
 # access keys
-access_key = "AKIAINPMAJNEHI7WKVCQ"
-secret_key = "NC8/1gN0T9PzeoejxxfMv662Od0UBz9u1PLrIf4H"
+access_key = "AKIAIGEDSNO4MGZTFJQA"
 
 # mysql information
 mysql_db_name = "db_example"
