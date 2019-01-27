@@ -1,5 +1,3 @@
-# access keys
-access_key = "AKIAIGEDSNO4MGZTFJQA"
 
 # mysql information
 mysql_db_name = "db_example"
