@@ -10,9 +10,11 @@ Do not run the app locally. Always run (for tests as well) in a Docker environme
 The run docker images
 ```
 shell% ./docker_build.sh
-shell% ./docker_run.sh  # wait a few minutes for container to start running Spring-Boot
+shell% ./docker_run.sh  # for AWS, wait a few minutes for container to start running Spring-Boot
+shell% ./docker_run_local.sh  # for locallaptop, wait a few minutes for container to start running Spring-Boot
 ```
 One may need to connect to a local MySQL instance by adding the flag --net="host" to the docker run command in docker_run.sh
+If running locally then login with james/p*12345
 
 ### Adjust Settings
 

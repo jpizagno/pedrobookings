@@ -7,19 +7,19 @@ import Booking from './Booking.js';
 import CreateDialog from './CreateDialog.js';
 import ModalSearchBookingNumber from './ModalSearchBookingNumber.js';
 import BookingList from './BookingList.js';
-import AppBookings from './AppBookings.js';
-import AppAusgaben from './AppAusgaben.js';
 
 const React = require('react');
 const ReactDOM = require('react-dom')
 const when = require('when');
 const client = require('./client');
+
 const follow = require('./follow'); 
+
 const stompClient = require('./websocket-listener');
+
 const root = '/api';
 
-
-class App extends React.Component {
+class AppBookings extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -38,8 +38,8 @@ class App extends React.Component {
 			, modalOpenCreate : false
 			, reportUrl : '#'
 			, loggedInManager: this.props.loggedInManager
-			, appStates: [{value:"logout",display:"logout"},{value:"bookings",display:"bookings"},{value:"ausgaben",display:"ausgaben"}]
-    		, selectedAppState: "bookings"
+			, teams: [{value:"logout",display:"logout"},{value:"bookings",display:"bookings"},{value:"ausgaben",display:"ausgaben"}]
+    		, selectedTeam: "Select Page"
 		};
 		this.onCreate = this.onCreate.bind(this);
 		this.onUpdate = this.onUpdate.bind(this);
@@ -335,31 +335,63 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div id="parent">
-				<div className="container-fluid" id="buttonsId">
+            <div>
+                <div className="row top-buffer">
+                    <div className="col-md-4 offset-md-1">
+                        <button type="button" className="btn btn-unsto btn3d" onClick={this.onOpenModal}> Filter Month/Year</button>
+                        <button type="button" className="btn btn-filterbooking btn3d" onClick={this.onOpenModalFilterBookingNumber}> Filter Booking Number</button>
+                        <button type="button" className="btn btn-storno btn3d" onClick={this.generateReport}> Generate Report </button>
+                        <button type="button" className="btn btn-success btn3d" id="createStart" onClick={this.onOpenModalCreate}> Create </button>
+                    </div>
 
-					<div>
-						<select value={this.state.selectedAppState} 
-								onChange={(e) => this.setState({selectedAppState: e.target.value, validationError: e.target.value === "" ? "You must select your App" : ""})}>
-						{this.state.appStates.map((app) => <option key={app.value} value={app.value}>{app.display}</option>)}
-						</select>
-					</div>
 
-					{this.state.selectedAppState === "bookings" ? 
-						(<AppBookings loggedInManager={this.props.loggedInManager}/>) 
-						: (<AppAusgaben />)  
-					}
+                    <Modal open={this.state.modelOpen} onClose={this.onCloseModal} little>
+                        <div>
+                            <div>
+                                <h2>Set Filter by Month and Year</h2>
 
-				</div>
-			</div>
+                                <form>
+                                    <p key="month_dom_id">
+                                        <input type="text" placeholder="month" ref="month_dom_id" className="field" onChange={this.updateMonthValue}/>
+                                    </p>
+                                    <p key="year_dom_id">
+                                        <input type="text" placeholder="year" ref="year_dom_id" className="field" onChange={this.updateYearValue}/>
+                                    </p>
+                                    <button onClick={this.setFilterStateOn}>Filter On</button>
+                                    <button onClick={this.setFilterStateOff}>Filter Off</button>
+                                </form>
+                            </div>
+                        </div>
+                    </Modal>
+
+
+                    <ModalSearchBookingNumber 
+                        updateBookingNumberFilter={this.updateBookingNumberFilter} 
+                        setFilterStateBookingNumberOn={this.setFilterStateBookingNumberOn} 
+                        setFilterStateBookingNumberOff={this.setFilterStateBookingNumberOff} 
+                        modalFilterBookingNumber={this.state.modalFilterBookingNumber} 
+                        onCloseModalFilterBookingNumber={this.onCloseModalFilterBookingNumber} 
+                    />
+
+
+                    <CreateDialog attributes={this.state.attributes} onCreate={this.onCreate} closeModal={this.onCloseModalCreate} modalOpenState={this.state.modalOpenCreate}/>
+
+                </div>
+
+                <div className="row top-buffer">
+                    <div className="col">
+                        <BookingList page={this.state.page}
+                                bookings={ this.state.isFiltered ?  this.state.bookingsFiltered : this.state.bookingsAll}
+                                links={this.state.links}
+                                attributes={this.state.attributes}
+                                onUpdate={this.onUpdate}
+                                onDelete={this.onDelete}
+                                />
+                    </div>
+                </div>
+            </div>
 		)
 	}
 }
 
-
-ReactDOM.render(
-	 // <App loggedInManager={document.getElementById('managername').innerHTML} />,
-	<App loggedInManager="test_jim_app_line_413" />,
-	document.getElementById('app')
-)
-
+export default AppBookings;

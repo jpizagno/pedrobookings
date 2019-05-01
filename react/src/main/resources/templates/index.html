@@ -9,20 +9,7 @@
         <link rel="stylesheet" href="/main.css" />
     </head>
     <body>
-            <div class="navbar navbar-default navbar-fixed-top">
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdown" data-toggle="dropdown">Navigation
-                        <span class="caret"></span></button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                            <li role="presentation"><a role="menuitem" href="logout">Logout</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                            Logged in as: <span id="managername" th:text="${#authentication.name}">Still Loading ....</span> 
-                    </div> 
-            </div>
-
-        <div id="react"></div>
+        <div id="app"></div>
 
         <script src="built/bundle.js"></script>
 
