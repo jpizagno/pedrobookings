@@ -25,6 +25,7 @@ class ProductTable extends React.Component {
                 <th>Name</th>
                 <th>price</th>
                 <th>quantity</th>
+                <th>total</th>
                 <th>category</th>
               </tr>
             </thead>

@@ -27,6 +27,11 @@ class ProductRow extends React.Component {
                 id: this.props.product.id
             }}/>
             <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
+                type: "total",
+                value: this.props.product.total,
+                id: this.props.product.id
+            }}/>
+            <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
                 type: "category",
                 value: this.props.product.category,
                 id: this.props.product.id

@@ -1,7 +1,5 @@
 const React = require('react');
 
-import EditableCell from './EditableCell.js';
-import ProductRow from './ProductRow.js';
 import ProductTable from './ProductTable.js';
 import SearchBar from './SearchBar.js';
 
@@ -9,47 +7,31 @@ class AppAusgaben extends React.Component {
 
     constructor(props) {
       super(props);
-  
-      //  this.state.products = [];
+
       this.state = {};
       this.state.filterText = "";
       this.state.products = [
         {
           id: 1,
           category: 'Sporting Goods',
-          price: '49.99',
-          qty: 12,
+          price: 49.99,
+          qty: 12.,
+          total: 49.99*12.,
           name: 'football'
         }, {
           id: 2,
           category: 'Sporting Goods',
-          price: '9.99',
-          qty: 15,
+          price: 9.99,
+          qty: 15.,
+          total: 9.99*15., 
           name: 'baseball'
         }, {
           id: 3,
           category: 'Sporting Goods',
-          price: '29.99',
-          qty: 14,
+          price: 29.99,
+          qty: 14.,
+          total: 29.99*14.,
           name: 'basketball'
-        }, {
-          id: 4,
-          category: 'Electronics',
-          price: '99.99',
-          qty: 34,
-          name: 'iPod Touch'
-        }, {
-          id: 5,
-          category: 'Electronics',
-          price: '399.99',
-          qty: 12,
-          name: 'iPhone 5'
-        }, {
-          id: 6,
-          category: 'Electronics',
-          price: '199.99',
-          qty: 23,
-          name: 'nexus 7'
         }
       ];
   
@@ -68,13 +50,13 @@ class AppAusgaben extends React.Component {
       var product = {
         id: id,
         name: "",
-        price: "",
+        price: 0,
         category: "",
         qty: 0
       }
+      product.total = product.qty * product.price;
       this.state.products.push(product);
       this.setState(this.state.products);
-  
     }
   
     handleProductTable(evt) {
@@ -83,19 +65,29 @@ class AppAusgaben extends React.Component {
         name: evt.target.name,
         value: evt.target.value
       };
-        var products = this.state.products.slice();
-        var newProducts = products.map(function(product) {
-    
+      var products = this.state.products.slice();
+      var newProducts = products.map(function(product) {
+  
         for (var key in product) {
             if (key == item.name && product.id == item.id) {
-            product[key] = item.value;
-    
+              product[key] = item.value;
+
+              // update Total if needed
+              if (item.name == "price" ) {
+                var price = item.value;
+                product.total = product.qty * price;
+              }
+              if (item.name == "qty" ) {
+                var qty = item.value;
+                product.total = qty * product.price;
+              }
             }
         }
-      return product;
-    });
+        return product;
+      });
       this.setState({products:newProducts});
     };
+
     render() {
   
       return (
