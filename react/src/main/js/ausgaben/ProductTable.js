@@ -22,11 +22,19 @@ class ProductTable extends React.Component {
           <table className="table table-bordered">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>price</th>
-                <th>quantity</th>
-                <th>total</th>
-                <th>category</th>
+                <th>Month/Jahr</th>
+                <th>Einnahme Netto</th>
+                <th>Einnahme Umsatz Steuer</th>
+                <th>Einnahme Brutto</th>
+                <th>Ausgabe-Telefon</th>
+                <th>Ausgabe-Porto</th>
+                <th>Ausgabe-TUI</th>
+                <th>Ausgabe-Buero Material</th>
+                <th>Ausgabe Sonstiges</th>
+                <th>Ausgabe-Kosten-Netto</th>
+                <th>19% Umsatz Steuer</th>
+                <th>Gesamt-Kosten-Brutto</th>
+                <th>Einnahme Nachkosten Netto</th>
               </tr>
             </thead>
   
