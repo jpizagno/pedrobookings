@@ -13,23 +13,22 @@ class AppAusgaben extends React.Component {
       this.state.products = [
         {
           id: 1,
-          month_jahr: 01-2019,
+          month_jahr: "01-2019",
           einnahme_netto:  100.0,
           einnahme_steuer: 0.19*100.0 ,
           einnahme_brutto: 1.19*100.0, 
           ausgabe_telefon: 9.67,
           ausgabe_porto: 9.67,
           ausgabe_tui: 0,
-          ausgabe_buero_material: 07,
+          ausgabe_buero_material: 0,
           ausgabe_sonstiges: 0,
           ausgabe_kosten_netto: 2.*9.67,
           ausgabe_umsatz_steuer: 0.19*2*9.67,
           gesamt_kosten_brutto: 1.19*2*9.67,
           einnahme_nachkosten_netto: 119 - 1.19*2*9.6
-        }, 
-        {
+        },{
           id: 2,
-          month_jahr: 02-2019,
+          month_jahr: "02-2019",
           einnahme_netto:  100.0,
           einnahme_steuer: 0.19*100.0 ,
           einnahme_brutto: 1.19*100.0, 
@@ -44,7 +43,7 @@ class AppAusgaben extends React.Component {
           einnahme_nachkosten_netto: 119 - 1.19*5*9.6
         },{
           id: 3,
-          month_jahr: 03-2019,
+          month_jahr: "03-2019",
           einnahme_netto:  60.0,
           einnahme_steuer: 0.19*60.0 ,
           einnahme_brutto: 1.19*60.0, 
@@ -74,12 +73,20 @@ class AppAusgaben extends React.Component {
       var id = (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
       var product = {
         id: id,
-        name: "",
-        price: 0,
-        category: "",
-        qty: 0
+        month_jahr: "00-2019",
+        einnahme_netto:  parseFloat(0.0),
+        einnahme_steuer: parseFloat(0.0),
+        einnahme_brutto: parseFloat(0.0), 
+        ausgabe_telefon: parseFloat(0.0),
+        ausgabe_porto: parseFloat(0.0),
+        ausgabe_tui: parseFloat(0.0),
+        ausgabe_buero_material: parseFloat(0.0),
+        ausgabe_sonstiges: parseFloat(0.0),
+        ausgabe_kosten_netto: parseFloat(0.0),
+        ausgabe_umsatz_steuer: parseFloat(0.0),
+        gesamt_kosten_brutto: parseFloat(0.0),
+        einnahme_nachkosten_netto: parseFloat(0.0)
       }
-      product.total = product.qty * product.price;
       this.state.products.push(product);
       this.setState(this.state.products);
     }
@@ -98,28 +105,28 @@ class AppAusgaben extends React.Component {
               product[key] = item.value;
 
               if (item.name == "einnahme_netto" ) {
-                product.einnahme_steuer = item.value * 0.19;
-                product.einnahme_brutto = item.value * 1.19;
-                product.einnahme_nachkosten_netto = item.value*1.19 - product.gesamt_kosten_brutto;
+                product.einnahme_steuer = parseFloat(item.value) * 0.19;
+                product.einnahme_brutto = parseFloat(item.value) * 1.19;
+                product.einnahme_nachkosten_netto = parseFloat(item.value)*1.19 - parseFloat(product.gesamt_kosten_brutto);
               }
               if (item.name == "ausgabe_telefon" ) {
-                product.ausgabe_kosten_netto = item.value + product.ausgabe_porto + product.ausgabe_tui + product.ausgabe_buero_material + product.ausgabe_sonstiges;
+                product.ausgabe_kosten_netto = parseFloat(item.value) + parseFloat(product.ausgabe_porto) + parseFloat(product.ausgabe_tui) + parseFloat(product.ausgabe_buero_material) + parseFloat(product.ausgabe_sonstiges);
               }
               if (item.name == "ausgabe_porto" ) {
-                product.ausgabe_kosten_netto = product.ausgabe_telefon + item.value + product.ausgabe_tui + product.ausgabe_buero_material + product.ausgabe_sonstiges;
+                product.ausgabe_kosten_netto = parseFloat(product.ausgabe_telefon) + parseFloat(item.value) + parseFloat(product.ausgabe_tui) + parseFloat(product.ausgabe_buero_material) + parseFloat(product.ausgabe_sonstiges);
               }
               if (item.name == "ausgabe_tui" ) {
-                product.ausgabe_kosten_netto = product.ausgabe_telefon + product.ausgabe_porto + item.value + product.ausgabe_buero_material + product.ausgabe_sonstiges;
+                product.ausgabe_kosten_netto = parseFloat(product.ausgabe_telefon) + parseFloat(product.ausgabe_porto) + parseFloat(item.value) + parseFloat(product.ausgabe_buero_material) + parseFloat(product.ausgabe_sonstiges);
               }
               if (item.name == "ausgabe_buero_material" ) {
-                product.ausgabe_kosten_netto = product.ausgabe_telefon + product.ausgabe_porto + product.ausgabe_tui + item.value + product.ausgabe_sonstiges;
+                product.ausgabe_kosten_netto = parseFloat(product.ausgabe_telefon) + parseFloat(product.ausgabe_porto) + parseFloat(product.ausgabe_tui) + parseFloat(item.value) + parseFloat(product.ausgabe_sonstiges);
               }
               if (item.name == "ausgabe_sonstiges" ) {
-                product.ausgabe_kosten_netto = product.ausgabe_telefon + product.ausgabe_porto + product.ausgabe_tui + product.ausgabe_buero_material + item.value;
+                product.ausgabe_kosten_netto = parseFloat(product.ausgabe_telefon) + parseFloat(product.ausgabe_porto) + parseFloat(product.ausgabe_tui) + parseFloat(product.ausgabe_buero_material) + parseFloat(item.value);
               }
-              product.ausgabe_umsatz_steuer = product.ausgabe_kosten_netto * 0.19;
-              product.gesamt_kosten_brutto = product.ausgabe_kosten_netto * 1.19;
-              product.einnahme_nachkosten_netto = product.einnahme_brutto - product.gesamt_kosten_brutto;
+              product.ausgabe_umsatz_steuer = parseFloat(product.ausgabe_kosten_netto) * 0.19;
+              product.gesamt_kosten_brutto = parseFloat(product.ausgabe_kosten_netto) * 1.19;
+              product.einnahme_nachkosten_netto = parseFloat(product.einnahme_netto) - parseFloat(product.ausgabe_kosten_netto);
             }
         }
         return product;

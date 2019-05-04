@@ -9,7 +9,7 @@ class ProductTable extends React.Component {
       var rowDel = this.props.onRowDel;
       var filterText = this.props.filterText;
       var product = this.props.products.map(function(product) {
-        if (product.name.indexOf(filterText) === -1) {
+        if (product.month_jahr.indexOf(filterText) === -1) {
           return;
         }
         return (<ProductRow onProductTableUpdate={onProductTableUpdate} product={product} onDelEvent={rowDel.bind(this)} key={product.id}/>)
