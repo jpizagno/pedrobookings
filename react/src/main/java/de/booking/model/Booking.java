@@ -37,6 +37,100 @@ import de.booking.repository.Manager;
 @Entity 
 public class Booking {
 
+	private @Id @GeneratedValue Long id;
+	
+	@Column(name = "KREUZFAHRT")
+	protected float kreuzfahrt ;
+	
+	@Column(name = "FLUG")
+	protected float flug ;
+
+	@Column(name = "HOTEL")
+	protected float hotel;
+	
+	@Column(name = "VERSICHERUNG")
+	protected float versicherung;
+
+	@Column(name = "TOTAL")
+	protected float total;
+
+	@Column(name = "DAY_DEPARTURE")
+	protected int dayDeparture; 
+	
+	@Column(name = "MONTH_DEPARTURE")
+	protected int monthDeparture;
+	
+	@Column(name = "YEAR_DEPARTURE")
+	private int yearDeparture;	
+
+	@Column(name = "SURNAME")
+	protected String surname;	
+	
+	@Column(name = "FIRST_NAME")
+	protected String firstName;	
+	
+	@Column(name = "BOOKING_NUMBER")
+	protected String bookingNumber;	
+	
+	@Column(name = "STORNO")
+	protected int storno;	
+
+	@Column(name = "COMMENT")
+	protected String comment;	
+
+	// current timestamp
+	@Column(name = "BOOKING_DATE")
+	protected Date bookingDate;	
+	
+	// used for data security, i.e. multiple users
+	protected @Version @JsonIgnore Long version;
+
+	// who entered this booking
+	private @ManyToOne Manager manager;
+
+	protected Booking() {}
+
+	public Booking(float kreuzfahrt, float flug, float hotel, float versicherung, 
+			int day_departure, int month_departure, int year_departure, 
+			String surname, String first_name, String booking_number, 
+			int storno, String comment, Date booking_date, Manager manager) {		
+		this.kreuzfahrt = kreuzfahrt;
+		this.flug = flug;
+		this.hotel = hotel;
+		this.versicherung = versicherung;
+		this.total =  kreuzfahrt*0.035f + flug*0.015f + hotel*0.015f + versicherung*0.015f ;
+		this.dayDeparture = day_departure;
+		this.monthDeparture = month_departure;
+		this.yearDeparture = year_departure;
+		this.surname = surname;	
+		this.firstName = first_name; 	
+		this.bookingNumber = booking_number;
+		this.storno = storno;	
+		this.comment = comment;	
+		this.bookingDate = booking_date;
+		this.manager = manager;
+	}
+
+	public void setManager(Manager managerIn) {
+		this.manager = managerIn;
+	}
+
+	public Long getId() {
+		return id;
+	}
+	
+	public float getTotal() {
+		return total;
+	}
+
+	public int getStorno() {
+		return this.storno;
+	}
+	
+	public float getKreuzfahrt() {
+		return kreuzfahrt;
+	}
+
 	public float getFlug() {
 		return flug;
 	}
@@ -151,100 +245,6 @@ public class Booking {
 
 	public void setStorno(int storno) {
 		this.storno = storno;
-	}
-
-	private @Id @GeneratedValue Long id;
-	
-	@Column(name = "KREUZFAHRT")
-	protected float kreuzfahrt ;
-	
-	@Column(name = "FLUG")
-	protected float flug ;
-
-	@Column(name = "HOTEL")
-	protected float hotel;
-	
-	@Column(name = "VERSICHERUNG")
-	protected float versicherung;
-
-	@Column(name = "TOTAL")
-	protected float total;
-
-	@Column(name = "DAY_DEPARTURE")
-	protected int dayDeparture; 
-	
-	@Column(name = "MONTH_DEPARTURE")
-	protected int monthDeparture;
-	
-	@Column(name = "YEAR_DEPARTURE")
-	private int yearDeparture;	
-
-	@Column(name = "SURNAME")
-	protected String surname;	
-	
-	@Column(name = "FIRST_NAME")
-	protected String firstName;	
-	
-	@Column(name = "BOOKING_NUMBER")
-	protected String bookingNumber;	
-	
-	@Column(name = "STORNO")
-	protected int storno;	
-
-	@Column(name = "COMMENT")
-	protected String comment;	
-
-	// current timestamp
-	@Column(name = "BOOKING_DATE")
-	protected Date bookingDate;	
-	
-	// used for data security, i.e. multiple users
-	protected @Version @JsonIgnore Long version;
-
-	// who entered this booking
-	private @ManyToOne Manager manager;
-
-	protected Booking() {}
-
-	public Booking(float kreuzfahrt, float flug, float hotel, float versicherung, 
-			int day_departure, int month_departure, int year_departure, 
-			String surname, String first_name, String booking_number, 
-			int storno, String comment, Date booking_date, Manager manager) {		
-		this.kreuzfahrt = kreuzfahrt;
-		this.flug = flug;
-		this.hotel = hotel;
-		this.versicherung = versicherung;
-		this.total =  kreuzfahrt*0.035f + flug*0.015f + hotel*0.015f + versicherung*0.015f ;
-		this.dayDeparture = day_departure;
-		this.monthDeparture = month_departure;
-		this.yearDeparture = year_departure;
-		this.surname = surname;	
-		this.firstName = first_name; 	
-		this.bookingNumber = booking_number;
-		this.storno = storno;	
-		this.comment = comment;	
-		this.bookingDate = booking_date;
-		this.manager = manager;
-	}
-
-	public void setManager(Manager managerIn) {
-		this.manager = managerIn;
-	}
-
-	public Long getId() {
-		return id;
-	}
-	
-	public float getTotal() {
-		return total;
-	}
-
-	public int getStorno() {
-		return this.storno;
-	}
-	
-	public float getKreuzfahrt() {
-		return kreuzfahrt;
 	}
 
 }

@@ -28,7 +28,7 @@ import de.booking.model.Booking;
 
 public class WritePdf {
 
-	int widthCells;
+	private int widthCells;
 
 	private Logger logger = LoggerFactory.getLogger(WritePdf.class);
 

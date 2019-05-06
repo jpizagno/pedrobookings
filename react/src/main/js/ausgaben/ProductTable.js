@@ -12,38 +12,49 @@ class ProductTable extends React.Component {
         if (product.month_jahr.indexOf(filterText) === -1) {
           return;
         }
-        return (<ProductRow onProductTableUpdate={onProductTableUpdate} product={product} onDelEvent={rowDel.bind(this)} key={product.id}/>)
+        return (
+            <ProductRow onProductTableUpdate={onProductTableUpdate} product={product} onDelEvent={rowDel.bind(this)} key={product.id}/>
+        )
       });
+
       return (
         <div>
-  
-  
-        <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Add</button>
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th>Month/Jahr</th>
-                <th>Einnahme Netto</th>
-                <th>Einnahme Umsatz Steuer</th>
-                <th>Einnahme Brutto</th>
-                <th>Ausgabe-Telefon</th>
-                <th>Ausgabe-Porto</th>
-                <th>Ausgabe-TUI</th>
-                <th>Ausgabe-Buero Material</th>
-                <th>Ausgabe Sonstiges</th>
-                <th>Ausgabe-Kosten-Netto</th>
-                <th>19% Umsatz Steuer</th>
-                <th>Gesamt-Kosten-Brutto</th>
-                <th>Einnahme Nachkosten Netto</th>
-              </tr>
-            </thead>
-  
-            <tbody>
-              {product}
-  
-            </tbody>
-  
-          </table>
+          <div className="row">
+            <div className="col">
+              <button type="button" onClick={this.props.onRowAdd} className="btn btn-success">Add</button>
+            </div>
+            <div className="col">
+              <button type="button" onClick={this.props.onGenerateReport} className="btn btn-success">Report</button>
+            </div>
+          </div>
+
+          <div className="row">
+            <table className="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Month/Jahr</th>
+                  <th scope="col">Einnahme Netto</th>
+                  <th scope="col">Einnahme Umsatz Steuer</th>
+                  <th scope="col">Einnahme Brutto</th>
+                  <th scope="col">Ausgabe-Telefon</th>
+                  <th scope="col">Ausgabe-Porto</th>
+                  <th scope="col">Ausgabe-TUI</th>
+                  <th scope="col">Ausgabe-Buero Material</th>
+                  <th scope="col">Ausgabe Sonstiges</th>
+                  <th scope="col">Ausgabe-Kosten-Netto</th>
+                  <th scope="col">19% Umsatz Steuer</th>
+                  <th scope="col">Gesamt-Kosten-Brutto</th>
+                  <th scope="col">Einnahme Nachkosten Netto</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {product}
+              </tbody>
+            </table>
+          </div>
+
+
         </div>
       );
   

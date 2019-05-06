@@ -89,8 +89,12 @@ class AppAusgaben extends React.Component {
       }
       this.state.products.push(product);
       this.setState(this.state.products);
-    }
-  
+    };
+
+  	goToReportUrl() {
+  		window.location = "reportausgaben";
+  	};
+
     handleProductTable(evt) {
       var item = {
         id: evt.target.id,
@@ -134,12 +138,35 @@ class AppAusgaben extends React.Component {
       this.setState({products:newProducts});
     };
 
+	generateReport() {
+		let url = "http://" + window.location.hostname + ':8092/ausgaben';
+		fetch(url, {
+			credentials: 'same-origin',
+			method:'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+             redirect: "follow", // manual, *follow, error
+             referrer: "no-referrer", // no-referrer, *client
+             body: JSON.stringify(this.state.products), // body data type must match "Content-Type" header
+	       }
+	    )
+		.then(response => response.json())
+		.then(json => {
+			// Set redirect to URl of Report
+			this.setState({reportUrl: json.url }, function () {
+				this.goToReportUrl();
+			});
+		})
+	}
+
     render() {
   
       return (
         <div>
           <SearchBar filterText={this.state.filterText} onUserInput={this.handleUserInput.bind(this)}/>
-          <ProductTable onProductTableUpdate={this.handleProductTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} products={this.state.products} filterText={this.state.filterText}/>
+          <ProductTable onGenerateReport={this.generateReport.bind(this)} onProductTableUpdate={this.handleProductTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} products={this.state.products} filterText={this.state.filterText}/>
         </div>
       );
   

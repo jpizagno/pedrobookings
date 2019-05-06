@@ -26,13 +26,15 @@ class App extends React.Component {
 	render() {
 		return (
 			<div id="parent">
-				<div className="container-fluid" id="buttonsId">
+				<div className="container-fluid" id="parent_main">
 
-					<div>
-						<select value={this.state.selectedAppState} 
-								onChange={(e) => this.setState({selectedAppState: e.target.value, validationError: e.target.value === "" ? "You must select your App" : ""})}>
-						{this.state.appStates.map((app) => <option key={app.value} value={app.value}>{app.display}</option>)}
-						</select>
+					<div className="row">
+                        <div className="col">
+                            <select value={this.state.selectedAppState}
+                                    onChange={(e) => this.setState({selectedAppState: e.target.value, validationError: e.target.value === "" ? "You must select your App" : ""})}>
+                            {this.state.appStates.map((app) => <option key={app.value} value={app.value}>{app.display}</option>)}
+                            </select>
+					    </div>
 					</div>
 
 					{this.state.selectedAppState === "bookings" ? 
@@ -48,7 +50,6 @@ class App extends React.Component {
 
 
 ReactDOM.render(
-	 // <App loggedInManager={document.getElementById('managername').innerHTML} />,
 	<App loggedInManager="test_jim_app_line_413" />,
 	document.getElementById('app')
 )

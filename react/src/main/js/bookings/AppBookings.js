@@ -337,7 +337,7 @@ class AppBookings extends React.Component {
 		return (
             <div>
                 <div className="row top-buffer">
-                    <div className="col-md-4 offset-md-1">
+                    <div className="col">
                         <button type="button" className="btn btn-unsto btn3d" onClick={this.onOpenModal}> Filter Month/Year</button>
                         <button type="button" className="btn btn-filterbooking btn3d" onClick={this.onOpenModalFilterBookingNumber}> Filter Booking Number</button>
                         <button type="button" className="btn btn-storno btn3d" onClick={this.generateReport}> Generate Report </button>
@@ -378,7 +378,7 @@ class AppBookings extends React.Component {
 
                 </div>
 
-                <div className="row top-buffer">
+                <div className="row ">
                     <div className="col">
                         <BookingList page={this.state.page}
                                 bookings={ this.state.isFiltered ?  this.state.bookingsFiltered : this.state.bookingsAll}
