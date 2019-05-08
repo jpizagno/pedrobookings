@@ -9,6 +9,9 @@
         <link rel="stylesheet" href="/main.css" />
     </head>
     <body>
+        <div>
+            Logged in as: <span id="managername" th:text="${#authentication.name}">Still Loading ....</span>
+        </div>
         <div id="app"></div>
 
         <script src="built/bundle.js"></script>

@@ -13,7 +13,7 @@ class ProductTable extends React.Component {
           return;
         }
         return (
-            <ProductRow onProductTableUpdate={onProductTableUpdate} product={product} onDelEvent={rowDel.bind(this)} key={product.id}/>
+            <ProductRow onProductTableUpdate={onProductTableUpdate} product={product} onDelEvent={rowDel.bind(this)} key={product.month_jahr}/>
         )
       });
 
@@ -21,10 +21,13 @@ class ProductTable extends React.Component {
         <div>
           <div className="row">
             <div className="col">
-              <button type="button" onClick={this.props.onRowAdd} className="btn btn-success">Add</button>
+              <button type="button" className="btn btn-unsto btn3d" onClick={this.props.onRowAdd} >Add</button>
             </div>
             <div className="col">
-              <button type="button" onClick={this.props.onGenerateReport} className="btn btn-success">Report</button>
+              <button type="button" className="btn btn-storno btn3d" onClick={this.props.onGenerateReport} >Report</button>
+            </div>
+            <div className="col">
+              <button type="button" className="btn btn-success btn3d" onClick={this.props.onPersist} >Save</button>
             </div>
           </div>
 

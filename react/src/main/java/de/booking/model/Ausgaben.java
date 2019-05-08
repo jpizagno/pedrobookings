@@ -3,45 +3,64 @@ package de.booking.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Ausgaben {
 
     @JsonProperty("month_jahr")
+    @Column(name = "month_jahr")
+    @Id
     private String monthJahr;
 
     @JsonProperty("einnahme_netto")
+    @Column(name = "einnahme_netto")
     private Float einnahmeNetto;
 
     @JsonProperty("einnahme_steuer")
+    @Column(name = "einnahme_steuer")
     private Float einnahmeSteuer;
 
     @JsonProperty("einnahme_brutto")
+    @Column(name = "einnahme_brutto")
     private Float einnahmeBrutto;
 
     @JsonProperty("ausgabe_telefon")
+    @Column(name = "ausgabe_telefon")
     private Float ausgabeTelefon;
 
     @JsonProperty("ausgabe_porto")
+    @Column(name = "ausgabe_porto")
     private Float ausgabePorto;
 
     @JsonProperty("ausgabe_tui")
+    @Column(name = "ausgabe_tui")
     private Float ausgabeTui;
 
     @JsonProperty("ausgabe_buero_material")
+    @Column(name = "ausgabe_buero_material")
     private Float ausgabeBueroMaterial;
 
     @JsonProperty("ausgabe_sonstiges")
+    @Column(name = "ausgabe_sonstiges")
     private Float ausgabeSonstiges;
 
     @JsonProperty("ausgabe_kosten_netto")
+    @Column(name = "ausgabe_kosten_netto")
     private Float ausgabeKostenNetto;
 
     @JsonProperty("ausgabe_umsatz_steuer")
+    @Column(name = "ausgabe_umsatz_steuer")
     private Float ausgabeUmsatzSteuer;
 
     @JsonProperty("gesamt_kosten_brutto")
+    @Column(name = "gesamt_kosten_brutto")
     private Float gesamtKostenBrutto;
 
     @JsonProperty("einnahme_nachkosten_netto")
+    @Column(name = "einnahme_nachkosten_netto")
     private Float einnahmeNachkostenNetto;
 
     // need empty constructor for Spring Bean mapping

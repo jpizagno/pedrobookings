@@ -1,6 +1,24 @@
-CREATE DATABASE `bookings` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
+CREATE DATABASE `db_example` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 
-USE bookings;
+USE db_example;
+
+CREATE TABLE `ausgaben` (
+  `month_jahr` varchar(255) NOT NULL,
+  `ausgabe_buero_material` float DEFAULT NULL,
+  `ausgabe_kosten_netto` float DEFAULT NULL,
+  `ausgabe_porto` float DEFAULT NULL,
+  `ausgabe_sonstiges` float DEFAULT NULL,
+  `ausgabe_telefon` float DEFAULT NULL,
+  `ausgabe_tui` float DEFAULT NULL,
+  `ausgabe_umsatz_steuer` float DEFAULT NULL,
+  `einnahme_brutto` float DEFAULT NULL,
+  `einnahme_nachkosten_netto` float DEFAULT NULL,
+  `einnahme_netto` float DEFAULT NULL,
+  `einnahme_steuer` float DEFAULT NULL,
+  `gesamt_kosten_brutto` float DEFAULT NULL,
+  PRIMARY KEY (`month_jahr`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `manager` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,

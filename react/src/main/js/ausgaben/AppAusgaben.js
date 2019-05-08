@@ -10,63 +10,53 @@ class AppAusgaben extends React.Component {
 
       this.state = {};
       this.state.filterText = "";
-      this.state.products = [
-        {
-          id: 1,
-          month_jahr: "01-2019",
-          einnahme_netto:  100.0,
-          einnahme_steuer: 0.19*100.0 ,
-          einnahme_brutto: 1.19*100.0, 
-          ausgabe_telefon: 9.67,
-          ausgabe_porto: 9.67,
-          ausgabe_tui: 0,
-          ausgabe_buero_material: 0,
-          ausgabe_sonstiges: 0,
-          ausgabe_kosten_netto: 2.*9.67,
-          ausgabe_umsatz_steuer: 0.19*2*9.67,
-          gesamt_kosten_brutto: 1.19*2*9.67,
-          einnahme_nachkosten_netto: 119 - 1.19*2*9.6
-        },{
-          id: 2,
-          month_jahr: "02-2019",
-          einnahme_netto:  100.0,
-          einnahme_steuer: 0.19*100.0 ,
-          einnahme_brutto: 1.19*100.0, 
-          ausgabe_telefon: 9.67,
-          ausgabe_porto: 9.67,
-          ausgabe_tui: 9.67,
-          ausgabe_buero_material: 9.67,
-          ausgabe_sonstiges: 9.67,
-          ausgabe_kosten_netto: 5.*9.67,
-          ausgabe_umsatz_steuer: 0.19*5*9.67,
-          gesamt_kosten_brutto: 1.19*5*9.67,
-          einnahme_nachkosten_netto: 119 - 1.19*5*9.6
-        },{
-          id: 3,
-          month_jahr: "03-2019",
-          einnahme_netto:  60.0,
-          einnahme_steuer: 0.19*60.0 ,
-          einnahme_brutto: 1.19*60.0, 
-          ausgabe_telefon: 10.0,
-          ausgabe_porto: 25.0,
-          ausgabe_tui: 0,
-          ausgabe_buero_material: 0,
-          ausgabe_sonstiges: 0,
-          ausgabe_kosten_netto: 5.*9.67,
-          ausgabe_umsatz_steuer: 0.19*5*9.67,
-          gesamt_kosten_brutto: 1.19*5*9.67,
-          einnahme_nachkosten_netto: 119 - 1.19*5*9.6
-        }
-      ];
-  
+      this.state.shouldGoToReportUrl = false;
+      this.state.products = [];
     }
+
+    componentDidMount() {
+        this.loadFromServer();
+    };
+
+    loadFromServer() {
+        let url = "http://" + window.location.hostname + ':8092/getausgaben';
+        fetch(url, {
+            credentials: 'same-origin',
+            method:'GET',
+            headers: {Accept: 'application/json' },
+            redirect: "follow", // manual, *follow, error
+            referrer: "no-referrer", // no-referrer, *client
+          }
+        )
+        .then(response => response.json())
+        .then(json => {
+            console.log("*** loadfromServer json = " + json);
+            this.setState({ products: json });
+        })
+    }
+
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
     };
+
     handleRowDel(product) {
-      var index = this.state.products.indexOf(product);
-      this.state.products.splice(index, 1);
-      this.setState(this.state.products);
+        let url = "http://" + window.location.hostname + ':8092/deleteausgaben';
+        fetch(url, {
+            credentials: 'same-origin',
+            method:'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+              redirect: "follow", // manual, *follow, error
+              referrer: "no-referrer", // no-referrer, *client
+              body: JSON.stringify(product), // body data type must match "Content-Type" header
+           }
+        )
+
+        var index = this.state.products.indexOf(product);
+        this.state.products.splice(index, 1);
+        this.setState(this.state.products);
     };
   
     handleAddEvent(evt) {
@@ -90,10 +80,6 @@ class AppAusgaben extends React.Component {
       this.state.products.push(product);
       this.setState(this.state.products);
     };
-
-  	goToReportUrl() {
-  		window.location = "reportausgaben";
-  	};
 
     handleProductTable(evt) {
       var item = {
@@ -138,8 +124,20 @@ class AppAusgaben extends React.Component {
       this.setState({products:newProducts});
     };
 
+    goToReportUrl() {
+        window.location = "reportausgaben";
+        this.setState({ shouldGoToReportUrl: false });
+    };
+
 	generateReport() {
-		let url = "http://" + window.location.hostname + ':8092/ausgaben';
+        this.setState({ shouldGoToReportUrl: true });
+        this.onPersist();
+	};
+
+    // On Persist will persist the current Ausgaben (report will always be generated on backend).
+    // If this.state.shouldGoToReportUrl==true, then the current page will be redirected to the Report URL.
+	onPersist() {
+        let url = "http://" + window.location.hostname + ':8092/ausgaben';
 		fetch(url, {
 			credentials: 'same-origin',
 			method:'POST',
@@ -154,19 +152,20 @@ class AppAusgaben extends React.Component {
 	    )
 		.then(response => response.json())
 		.then(json => {
-			// Set redirect to URl of Report
-			this.setState({reportUrl: json.url }, function () {
-				this.goToReportUrl();
-			});
+		    if (this.state.shouldGoToReportUrl) {
+                // Set redirect to URl of Report
+                this.setState({reportUrl: json.url }, function () {
+                    this.goToReportUrl();
+                });
+		    }
 		})
-	}
+	};
 
     render() {
-  
       return (
         <div>
           <SearchBar filterText={this.state.filterText} onUserInput={this.handleUserInput.bind(this)}/>
-          <ProductTable onGenerateReport={this.generateReport.bind(this)} onProductTableUpdate={this.handleProductTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} products={this.state.products} filterText={this.state.filterText}/>
+          <ProductTable onPersist={this.onPersist.bind(this)} onGenerateReport={this.generateReport.bind(this)} onProductTableUpdate={this.handleProductTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} products={this.state.products} filterText={this.state.filterText}/>
         </div>
       );
   

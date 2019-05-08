@@ -50,7 +50,7 @@ class App extends React.Component {
 
 
 ReactDOM.render(
-	<App loggedInManager="test_jim_app_line_413" />,
+	<App loggedInManager={document.getElementById('managername').innerHTML} />,
 	document.getElementById('app')
 )
 
