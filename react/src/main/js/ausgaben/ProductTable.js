@@ -9,11 +9,12 @@ class ProductTable extends React.Component {
       var rowDel = this.props.onRowDel;
       var filterText = this.props.filterText;
       var product = this.props.products.map(function(product) {
+        console.log("key = '" + product.id + "'");
         if (product.month_jahr.indexOf(filterText) === -1) {
           return;
         }
         return (
-            <ProductRow onProductTableUpdate={onProductTableUpdate} product={product} onDelEvent={rowDel.bind(this)} key={product.month_jahr}/>
+            <ProductRow onProductTableUpdate={onProductTableUpdate} product={product} onDelEvent={rowDel.bind(this)} key={product.id}/>
         )
       });
 
@@ -31,10 +32,10 @@ class ProductTable extends React.Component {
             </div>
           </div>
 
-          <div className="row">
-            <table className="table table-sm">
+          <div className="row" >
+            <table className="table table-sm" >
               <thead>
-                <tr>
+                <tr key="product-table-header">
                   <th scope="col">Month/Jahr</th>
                   <th scope="col">Einnahme Netto</th>
                   <th scope="col">Einnahme Umsatz Steuer</th>
@@ -51,7 +52,7 @@ class ProductTable extends React.Component {
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody >
                 {product}
               </tbody>
             </table>

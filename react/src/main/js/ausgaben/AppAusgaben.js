@@ -2,6 +2,7 @@ const React = require('react');
 
 import ProductTable from './ProductTable.js';
 import SearchBar from './SearchBar.js';
+import Modal from 'react-responsive-modal';
 
 class AppAusgaben extends React.Component {
 
@@ -30,7 +31,7 @@ class AppAusgaben extends React.Component {
         )
         .then(response => response.json())
         .then(json => {
-            console.log("*** loadfromServer json = " + json);
+            console.log("*** loadfromServer json = " + JSON.stringify(json));
             this.setState({ products: json });
         })
     }
@@ -165,7 +166,15 @@ class AppAusgaben extends React.Component {
       return (
         <div>
           <SearchBar filterText={this.state.filterText} onUserInput={this.handleUserInput.bind(this)}/>
-          <ProductTable onPersist={this.onPersist.bind(this)} onGenerateReport={this.generateReport.bind(this)} onProductTableUpdate={this.handleProductTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} products={this.state.products} filterText={this.state.filterText}/>
+          <ProductTable 
+            onPersist={this.onPersist.bind(this)} 
+            onGenerateReport={this.generateReport.bind(this)} 
+            onProductTableUpdate={this.handleProductTable.bind(this)} 
+            onRowAdd={this.handleAddEvent.bind(this)} 
+            onRowDel={this.handleRowDel.bind(this)} 
+            products={this.state.products} 
+            filterText={this.state.filterText}
+          />
         </div>
       );
   

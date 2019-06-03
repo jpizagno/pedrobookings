@@ -3,6 +3,7 @@ CREATE DATABASE `db_example` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bi
 USE db_example;
 
 CREATE TABLE `ausgaben` (
+  `id` varchar(255) NOT NULL,
   `month_jahr` varchar(255) NOT NULL,
   `ausgabe_buero_material` float DEFAULT NULL,
   `ausgabe_kosten_netto` float DEFAULT NULL,
@@ -16,7 +17,7 @@ CREATE TABLE `ausgaben` (
   `einnahme_netto` float DEFAULT NULL,
   `einnahme_steuer` float DEFAULT NULL,
   `gesamt_kosten_brutto` float DEFAULT NULL,
-  PRIMARY KEY (`month_jahr`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -62,5 +63,5 @@ CREATE TABLE `percentages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
-GRANT ALL on bookings_test.* to 'julia'@'localhost' ;
+GRANT ALL on db_example.* to 'julia'@'localhost' ;
 

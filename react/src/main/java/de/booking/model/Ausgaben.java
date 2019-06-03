@@ -10,9 +10,13 @@ import javax.persistence.Id;
 @Entity
 public class Ausgaben {
 
+    @Id
+    @JsonProperty("id")
+    @Column(name = "id")
+    private String id;
+
     @JsonProperty("month_jahr")
     @Column(name = "month_jahr")
-    @Id
     private String monthJahr;
 
     @JsonProperty("einnahme_netto")
