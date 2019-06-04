@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WritePdfAusgaben {
@@ -39,14 +40,22 @@ public class WritePdfAusgaben {
         // Landscape mode:
         Document document = new Document(PageSize.LETTER.rotate());
 
-        Field[] fields = ausgabens.get(0).getClass().getDeclaredFields();
+        Field[] fieldsFull = ausgabens.get(0).getClass().getDeclaredFields();
+
+        // filter out field name "id"
+        List<Field> fields = new ArrayList<Field>();
+        for (Field field : fieldsFull) {
+            if(field.getName().equalsIgnoreCase("id") == false) {
+                fields.add(field);
+            }
+        }
 
         try {
             PdfWriter.getInstance(document, new FileOutputStream(path+fileOutName));
             document.open();
 
             // define the number of cells
-            widthCells = fields.length;
+            widthCells = fields.size();
 
             PdfPTable table = new PdfPTable(widthCells);
 
@@ -101,12 +110,12 @@ public class WritePdfAusgaben {
             // for each item just add cell:
             for(Ausgaben ausgaben : ausgabens) {
 
-                for (int col_i=0; col_i < fields.length; col_i++) {
+                for (Field field : fields) {
                     Paragraph myP = new Paragraph();
                     Object value;
                     try {
-                        fields[col_i].setAccessible(true);
-                        value = fields[col_i].get(ausgaben);
+                        field.setAccessible(true);
+                        value = field.get(ausgaben);
                         Chunk bar = new Chunk(value.toString(), myFont);
                         myP.add( bar );
                         table.addCell(myP);
