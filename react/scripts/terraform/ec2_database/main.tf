@@ -11,8 +11,8 @@ resource "aws_security_group" "bind_ec2_db_2" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 8092
+    to_port     = 8092
     protocol    = "tcp"
     cidr_blocks = ["${var.user_ip_address}/32"]
   }
