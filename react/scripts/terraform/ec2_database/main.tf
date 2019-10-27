@@ -1,5 +1,5 @@
 provider "aws" {
-  version = "~> 1.20"
+  version = "~> 2.7"
   access_key = "${var.access_key}"  # from variables.tf
   secret_key = "${var.secret_key}" # from variables.tf
   region     = "${var.region}"  # from variables.tf
@@ -98,16 +98,16 @@ resource "aws_instance" "example_jim" {
 }
 
 # these have to be included in output, so that the next step can read them as "data.terraform_remote_state.folder_parent.aws_instance.example_jim.private_ip"
-output "aws_instance.example_jim.private_ip" {
+output "aws_instance_example_jim_private_ip" {
   value = "${aws_instance.example_jim.private_ip}"
 }
 
 # these have to be included in output, so that the next step can read them as "data.terraform_remote_state.folder_parent.aws_security_group.bind_ec2_db_2.id"
-output "aws_security_group.bind_ec2_db_2.id" {
+output "aws_security_group_bind_ec2_db_2_id" {
   value = "${aws_security_group.bind_ec2_db_2.id}"
 }
 
 # export endpoint for fixing
-output "aws_db_instance.default.endpoint" {
+output "aws_db_instance_default_endpoint" {
   value = "${aws_db_instance.default.endpoint}"
 }

@@ -8,7 +8,7 @@ variable "user_ip_address" {}
 variable "vpc_id" {}
 variable "pem_file_location" {}
 variable "db_snapshot_name" {}
-variable "db_name" {}
+#variable "db_name" {}
 
 # one example of variable
 variable "region" {

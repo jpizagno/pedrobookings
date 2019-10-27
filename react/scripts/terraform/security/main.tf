@@ -1,5 +1,5 @@
 provider "aws" {
-  version = "~> 1.20"
+  version = "~> 2.7"
   access_key = "${var.access_key}"  # from variables.tf
   secret_key = "${var.secret_key}" # from variables.tf
   region     = "${var.region}"  # from variables.tf
@@ -44,7 +44,7 @@ resource "aws_security_group" "bind_ec2_db_2" {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = ["${data.terraform_remote_state.folder_parent.aws_instance.example_jim.private_ip}/32"]
+    cidr_blocks = ["${data.terraform_remote_state.folder_parent.aws_instance_example_jim_private_ip}/32"]
   }
 
   egress {
@@ -79,7 +79,7 @@ resource "aws_instance" "example_jim" {
   ami =  "ami-9a91b371"  
   instance_type = "t2.micro"
   key_name = "${var.key_name}" 
-  vpc_security_group_ids = ["${data.terraform_remote_state.folder_parent.aws_security_group.bind_ec2_db_2.id}"]
+  vpc_security_group_ids = ["${data.terraform_remote_state.folder_parent.aws_security_group_bind_ec2_db_2_id}"]
 }
 
 # provide user output
