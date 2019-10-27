@@ -2,4 +2,4 @@
 
 set -e
 
-docker run -d -p 8092:8092 -t -i jpizagno/bookingwebapp 
+docker run -d -p 80:8092 -t -i jpizagno/bookingwebapp 
