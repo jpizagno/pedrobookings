@@ -44,7 +44,7 @@ resource "aws_db_instance" "default" {
   allocated_storage      = 20    #  GBytes, minimum is 20 GB
   storage_type           = "gp2" #  "gp2" (general purpose SSD)
   engine                 = "mysql"
-  engine_version         = "5.6.39"
+  engine_version         = "5.6.44"
   instance_class         = "db.t2.micro"
   name                   = var.mysql_db_name
   username               = var.mysql_user_name
