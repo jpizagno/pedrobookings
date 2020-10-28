@@ -4,7 +4,6 @@ import Modal from 'react-responsive-modal';
 import { Base64 } from 'js-base64';
 
 import AppBookings from './bookings/AppBookings.js';
-import AppAusgaben from './ausgaben/AppAusgaben.js';
 
 const React = require('react');
 const ReactDOM = require('react-dom')
