@@ -4,7 +4,6 @@ import Modal from 'react-responsive-modal';
 import { Base64 } from 'js-base64';
 
 import AppBookings from './bookings/AppBookings.js';
-import AppAusgaben from './ausgaben/AppAusgaben.js';
 
 const React = require('react');
 const ReactDOM = require('react-dom')
@@ -16,7 +15,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			appStates: [{value:"logout",display:"logout"},{value:"bookings",display:"bookings"},{value:"ausgaben",display:"ausgaben"}]
+			appStates: [{value:"logout",display:"logout"},{value:"bookings",display:"bookings"}]
 			, selectedAppState: "bookings"
 		};
 	}
@@ -37,10 +36,7 @@ class App extends React.Component {
 					    </div>
 					</div>
 
-					{this.state.selectedAppState === "bookings" ? 
-						(<AppBookings loggedInManager={this.props.loggedInManager}/>) 
-						: (<AppAusgaben />)  
-					}
+					<AppBookings loggedInManager={this.props.loggedInManager}/>
 
 				</div>
 			</div>
