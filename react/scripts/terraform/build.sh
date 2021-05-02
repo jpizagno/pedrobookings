@@ -4,8 +4,11 @@ set -e
 
 set -x
 
-read -p 'enter your ipv4 address: ' ipaddress
-echo
+
+ipaddress=$(curl https://ipinfo.io/ip)
+echo "using IPv4 of: "$ipaddress
+#read -p 'enter your ipv4 address: ' ipaddress
+#echo
 read -p 'DB snapshot name (bookings03april2018): ' db_snapshot_name
 echo
 read -p 'Enter AWS AWSAccessKeyId : ' access_key
