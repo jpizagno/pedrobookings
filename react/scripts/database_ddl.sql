@@ -65,3 +65,8 @@ CREATE TABLE `percentages` (
 
 GRANT ALL on db_example.* to 'julia'@'localhost' ;
 
+-- This attempts to prevent entering multiple bookings with the same booking_number.
+-- at least an error will be thrown and logged.
+ALTER TABLE `db_example`.`booking` 
+ADD UNIQUE `unique_booking_number`(booking_number)
+;
