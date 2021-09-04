@@ -86,6 +86,9 @@ class AppBookings extends React.Component {
 		this.setState({ modalOpenCreate: true });
 	}
 	onCloseModalCreate() {
+		console.log("trying to update filtered bookings via followApiQueryFilterBookings()");
+		this.followApiQueryFilterBookings();
+		console.log("closing modal");
 		this.setState({ modalOpenCreate: false });
 	}
 
