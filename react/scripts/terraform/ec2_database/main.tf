@@ -44,14 +44,14 @@ resource "aws_db_instance" "default" {
   allocated_storage      = 20    #  GBytes, minimum is 20 GB
   storage_type           = "gp2" #  "gp2" (general purpose SSD)
   engine                 = "mysql"
-  engine_version         = "5.6.44"
+  engine_version         = "8.0.27"
   instance_class         = "db.t2.micro"
   name                   = var.mysql_db_name
   username               = var.mysql_user_name
   password               = var.mysql_password
   port                   = "3306"
   db_subnet_group_name   = "default"
-  parameter_group_name   = "default.mysql5.6"
+  parameter_group_name   = "default.mysql8.0"
   publicly_accessible    = "true"
   vpc_security_group_ids = [aws_security_group.bind_ec2_db_2.id]
   skip_final_snapshot    = true
