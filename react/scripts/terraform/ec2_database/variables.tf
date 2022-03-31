@@ -1,6 +1,10 @@
 variable "access_key" {
 }
 
+variable "security_group_id" {
+  
+}
+
 variable "secret_key" {
 }
 

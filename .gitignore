@@ -100,4 +100,5 @@ yarn.lock
 
 # ignore terraform
 .terraform
-terraform.tfstate
+terraform.tfstate*
+.terraform*
