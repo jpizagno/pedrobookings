@@ -32,6 +32,9 @@ variable "pem_file_location" {
 variable "db_snapshot_name" {
 }
 
+variable "current_working_directory" {
+}
+
 # one example of variable
 variable "region" {
   default = "eu-central-1"
