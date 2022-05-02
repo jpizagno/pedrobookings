@@ -31,6 +31,11 @@ export TF_LOG_PATH=./terraform.log
 terraform -chdir=./ec2_database/ init
 terraform -chdir=./ec2_database/ apply -auto-approve -var 'current_working_directory='$current_working_directory'' -var 'db_snapshot_name='$db_snapshot_name'' -var 'user_ip_address='$ipaddress'' -var 'access_key='$access_key'' -var 'secret_key='$secret_key''  -var-file="terraform.tfvars"
 
+######################
+# Update the security_group, and add rule to open port 3306 to the EC2's private IPv4
+#
+# Warning:  the AWS settings now differ from the TF state (security_group in AWS has an extra rule)
+######################
 securit_group_id=$(grep '"id":' ec2_database/terraform.tfstate  | grep 'sg-' | awk '{print $2}' | tr -d '"' | tr -d ',')
 ec2_private_ip=$(grep '"private_ip":' ec2_database/terraform.tfstate | awk '{print $2}' | tr -d '"' | tr -d ',')
 aws ec2 authorize-security-group-ingress --group-id $securit_group_id --protocol tcp --port 3306 --cidr $ec2_private_ip/32
