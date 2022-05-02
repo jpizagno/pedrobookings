@@ -72,7 +72,7 @@ resource "aws_instance" "example_jim" {
       agent       = false
       private_key = file("/home/jpizagno/AWS/jim-gastrofix.pem")
     }
-    source      = "../setup_aws_docker.sh"
+    source      = "${var.current_working_directory}/../setup_aws_docker.sh"
     destination = "/tmp/setup_aws_docker.sh"
   }
 
@@ -89,7 +89,7 @@ resource "aws_instance" "example_jim" {
     inline = [
       "chmod +x /tmp/setup_aws_docker.sh",
       "/tmp/setup_aws_docker.sh",
-      "sudo sed -i -e 's/julia/${var.mysql_user_name}/g' ./bookingbootstrap/react/src/main/resources/application.properties",
+      "sudo sed -i -e 's/root/${var.mysql_user_name}/g' ./bookingbootstrap/react/src/main/resources/application.properties",
       "sudo sed -i -e 's/james76/${var.mysql_password}/g' ./bookingbootstrap/react/src/main/resources/application.properties",
       "sudo sed -i -e 's/localhost/${aws_db_instance.default.endpoint}/g' ./bookingbootstrap/react/src/main/resources/application.properties",
       "cd ./bookingbootstrap/react/",
