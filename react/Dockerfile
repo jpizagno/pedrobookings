@@ -1,7 +1,7 @@
-FROM openjdk:8
+# That image (eclipse-temurin) is the official successor to openjdk images — supported by the Eclipse Foundation and Docker Hub.
+FROM eclipse-temurin:8-jdk-jammy
 
-RUN apt-get update -y
-RUN apt-get install maven -y
+RUN apt-get update -y && apt-get install -y maven
 
 #RUN mvn clean install
 
