@@ -97,6 +97,11 @@ class AppBookings extends React.Component {
 		booking.total = total;
 		return booking;
 	}
+
+	setCancel(booking) {
+		booking.storno = 1;
+		return booking;
+	}
 		
 	loadFromServer(pageSize) {
 		follow(client, root, [
@@ -260,16 +265,33 @@ class AppBookings extends React.Component {
 	}
 
 	onDelete(booking) {
-		client({method: 'DELETE', path: booking.entity._links.self.href}
-		).done(response => {/* let the websocket handle updating the UI */},
-		response => {
-			if (response.status.code === 403) {
-				alert('ACCESS DENIED: You are not authorized to delete ' +
-						booking.entity._links.self.href);
-			}
-		});
+		// only set to storno=1
+		if(booking.entity.manager.name == this.state.loggedInManager) {
+			var updatedBooking = this.setCancel(bookingIn);
+			client({
+				method: 'PUT',
+				path: booking.entity._links.self.href,
+				entity: updatedBooking,
+				headers: {
+					'Content-Type': 'application/json',
+					'If-Match': booking.headers.Etag
+				}
+			}).done(response => {
+				/* Let the websocket handler update the state */
+			}, response => {
+				if (response.status.code === 403) {
+					alert('ACCESS DENIED: You are not authorized to update ' +
+							booking.entity._links.self.href);
+				}
+				if (response.status.code === 412) {
+					alert('DENIED: Unable to update ' + booking.entity._links.self.href +
+						'. Your copy is stale.');
+				}
+			});
+		} else {
+			alert("You are not authorized to update " + booking.entity._links.self.href);
+		}
 		window.location = "#";
-		window.location.reload();
 	}
 
 	componentDidMount() {
