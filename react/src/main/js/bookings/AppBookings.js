@@ -150,7 +150,7 @@ class AppBookings extends React.Component {
 				attributes: Object.keys(this.schema.properties),
 				pageSize: pageSize,
 				links: this.links,
-				managerName : bookings[0].entity.manager.name
+				managerName: bookings[0].entity.manager ? bookings[0].entity.manager.name : 'julia'
 			});
 		});
 
