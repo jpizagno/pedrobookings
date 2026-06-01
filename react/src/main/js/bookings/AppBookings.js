@@ -267,7 +267,7 @@ class AppBookings extends React.Component {
 	onDelete(booking) {
 		// only set to storno=1
 		if(booking.entity.manager.name == this.state.loggedInManager) {
-			var updatedBooking = this.setCancel(booking);
+			var updatedBooking = this.setCancel(booking.entity);
 			client({
 				method: 'PUT',
 				path: booking.entity._links.self.href,
